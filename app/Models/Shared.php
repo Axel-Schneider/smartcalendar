@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Shared extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'event_id',
+        'status'
+    ];
 }

@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('recurring_paterns', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('name', 45);
+            $table->string('pattern')->nullable();
         });
     }
 
