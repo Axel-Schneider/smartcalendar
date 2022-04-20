@@ -12,4 +12,12 @@ class ToDo extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function task() {
+        return $this->hasMany(Task::class);
+    }
+
+    public function events() {
+        return $this->belongsToMany(Event::class);
+    }
 }

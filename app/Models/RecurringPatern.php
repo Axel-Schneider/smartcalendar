@@ -13,4 +13,8 @@ class RecurringPatern extends Model
         'name',
         'pattern'
     ];
+
+    public function events(){
+        return $this->hasMany(Event::class);
+    }
 }
