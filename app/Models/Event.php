@@ -20,4 +20,20 @@ class Event extends Model
         'todo_id',
         'recurringPatern_id',
     ];
+
+    public function owner() {
+        return $this->hasOne(User::class);
+    }
+
+    public function shareds() {
+        return $this->hasMany(Shared::class);
+    }
+
+    public function recurringPatern() {
+        return $this->hasOne(RecurringPatern::class);
+    }
+
+    public function toDo() {
+        return $this->hasOne(ToDo::class);
+    }
 }

@@ -13,4 +13,12 @@ class Group extends Model
         'user_id',
         'name'
     ];
+
+    public function owner() {
+        return $this->belongsTo(User::class);
+    }
+
+    public function users() {
+        return $this->belongsToMany(User::class, 'group_user');
+    }
 }

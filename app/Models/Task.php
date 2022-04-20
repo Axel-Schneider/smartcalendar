@@ -13,6 +13,9 @@ class Task extends Model
         'description',
         'complete',
         'todo_id',
-
     ];
+
+    public function list(){
+        return $this->hasOne(ToDo::class);
+    }
 }

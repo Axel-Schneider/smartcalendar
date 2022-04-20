@@ -14,4 +14,12 @@ class Contact extends Model
         'user_id',
         'status'
     ];
+
+    public function requestor() {
+        return $this->belongsTo(User::class, "userRequest_id");
+    }
+
+    public function receiver() {
+        return $this->belongsTo(User::class, "user_id");
+    }
 }
