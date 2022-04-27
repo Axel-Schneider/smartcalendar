@@ -18095,7 +18095,6 @@ window.moment = (moment__WEBPACK_IMPORTED_MODULE_5___default());
 alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"].start();
 
 window.initCalendar = function (Events) {
-  console.log('initCalendar');
   var element = document.getElementById("calendar");
   var todayDate = moment__WEBPACK_IMPORTED_MODULE_5___default()().startOf("day");
   var YM = todayDate.format("YYYY-MM");
@@ -18132,43 +18131,11 @@ window.initCalendar = function (Events) {
     dayMaxEvents: true,
     // allow "more" link when too many events
     navLinks: true,
-    events: [{
-      id: 'a',
-      title: 'my event',
-      start: '2022-04-22T10:30:00'
-    }, {
-      id: 'a',
-      title: 'my event',
-      start: '2022-04-23'
-    }, {
-      id: 'a',
-      title: 'my event',
-      start: '2022-04-22'
-    }, {
-      id: 'a',
-      title: 'my event',
-      start: '2022-04-22'
-    }, {
-      id: 'a',
-      title: 'my event',
-      start: '2022-04-22'
-    }, {
-      id: 'a',
-      title: 'my event',
-      start: '2022-04-22'
-    }, {
-      id: 'a',
-      title: 'my event',
-      start: '2022-04-22'
-    }, {
-      id: 'a',
-      title: '<p>my event</p><div>yop</div>',
-      start: '2022-04-25'
-    }],
+    events: Events,
     eventContent: function eventContent(info) {
       var element = info.el;
-      console.log("ok");
       console.log(info);
+      ;
 
       if (info.event.extendedProps && info.event.extendedProps.description) {
         if (element.hasClass("fc-day-grid-event")) {
