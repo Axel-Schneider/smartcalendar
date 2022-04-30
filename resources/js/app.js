@@ -16,7 +16,7 @@ window.moment = moment;
 
 Alpine.start();
 
-window.initCalendar = function (Events) {
+window.initCalendar = function () {
     const element = document.getElementById("calendar");
 
     const todayDate = moment().startOf("day");
@@ -80,6 +80,7 @@ window.initCalendar = function (Events) {
         
             // document.getElementById('startDate').value = info.date.toISOString().slice(0, 16);
             document.getElementById('startDate').value = info.dateStr + "T00:00";
+            document.getElementById('endDate').value = info.dateStr + "T23:59";
             console.log(info.dateStr);
         }
     });

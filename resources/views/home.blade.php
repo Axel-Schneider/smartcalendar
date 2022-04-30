@@ -19,6 +19,7 @@
             <div class="p-6 space-y-6">
                 <form action="{{route('events.store')}}" method="POST">
                     @csrf
+                    <input type="hidden" id="timezone" name="timezone">
                     <div class="grid gap-6 mb-6 lg:grid-cols-2">
                         <div>
                             <label for="startDate" class="block mb-1 text-sm font-medium text-gray-900">{{__('start_date')}}</label>
@@ -59,23 +60,28 @@
 @section("script")
 <script>
     window.onload = function() {
-        const events = [];
-        const tmpevents = <?php echo json_encode($events); ?>;
-        for (const ele of tmpevents) {
-            events.push({
-                "id": ele.id,
-                "allDay": ele.fullDay,
-                "start": ele.startDate,
-                "end": ele.endDate,
-                "title": ele.title,
-                "classNames": []
-            });
-        }
-        initCalendar(events);
+        initCalendar();
         const elements = document.getElementsByClassName("load");
         while (elements.length > 0) {
             elements[0].parentNode.removeChild(elements[0]);
         }
+        document.getElementById("timezone").value = new Date().toString().slice(25, 33);
+
+        document.getElementById("fullDay").addEventListener("change", function() {
+            if (this.checked) {
+                document.getElementById("endDate").disabled = true;
+                document.getElementById("endDate").value = document.getElementById("startDate").value.slice(0, 10) + "T23:59:59";
+            } else {
+                document.getElementById("endDate").disabled = false;
+            }
+        });
+        document.getElementById("startDate").addEventListener("change", function() {
+            console.log(this.value);
+            if (document.getElementById("fullDay").checked) {
+                document.getElementById("endDate").value = document.getElementById("startDate").value.slice(0, 10) + "T23:59:59";
+            }
+        });
+
     }
 </script>
 @endsection

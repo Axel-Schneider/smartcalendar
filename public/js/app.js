@@ -22083,7 +22083,7 @@ window.Alpine = alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"];
 window.moment = (moment__WEBPACK_IMPORTED_MODULE_7___default());
 alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"].start();
 
-window.initCalendar = function (Events) {
+window.initCalendar = function () {
   var element = document.getElementById("calendar");
   var todayDate = moment__WEBPACK_IMPORTED_MODULE_7___default()().startOf("day");
   var YM = todayDate.format("YYYY-MM");
@@ -22145,6 +22145,7 @@ window.initCalendar = function (Events) {
       }); // document.getElementById('startDate').value = info.date.toISOString().slice(0, 16);
 
       document.getElementById('startDate').value = info.dateStr + "T00:00";
+      document.getElementById('endDate').value = info.dateStr + "T23:59";
       console.log(info.dateStr);
     }
   });

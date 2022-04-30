@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 class EventController extends Controller
 {
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $start = $request->query('start');
         $end = $request->query('end');
 
@@ -19,12 +20,13 @@ class EventController extends Controller
             ->where('startDate', '<=', $end)
             ->get();
         $results = [];
-        foreach($events as $event) {
+        foreach ($events as $event) {
+            $format = $event->fullDay ? 'Y-m-d' : 'c';
             $results[] = [
                 "id" => $event->id,
                 "title" => $event->title,
-                "start" => $event->startDate()->format('c'),
-                "end" => $event->endDate()->format('c'),
+                "start" => $event->startDate()->format($format),
+                "end" => $event->endDate()->format($format),
                 "fullDay" => $event->fullDay,
                 "recurring" => $event->recurring,
             ];
