@@ -5,7 +5,10 @@ import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
+import allLocales from '@fullcalendar/core/locales-all';
+import Interaction from '@fullcalendar/interaction';
 import moment from 'moment';
+import { locale } from 'moment';
 
 
 window.Alpine = Alpine;
@@ -16,15 +19,15 @@ Alpine.start();
 window.initCalendar = function (Events) {
     const element = document.getElementById("calendar");
 
-    var todayDate = moment().startOf("day");
-    var YM = todayDate.format("YYYY-MM");
-    var YESTERDAY = todayDate.clone().subtract(1, "day").format("YYYY-MM-DD");
-    var TODAY = todayDate.format("YYYY-MM-DD");
-    var TOMORROW = todayDate.clone().add(1, "day").format("YYYY-MM-DD");
+    const todayDate = moment().startOf("day");
+    const YM = todayDate.format("YYYY-MM");
+    const YESTERDAY = todayDate.clone().subtract(1, "day").format("YYYY-MM-DD");
+    const TODAY = todayDate.format("YYYY-MM-DD");
+    const TOMORROW = todayDate.clone().add(1, "day").format("YYYY-MM-DD");
 
-    var calendarEl = document.getElementById("calendar");
-    var calendar = new Calendar(calendarEl, {
-        plugins: [dayGridPlugin, timeGridPlugin, listPlugin],
+    const calendarEl = document.getElementById("calendar");
+    const calendar = new Calendar(calendarEl, {
+        plugins: [dayGridPlugin, timeGridPlugin, listPlugin, Interaction],
         headerToolbar: {
             left: "prev,next today",
             center: "title",
@@ -36,29 +39,23 @@ window.initCalendar = function (Events) {
         aspectRatio: 3, // see: https://fullcalendar.io/docs/aspectRatio
 
         nowIndicator: true,
-
-        views: {
-            dayGridMonth: {
-                buttonText: "month"
-            },
-            timeGridWeek: {
-                buttonText: "week"
-            },
-            timeGridDay: {
-                buttonText: "day"
-            }
-        },
-
+        locales : allLocales,
+        locale: window.navigator.userLanguage || window.navigator.language,
         initialView: "dayGridMonth",
         initialDate: TODAY,
-
+        eventTimeFormat: {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: false,
+          },
+        firstDay: 1, 
         editable: false,
         dayMaxEvents: true, // allow "more" link when too many events
         navLinks: true,
-        events: Events,
+        events: '/api/events',
 
         eventContent: function (info) {
-            var element = info.el;
+            let element = info.el;
 
             console.log(info);;
 
@@ -76,6 +73,9 @@ window.initCalendar = function (Events) {
                 }
             }
         },
+        dateClick : function(info){
+            console.log(info);
+        }
     });
     calendar.render();
 }
