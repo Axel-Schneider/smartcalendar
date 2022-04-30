@@ -39,7 +39,7 @@ window.initCalendar = function (Events) {
         aspectRatio: 3, // see: https://fullcalendar.io/docs/aspectRatio
 
         nowIndicator: true,
-        locales : allLocales,
+        locales: allLocales,
         locale: window.navigator.userLanguage || window.navigator.language,
         initialView: "dayGridMonth",
         initialDate: TODAY,
@@ -47,8 +47,8 @@ window.initCalendar = function (Events) {
             hour: 'numeric',
             minute: '2-digit',
             hour12: false,
-          },
-        firstDay: 1, 
+        },
+        firstDay: 1,
         editable: false,
         dayMaxEvents: true, // allow "more" link when too many events
         navLinks: true,
@@ -56,8 +56,6 @@ window.initCalendar = function (Events) {
 
         eventContent: function (info) {
             let element = info.el;
-
-            console.log(info);;
 
             if (info.event.extendedProps && info.event.extendedProps.description) {
                 if (element.hasClass("fc-day-grid-event")) {
@@ -73,8 +71,16 @@ window.initCalendar = function (Events) {
                 }
             }
         },
-        dateClick : function(info){
-            console.log(info);
+        dateClick: function (info) {
+            const newEventModal = document.getElementById('new-event-modal');
+            const modalOpacity = document.getElementById("modal-opacity");
+            newEventModal.classList.remove("hidden");
+            modalOpacity.addEventListener('click', () => { newEventModal.classList.add('hidden'); });
+            document.querySelector('[data-modal-toggle]').addEventListener('click', () => { newEventModal.classList.add('hidden'); });
+        
+            // document.getElementById('startDate').value = info.date.toISOString().slice(0, 16);
+            document.getElementById('startDate').value = info.dateStr + "T00:00";
+            console.log(info.dateStr);
         }
     });
     calendar.render();

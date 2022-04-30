@@ -22120,8 +22120,6 @@ window.initCalendar = function (Events) {
     events: '/api/events',
     eventContent: function eventContent(info) {
       var element = info.el;
-      console.log(info);
-      ;
 
       if (info.event.extendedProps && info.event.extendedProps.description) {
         if (element.hasClass("fc-day-grid-event")) {
@@ -22136,7 +22134,18 @@ window.initCalendar = function (Events) {
       }
     },
     dateClick: function dateClick(info) {
-      console.log(info);
+      var newEventModal = document.getElementById('new-event-modal');
+      var modalOpacity = document.getElementById("modal-opacity");
+      newEventModal.classList.remove("hidden");
+      modalOpacity.addEventListener('click', function () {
+        newEventModal.classList.add('hidden');
+      });
+      document.querySelector('[data-modal-toggle]').addEventListener('click', function () {
+        newEventModal.classList.add('hidden');
+      }); // document.getElementById('startDate').value = info.date.toISOString().slice(0, 16);
+
+      document.getElementById('startDate').value = info.dateStr + "T00:00";
+      console.log(info.dateStr);
     }
   });
   calendar.render();
