@@ -22134,19 +22134,13 @@ window.initCalendar = function () {
       }
     },
     dateClick: function dateClick(info) {
-      var newEventModal = document.getElementById('new-event-modal');
-      var modalOpacity = document.getElementById("modal-opacity");
-      newEventModal.classList.remove("hidden");
-      modalOpacity.addEventListener('click', function () {
-        newEventModal.classList.add('hidden');
-      });
-      document.querySelector('[data-modal-toggle]').addEventListener('click', function () {
-        newEventModal.classList.add('hidden');
-      }); // document.getElementById('startDate').value = info.date.toISOString().slice(0, 16);
-
       document.getElementById('startDate').value = info.dateStr + "T00:00";
       document.getElementById('endDate').value = info.dateStr + "T23:59";
-      console.log(info.dateStr);
+      var newEventModal = document.getElementById('new-event-modal');
+      newEventModal.classList.remove("hidden");
+    },
+    eventClick: function eventClick(info) {
+      console.log(info);
     }
   });
   calendar.render();

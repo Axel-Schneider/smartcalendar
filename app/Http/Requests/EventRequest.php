@@ -30,6 +30,7 @@ class EventRequest extends FormRequest
             'startDate' => 'required|date',
             'endDate' => 'required|date',
             'timezone' => 'required|string',
+            'modalName' => 'required|string',
         ];
     }
 }
