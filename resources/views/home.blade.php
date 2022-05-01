@@ -10,11 +10,11 @@
 @endsection
 @section("popup")
 <div id="new-event-modal" tabindex="-1" class="{{old('modalName') == 'new-event-modal' ? '' : 'hidden'}} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex">
-    <div id="modal-opacity" class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+    <div id="new-event-modal-opacity" class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
         <div class="relative bg-white rounded-lg shadow">
             <div class="p-4 rounded-t border-b">
-                <h3 class="text-xl text-center font-semibold text-gray-900">{{__('new_event')}}</h3>
+                <h3 class="text-xl text-center text-gray-900 font-bold">{{__('new_event')}}</h3>
             </div>
             <div class="p-6 space-y-6">
                 <form action="{{route('events.store')}}" method="POST">
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     <div class="mb-6">
-                        <input type="checkbox" name="fullDay" id="fullDay" class="form-check-input" value="{{ old('fullDay') ? 'on' : 'off' }}">
+                        <input type="checkbox" name="fullDay" id="fullDay" class="form-check-input" {{ old('fullDay') ? 'checked' : '' }}>
                         <label for="fullDay" class="form-check-label">{{__('full_day')}}</label>
                     </div>
                     <div class="mb-6">
@@ -66,7 +66,27 @@
         </div>
     </div>
 </div>
-
+<div id="show-event-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex">
+    <div id="show-event-modal-opacity" class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+    <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+        <div class="relative bg-white rounded-lg shadow">
+            <div class="p-4 rounded-t border-b">
+                <h3 class="text-xl text-center text-gray-900 font-bold" id="event-show-title"></h3>
+            </div>
+            <div class="p-6">
+                <p id="event-show-date" class="font-light mb-5"></p>
+                <p id="event-show-description" class="font-normal mb-8"></p>
+                <div class="flex justify-between">
+                    <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="closeShowModal()">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg%22%3E">
+                            <path d=" M10.2626 16L24.4516 1.81105C24.807 1.45562 24.5435 0.621994 24.1881 0.266569C23.8327 -0.0888563 23.2627 -0.0888563 22.9072 0.266569L7.81173 15.3621C7.45631 15.7175 7.45631 16.2875 7.81173 16.643L22.9072 31.7318C23.0816 31.9061 23.3163 32 23.5443 32C23.7723 32 24.0071 31.9128 24.1814 31.7318C24.5368 31.3763 24.7996 30.5435 24.4442 30.1881L10.2626 16Z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section("script")
@@ -75,9 +95,19 @@
         document.getElementById('new-event-modal').classList.add('hidden');
         return false;
     }
+
+    function closeShowModal() {
+        document.getElementById('show-event-modal').classList.add('hidden');
+        return false;
+    }
     window.onload = function() {
         initCalendar();
         const elements = document.getElementsByClassName("load");
+        const newEventModalOpacity = document.getElementById("new-event-modal-opacity");
+        const newEventModal = document.getElementById('new-event-modal');
+        const showEventModalOpacity = document.getElementById("show-event-modal-opacity");
+        const showEventModal = document.getElementById('show-event-modal');
+
         while (elements.length > 0) {
             elements[0].parentNode.removeChild(elements[0]);
         }
@@ -85,22 +115,20 @@
 
         document.getElementById("fullDay").addEventListener("change", function() {
             if (this.checked) {
-                document.getElementById("endDate").disabled = true;
-                document.getElementById("endDate").value = document.getElementById("startDate").value.slice(0, 10) + "T23:59:59";
-            } else {
-                document.getElementById("endDate").disabled = false;
+                document.getElementById("endDate").value = document.getElementById("startDate").value.slice(0, 10) + "T23:59";
             }
         });
         document.getElementById("startDate").addEventListener("change", function() {
             console.log(this.value);
             if (document.getElementById("fullDay").checked) {
-                document.getElementById("endDate").value = document.getElementById("startDate").value.slice(0, 10) + "T23:59:59";
+                document.getElementById("endDate").value = document.getElementById("startDate").value.slice(0, 10) + "T23:59";
             }
         });
-        const modalOpacity = document.getElementById("modal-opacity");
-        const newEventModal = document.getElementById('new-event-modal');
-        modalOpacity.addEventListener('click', () => {
+        newEventModalOpacity.addEventListener('click', () => {
             newEventModal.classList.add('hidden');
+        });
+        showEventModalOpacity.addEventListener('click', () => {
+            showEventModal.classList.add('hidden');
         });
 
     }

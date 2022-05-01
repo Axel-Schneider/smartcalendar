@@ -29,9 +29,18 @@ class EventController extends Controller
                 "end" => $event->endDate()->format($format),
                 "fullDay" => $event->fullDay,
                 "recurring" => $event->recurring,
+                "description" => $event->description,
             ];
         }
 
         return response()->json($results);
+    }
+
+    public function show(Event $event)
+    {
+        if($event->user_id != Auth::user()->id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+        return response()->json($event);
     }
 }
