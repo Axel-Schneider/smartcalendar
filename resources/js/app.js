@@ -72,16 +72,13 @@ window.initCalendar = function () {
             }
         },
         dateClick: function (info) {
-            const newEventModal = document.getElementById('new-event-modal');
-            const modalOpacity = document.getElementById("modal-opacity");
-            newEventModal.classList.remove("hidden");
-            modalOpacity.addEventListener('click', () => { newEventModal.classList.add('hidden'); });
-            document.querySelector('[data-modal-toggle]').addEventListener('click', () => { newEventModal.classList.add('hidden'); });
-        
-            // document.getElementById('startDate').value = info.date.toISOString().slice(0, 16);
             document.getElementById('startDate').value = info.dateStr + "T00:00";
             document.getElementById('endDate').value = info.dateStr + "T23:59";
-            console.log(info.dateStr);
+            const newEventModal = document.getElementById('new-event-modal');
+            newEventModal.classList.remove("hidden");
+        },
+        eventClick: function(info) {
+            console.log(info);
         }
     });
     calendar.render();
