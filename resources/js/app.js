@@ -48,6 +48,7 @@ window.initCalendar = function () {
             minute: '2-digit',
             hour12: false,
         },
+        eventColor: '#2C3E50',
         firstDay: 1,
         editable: false,
         dayMaxEvents: true, // allow "more" link when too many events
@@ -55,21 +56,21 @@ window.initCalendar = function () {
         events: '/api/events',
 
         eventContent: function (info) {
-            let element = info.el;
+            // let element = info.el;
 
-            if (info.event.extendedProps && info.event.extendedProps.description) {
-                if (element.hasClass("fc-day-grid-event")) {
-                    element.data("content", info.event.extendedProps.description);
-                    element.data("placement", "top");
-                    KTApp.initPopover(element);
-                } else if (element.hasClass("fc-time-grid-event")) {
-                    element.find(".fc-title").append("<div class=" +
-                        fc - description + ">" + info.event.extendedProps.description + "</div>");
-                } else if (element.find(".fc-list-item-title").lenght !== 0) {
-                    element.find(".fc-list-item-title").append("<div test=\"test\" class=" +
-                        fc - description + ">" + info.event.extendedProps.description + "</div>");
-                }
-            }
+            // if (info.event.extendedProps && info.event.extendedProps.description) {
+            //     if (element.hasClass("fc-day-grid-event")) {
+            //         element.data("content", info.event.extendedProps.description);
+            //         element.data("placement", "top");
+            //         KTApp.initPopover(element);
+            //     } else if (element.hasClass("fc-time-grid-event")) {
+            //         element.find(".fc-title").append("<div class=" +
+            //             fc - description + ">" + info.event.extendedProps.description + "</div>");
+            //     } else if (element.find(".fc-list-item-title").lenght !== 0) {
+            //         element.find(".fc-list-item-title").append("<div test=\"test\" class=" +
+            //             fc - description + ">" + info.event.extendedProps.description + "</div>");
+            //     }
+            // }
         },
         dateClick: function (info) {
             document.getElementById('startDate').value = info.dateStr + "T00:00";
@@ -77,8 +78,79 @@ window.initCalendar = function () {
             const newEventModal = document.getElementById('new-event-modal');
             newEventModal.classList.remove("hidden");
         },
-        eventClick: function(info) {
-            console.log(info);
+        eventClick: function (info) {
+            const isSameDate = (firstDate, secondDate) => {
+                return firstDate.getDate() == secondDate.getDate() &&
+                    firstDate.getMonth() == secondDate.getMonth() &&
+                    firstDate.getFullYear() == secondDate.getFullYear()
+            }
+            const showTitle = document.getElementById('event-show-title');
+            const showDate = document.getElementById('event-show-date');
+            const showDescription = document.getElementById('event-show-description');
+            const popup = document.getElementById('show-event-modal');
+
+            let date = "";
+
+            showTitle.innerText = info.event._def.title;
+            showDescription.innerText = info.event._def.extendedProps.description;
+
+            console.log(info.event.start, info.event.end);
+
+            if (info.event._def.allDay) {
+                date = info.event.start.toLocaleDateString(undefined, {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+                date = date.charAt(0).toUpperCase() + date.slice(1);
+            } else if (info.event.end == null) {
+                date = info.event.start.toLocaleDateString(undefined, {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+                let startTime = info.event.start.toLocaleTimeString(undefined, {
+                    hour: 'numeric',
+                    minute: 'numeric',
+                });
+                date = date.charAt(0).toUpperCase() + date.slice(1) + " " + startTime;
+
+            }
+            else if (isSameDate(info.event.start, info.event.end)) {
+                date = info.event.start.toLocaleDateString(undefined, {
+                    weekday: 'long',
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+                let startTime = info.event.start.toLocaleTimeString(undefined, {
+                    hour: 'numeric',
+                    minute: 'numeric',
+                });
+                let endTime = info.event.end.toLocaleTimeString(undefined, {
+                    hour: 'numeric',
+                    minute: 'numeric',
+                });
+                date = date.charAt(0).toUpperCase() + date.slice(1) + " " + startTime + " - " + endTime;
+            } else {
+                let startDate = info.event.start.toLocaleDateString(undefined, {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+                let endDate = info.event.end.toLocaleDateString(undefined, {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+                date = startDate + " - " + endDate;
+            }
+
+            showDate.innerText = date;
+
+            popup.classList.remove("hidden");
         }
     });
     calendar.render();

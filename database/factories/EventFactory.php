@@ -27,7 +27,7 @@ class EventFactory extends Factory
         return [
             'user_id' => User::all()->random()->id,
             'title' => $this->faker->word(),
-            'description' => $this->faker->sentence(),
+            'description' => $this->faker->text(255),
             'startDate' => $start,
             'endDate' => $start->clone()->addHours(rand(1, 10)),
             'fullDay' => rand(0, 1),
