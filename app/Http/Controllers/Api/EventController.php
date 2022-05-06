@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,5 +41,15 @@ class EventController extends Controller
             return response()->json(['error' => 'Unauthorized'], 403);
         }
         return response()->json($event);
+    }
+
+    public function destroy(Event $event)
+    {
+        if($event->user_id == Auth::user()->id){
+            $event->delete();
+        }else{
+            abort(403, 'Unauthorized action.');
+        }
+        return response()->json(['success' => 'Event deleted']);
     }
 }

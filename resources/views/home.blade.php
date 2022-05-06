@@ -69,6 +69,7 @@
 <div id="show-event-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex">
     <div id="show-event-modal-opacity" class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+        <input type="hidden" id="eventId" name="eventId">
         <div class="relative bg-white rounded-lg shadow">
             <div class="p-4 rounded-t border-b">
                 <h3 class="text-xl text-center text-gray-900 font-bold" id="event-show-title"></h3>
@@ -80,6 +81,14 @@
                     <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="closeShowModal()">
                         <svg width="32" height="32" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg%22%3E">
                             <path d=" M10.2626 16L24.4516 1.81105C24.807 1.45562 24.5435 0.621994 24.1881 0.266569C23.8327 -0.0888563 23.2627 -0.0888563 22.9072 0.266569L7.81173 15.3621C7.45631 15.7175 7.45631 16.2875 7.81173 16.643L22.9072 31.7318C23.0816 31.9061 23.3163 32 23.5443 32C23.7723 32 24.0071 31.9128 24.1814 31.7318C24.5368 31.3763 24.7996 30.5435 24.4442 30.1881L10.2626 16Z"></path>
+                        </svg>
+                    </div>
+                    <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="destroyEvent()">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M26.6664 3.98301H20.4004C20.1792 1.75005 18.2903 0 16 0C13.7098 0 11.8209 1.75005 11.5997 3.98301H5.33373C3.45365 3.98301 1.92407 5.51258 1.92407 7.39266C1.92407 9.216 3.36271 10.7095 5.16448 10.7981V27.8822C5.16448 30.1528 7.01169 32 9.28226 32H22.7179C24.9885 32 26.8357 30.1528 26.8357 27.8822V10.7981C28.6375 10.7096 30.0761 9.21607 30.0761 7.39273C30.0761 5.51258 28.5465 3.98301 26.6664 3.98301ZM16 2.09378C17.1337 2.09378 18.0803 2.90848 18.2864 3.98301H13.7136C13.9197 2.90848 14.8663 2.09378 16 2.09378ZM24.7419 27.8823C24.7419 28.9984 23.8339 29.9063 22.7179 29.9063H9.28219C8.16613 29.9063 7.2582 28.9984 7.2582 27.8823V10.8024C8.11274 10.8024 24.0735 10.8024 24.7419 10.8024V27.8823ZM26.6664 8.70861C26.4482 8.70861 5.51931 8.70861 5.33373 8.70861C4.60816 8.70861 4.01786 8.1183 4.01786 7.39273C4.01786 6.66717 4.60816 6.07686 5.33373 6.07686H26.6664C27.392 6.07686 27.9823 6.66717 27.9823 7.39273C27.9823 8.1183 27.392 8.70861 26.6664 8.70861Z" fill="#2D2438" />
+                            <path d="M16 27.3813C16.5782 27.3813 17.0469 26.9126 17.0469 26.3344V14.2111C17.0469 13.6329 16.5783 13.1642 16 13.1642C15.4219 13.1642 14.9531 13.6329 14.9531 14.2111V26.3344C14.9531 26.9126 15.4219 27.3813 16 27.3813Z" fill="#2D2438" />
+                            <path d="M21.4036 27.3813C21.9817 27.3813 22.4504 26.9126 22.4504 26.3344V14.2111C22.4504 13.6329 21.9817 13.1642 21.4036 13.1642C20.8254 13.1642 20.3567 13.6329 20.3567 14.2111V26.3344C20.3567 26.9126 20.8254 27.3813 21.4036 27.3813Z" fill="#2D2438" />
+                            <path d="M10.5967 27.3813C11.1749 27.3813 11.6436 26.9126 11.6436 26.3344V14.2111C11.6436 13.6329 11.1749 13.1642 10.5967 13.1642C10.0185 13.1642 9.5498 13.6329 9.5498 14.2111V26.3344C9.5498 26.9126 10.0185 27.3813 10.5967 27.3813Z" fill="#2D2438" />
                         </svg>
                     </div>
                 </div>
@@ -100,6 +109,19 @@
         document.getElementById('show-event-modal').classList.add('hidden');
         return false;
     }
+
+    function destroyEvent() {
+        let id = document.getElementById('eventId').value;
+        let url = "{{ route('events.destroy', ':id') }}";
+        let response = axios.delete(url.replace(':id', id));
+        response.then(function(response) {
+            if (response.data.success) {
+                document.getElementById('show-event-modal').classList.add('hidden');
+                window.calendar.getEventById(id).remove();
+            }
+        });
+    }
+    
     window.onload = function() {
         initCalendar();
         const elements = document.getElementsByClassName("load");
