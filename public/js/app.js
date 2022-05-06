@@ -22149,10 +22149,10 @@ window.initCalendar = function () {
       var showDate = document.getElementById('event-show-date');
       var showDescription = document.getElementById('event-show-description');
       var popup = document.getElementById('show-event-modal');
+      var trash = document.getElementById('eventId');
       var date = "";
       showTitle.innerText = info.event._def.title;
       showDescription.innerText = info.event._def.extendedProps.description;
-      console.log(info.event.start, info.event.end);
 
       if (info.event._def.allDay) {
         date = info.event.start.toLocaleDateString(undefined, {
@@ -22207,10 +22207,12 @@ window.initCalendar = function () {
       }
 
       showDate.innerText = date;
+      trash.setAttribute('value', info.event.id.toString());
       popup.classList.remove("hidden");
     }
   });
   calendar.render();
+  window.calendar = calendar;
 };
 
 /***/ }),

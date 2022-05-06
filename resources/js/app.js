@@ -88,13 +88,12 @@ window.initCalendar = function () {
             const showDate = document.getElementById('event-show-date');
             const showDescription = document.getElementById('event-show-description');
             const popup = document.getElementById('show-event-modal');
+            const trash = document.getElementById('eventId');
 
             let date = "";
 
             showTitle.innerText = info.event._def.title;
             showDescription.innerText = info.event._def.extendedProps.description;
-
-            console.log(info.event.start, info.event.end);
 
             if (info.event._def.allDay) {
                 date = info.event.start.toLocaleDateString(undefined, {
@@ -149,9 +148,10 @@ window.initCalendar = function () {
             }
 
             showDate.innerText = date;
-
+            trash.setAttribute('value', info.event.id.toString());
             popup.classList.remove("hidden");
         }
     });
     calendar.render();
+    window.calendar = calendar;
 }

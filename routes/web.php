@@ -13,15 +13,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', [EventController::class, 'index'])->middleware(['auth'])->name('home');
 
-Route::get('/test', function () {
-    return view('test');
-})->name('test');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/', function () {
+    return view('home');
+})->middleware(['auth'])->name('home');
 
 Route::post('/events', [EventController::class, 'store'])->middleware(['auth'])->name('events.store');
 
