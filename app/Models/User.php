@@ -49,7 +49,9 @@ class User extends Authenticatable
     }
 
     public function contacts() {
-        return $this->hasMany(Contact::class);
+        $first = $this->belongsToMany(User::class, 'contacts', 'user_id', 'userRequest_id')->where('status', '=', 'accept');
+        $second = $this->belongsToMany(User::class, 'contacts', 'userRequest_id', 'user_id')->where('status', '=', 'accept');
+        return $first->get()->merge($second->get());
     }
 
     public function shareds() {

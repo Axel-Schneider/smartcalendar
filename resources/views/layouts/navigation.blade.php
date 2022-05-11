@@ -1,5 +1,5 @@
 <div class="min-h-full mb-5">
-  <nav class="flex items-center justify-between flex-wrap bg-gray-800 p-6">
+  <nav class="flex items-center justify-between flex-wrap bg-gray-800">
     <div class="flex items-center flex-shrink-0 text-white mr-6">
       <a href="{{ url('/') }}" class="flex items-center">
         <x-svg.logo />

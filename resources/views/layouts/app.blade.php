@@ -20,12 +20,12 @@
     <div>
 
         <!-- Page Heading -->
-        <header class="header">
+        <header class="h-2/6">
             @include('layouts.navigation')
         </header>
 
         <!-- Page Content -->
-        <main>
+        <main class="h-4/6">
             @yield('content')
         </main>
     </div>
