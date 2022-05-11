@@ -19,5 +19,6 @@ Route::get('/', function () {
 })->middleware(['auth'])->name('home');
 
 Route::post('/events', [EventController::class, 'store'])->middleware(['auth'])->name('events.store');
+Route::post('/events/{event}', [EventController::class, 'update'])->middleware(['auth'])->name('events.update');
 
 require __DIR__.'/auth.php';
