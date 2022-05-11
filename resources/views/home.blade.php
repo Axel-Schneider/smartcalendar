@@ -12,21 +12,22 @@
             <div id="calendar"></div>
         </div>
         <div class="flex flex-col w-1/4 border-r">
-            <h2 class="text-3xl font-semibold text-center text-blue-800">Contact</h2>
+            <h2 class="text-3xl font-semibold text-center mb-5">{{__('contact')}}</h2>
             <div>
-
-                <div class="flex justify-center">
-                    <div class="mb-3 xl:w-96">
+                <div>
+                    <div>
                         <div class="input-group relative flex flex-wrap items-stretch w-full">
-                            <input type="search" class="form-control relative flex-auto block px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Search (unusable)" aria-label="Search" aria-describedby="button-addon2">
-                            <button class="btn px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center" type="button" id="button-addon2">
+                            <input type="search" class="mx-1 form-control relative flex-auto block px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="{{__('search')}}" aria-label="Search" aria-describedby="button-addon2">
+                            <button class="btn mx-1 px-6 py-2.5 bg-gray-700 text-white flex-none font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-800 hover:shadow-lg focus:bg-gray-800  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center" type="button" id="button-addon2">
                                 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="w-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path>
                                 </svg>
                             </button>
-                            <button class="btn px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center" type="button" id="button-addon2">
-                                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="search" class="w-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                    <path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path>
+                            <button class="btn mx-1 px-6 py-2.5 bg-gray-700 text-white flex-none font-medium text-xs  leading-tight uppercase rounded shadow-md hover:bg-gray-800 hover:shadow-lg focus:bg-gray-900  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center" type="button" id="button-addon2">
+                                <svg width="16" height="16" viewBox="0 0 32 32" fill="#fff" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M9.38403 15.5V12.558L6.31132 12.5343V9.28388L3.29245 9.28181V12.5032L0 12.529V15.5H3.29245V18.6625H6.31132V15.5H9.38403Z" />
+                                    <path d="M25.2672 18.1129H14.2084C10.496 18.1129 7.47559 21.1333 7.47559 24.8458V28.7353H32.0001V24.8458C32.0001 21.1334 28.9797 18.1129 25.2672 18.1129ZM29 26H20H10.5V25C10.5 22 12 21 14 21H25.0588C27.5 21 29 22.5 29 24.8459V26Z" />
+                                    <path d="M19.7377 17.4212C23.6406 17.4212 26.8159 14.2459 26.8159 10.3429C26.8159 6.44 23.6406 3.26465 19.7377 3.26465C15.8348 3.26465 12.6594 6.4399 12.6594 10.3429C12.6594 14.246 15.8348 17.4212 19.7377 17.4212ZM19.7377 6C22 6 23.7868 7.74449 23.7868 10.3429C23.7868 12.5 22.1075 14.5 19.7377 14.5C17.3679 14.5 15.3569 12.6311 15.3569 10.3429C15.3569 8.05473 17 6 19.7377 6Z" />
                                 </svg>
                             </button>
                         </div>
@@ -41,18 +42,18 @@
                             <li>
                                 <div class="flex items-center px-4 py-2 mt-2 text-gray-600 rounded-md hover:bg-gray-200" id="user-{{ $user->id }}" onclick="unshowUser({{ $user->id }})">
                                     <input type="hidden" id="user-checked-{{ $user->id }}" value="true">
-                                    <svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" >
-                                        <rect x="1.25" y="1.25" width="17.5" height="17.5" rx="2.75" stroke="#2D2438" stroke-width="1.5" />    
+                                    <svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="1.25" y="1.25" width="17.5" height="17.5" rx="2.75" stroke="#2D2438" stroke-width="1.5" />
                                         <path id="user-checkbox-show-{{ $user->id }}" d="M3.55939 3.55247C3.81128 3.35094 4.17367 3.36793 4.40561 3.59213L10 9L15.4406 3.55941C15.7389 3.26113 16.2303 3.28868 16.4934 3.61844C16.7178 3.89981 16.6951 4.3049 16.4406 4.55941L11 10L16.4036 15.3807C16.6844 15.6604 16.6849 16.115 16.4046 16.3953C16.1248 16.6752 15.671 16.6752 15.3911 16.3953L9.99581 11L4.55065 16.4452C4.30059 16.6952 3.89517 16.6952 3.64511 16.4452C3.39805 16.1981 3.39466 15.7986 3.63751 15.5474L9 10L3.50656 4.50656C3.23633 4.23633 3.26098 3.79121 3.55939 3.55247Z" fill="#2D2438" />
                                     </svg>
 
-                                    <span id="user-text-{{ $user->id }}"class="mx-4 font-medium">
+                                    <span id="user-text-{{ $user->id }}" class="mx-4 font-medium">
                                         {{ $user->name }} {{ $user->lastname }}
                                     </span>
                                 </div>
                             </li>
                             @empty
-                            <p>No users</p>
+                            <p>__('</p>
                             @endforelse
                         </ul>
                     </aside>
@@ -215,106 +216,153 @@
             </div>
         </div>
     </div>
-    @endsection
+    <div id="add-contact-modal" tabindex="-1" class=" overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex">
+        <div id="add-contact-modal-opacity" class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onclick="closeAddContactModal()"></div>
+        <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+            <div class="relative bg-white rounded-lg shadow">
+                <div class="p-4 rounded-t border-b">
+                    <h3 id="update-event-show-title" class="text-xl text-center text-gray-900 font-bold">{{__('add_contact')}}</h3>
+                </div>
+                <div class="mx-3 mt-3 pb-3">
+                    <input type="search" class="w-full relative block py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="{{__('search')}}" aria-label="Search" aria-describedby="button-addon2">
+                    <div class="flex flex-col">
+                        <div class="flex flex-col justify-between mt-1">
+                            <aside>
+                                <ul>
+                                    @forelse (Auth::user()->contactProposals() as $user)
+                                    <div>
+                                        <li>
+                                            <div class="flex items-center px-4 py-2 mt-2 text-gray-600 rounded-md hover:bg-gray-200 justify-between w-full" id="user-add-{{ $user->id }}" onclick="showUserProfil({{ $user->id }})">
+                                                <span id="user-text-{{ $user->id }}" class="font-medium">
+                                                    {{ $user->name }} {{ $user->lastname }}
+                                                </span>
+                                                <span class="justify-self-end rounded py-1 px-1 hover:bg-gray-300 hover:shadow-lg" onclick="addContact({{ $user->id }})">
+                                                    <form action="{{ route('contacts.store') }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="user_id" value="{{ $user->id }}">
+                                                        <button type="submit">
+                                                            <svg width="22" height="22" viewBox="0 0 32 32" fill="#000" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M9.38403 15V13.0321L5.6251 13.0031V9.27856H3.7068V13.0031L0 13.0321V15H3.7068V18.6625H5.6251V15H9.38403Z" />
+                                                                <path d="M25.2672 18.1129H14.2084C10.496 18.1129 7.47559 21.1333 7.47559 24.8458V28.7353H32.0001V24.8458C32.0001 21.1334 28.9797 18.1129 25.2672 18.1129ZM30 27H20H9.36551V24.8459C9.36551 21.9391 11.3016 20 14.2084 20H25.2672C28.174 20 30 21.9391 30 24.8459V27Z" />
+                                                                <path d="M19.7377 17.4212C23.6406 17.4212 26.8159 14.2459 26.8159 10.3429C26.8159 6.44 23.6406 3.26465 19.7377 3.26465C15.8348 3.26465 12.6594 6.4399 12.6594 10.3429C12.6594 14.246 15.8348 17.4212 19.7377 17.4212ZM19.7377 5C22.8349 5 25 7.2457 25 10.343C25 13.4404 22.8349 15.6817 19.7377 15.6817C16.6404 15.6817 14.5 13.4403 14.5 10.343C14.5 7.2458 16.6404 5 19.7377 5Z" />
+                                                            </svg>
+                                                        </button>
+                                                    </form>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    </div>
+                                    @empty
+                                    NO PROPOSALS
+                                    @endforelse
+                                </ul>
+                            </aside>
+                        </div>
 
-    @section("script")
-    <script>
-        function closeNewModal() {
-            document.getElementById('new-event-modal').classList.add('hidden');
-            return false;
-        }
+                    </div>
+                </div>
+            </div>
 
-        function closeShowModal() {
-            document.getElementById('show-event-modal').classList.add('hidden');
-            return false;
-        }
+        </div>
+        @endsection
 
-        function closeUpdateModal() {
-            document.getElementById('update-event-modal').classList.add('hidden');
-            return false;
-        }
-
-        function destroyEvent() {
-            let id = document.getElementById('eventId').value;
-            let url = "{{ route('events.destroy', ':id') }}";
-            let response = axios.delete(url.replace(':id', id));
-            response.then(function(response) {
-                if (response.data.success) {
-                    document.getElementById('show-event-modal').classList.add('hidden');
-                    window.calendar.getEventById(id).remove();
-                }
-            });
-        }
-
-        function editEvent() {
-            let id = document.getElementById('eventId').value;
-            let url = "{{ route('events.update', ':id') }}";
-            let event = window.calendar.getEventById(id);
-            let dt = event.start;;
-            document.getElementById('update-event-form').action = url.replace(':id', id);
-
-            document.getElementById('update-event-show-title').innerText = event._def.title;
-            document.getElementById('update-event-id').value = event.id;
-            document.getElementById('update-timezone').value = new Date().toString().slice(25, 33);
-            document.getElementById('update-event-title').value = event._def.title;
-            document.getElementById('update-event-description').value = event._def.extendedProps.description;
-            console.log(window.formatDateForInput(event.start));
-            document.getElementById('update-event-startDate').value = window.formatDateForInput(event.start);
-            document.getElementById('update-event-endDate').value = window.formatDateForInput(event.end);
-            document.getElementById('update-event-fullDay').checked = event._def.extendedProps.fullDay;
-
-            document.getElementById('show-event-modal').classList.add('hidden');
-            document.getElementById('update-event-modal').classList.remove('hidden');
-        }
-
-        window.onload = function() {
-            initCalendar();
-            const elements = document.getElementsByClassName("load");
-            const newEventModalOpacity = document.getElementById("new-event-modal-opacity");
-            const newEventModal = document.getElementById('new-event-modal');
-            const showEventModalOpacity = document.getElementById("show-event-modal-opacity");
-            const showEventModal = document.getElementById('show-event-modal');
-
-            document.getElementById("timezone").value = new Date().toString().slice(25, 33);
-
-            document.getElementById("fullDay").addEventListener("change", function() {
-                if (this.checked) {
-                    document.getElementById("endDate").value = document.getElementById("startDate").value.slice(0, 10) + "T23:59";
-                }
-            });
-            document.getElementById("startDate").addEventListener("change", function() {
-                console.log(this.value);
-                if (document.getElementById("fullDay").checked) {
-                    document.getElementById("endDate").value = document.getElementById("startDate").value.slice(0, 10) + "T23:59";
-                }
-            });
-            newEventModalOpacity.addEventListener('click', () => {
-                newEventModal.classList.add('hidden');
-            });
-            showEventModalOpacity.addEventListener('click', () => {
-                showEventModal.classList.add('hidden');
-            });
-
-            while (elements.length > 0) {
-                elements[0].parentNode.removeChild(elements[0]);
+        @section("script")
+        <script>
+            function closeNewModal() {
+                document.getElementById('new-event-modal').classList.add('hidden');
+                return false;
             }
-        }
-    </script>
-    <script>
-        function unshowUser(id) {
-            const checked = document.getElementById("user-checked-"+id);
-            const checkbox = document.getElementById("user-checkbox-show-"+id);
-            const text = document.getElementById("user-text-"+id);
 
-            if (checked.value == "true") {
-                checked.value = "false";
-                checkbox.classList.add('hidden');
-                text.classList.add('line-through');
-            }else{
-                checked.value = "true";
-                checkbox.classList.remove('hidden');
-                text.classList.remove('line-through');
+            function closeShowModal() {
+                document.getElementById('show-event-modal').classList.add('hidden');
+                return false;
             }
-        }
-    </script>
-    @endsection
+
+            function closeUpdateModal() {
+                document.getElementById('update-event-modal').classList.add('hidden');
+                return false;
+            }
+
+            function destroyEvent() {
+                let id = document.getElementById('eventId').value;
+                let url = "{{ route('events.destroy', ':id') }}";
+                let response = axios.delete(url.replace(':id', id));
+                response.then(function(response) {
+                    if (response.data.success) {
+                        document.getElementById('show-event-modal').classList.add('hidden');
+                        window.calendar.getEventById(id).remove();
+                    }
+                });
+            }
+
+            function editEvent() {
+                let id = document.getElementById('eventId').value;
+                let url = "{{ route('events.update', ':id') }}";
+                let event = window.calendar.getEventById(id);
+                let dt = event.start;;
+                document.getElementById('update-event-form').action = url.replace(':id', id);
+
+                document.getElementById('update-event-show-title').innerText = event._def.title;
+                document.getElementById('update-event-id').value = event.id;
+                document.getElementById('update-timezone').value = new Date().toString().slice(25, 33);
+                document.getElementById('update-event-title').value = event._def.title;
+                document.getElementById('update-event-description').value = event._def.extendedProps.description;
+                document.getElementById('update-event-startDate').value = window.formatDateForInput(event.start);
+                document.getElementById('update-event-endDate').value = window.formatDateForInput(event.end);
+                document.getElementById('update-event-fullDay').checked = event._def.extendedProps.fullDay;
+
+                document.getElementById('show-event-modal').classList.add('hidden');
+                document.getElementById('update-event-modal').classList.remove('hidden');
+            }
+
+            window.onload = function() {
+                initCalendar();
+                const elements = document.getElementsByClassName("load");
+                const newEventModalOpacity = document.getElementById("new-event-modal-opacity");
+                const newEventModal = document.getElementById('new-event-modal');
+                const showEventModalOpacity = document.getElementById("show-event-modal-opacity");
+                const showEventModal = document.getElementById('show-event-modal');
+
+                document.getElementById("timezone").value = new Date().toString().slice(25, 33);
+
+                document.getElementById("fullDay").addEventListener("change", function() {
+                    if (this.checked) {
+                        document.getElementById("endDate").value = document.getElementById("startDate").value.slice(0, 10) + "T23:59";
+                    }
+                });
+                document.getElementById("startDate").addEventListener("change", function() {
+                    console.log(this.value);
+                    if (document.getElementById("fullDay").checked) {
+                        document.getElementById("endDate").value = document.getElementById("startDate").value.slice(0, 10) + "T23:59";
+                    }
+                });
+                newEventModalOpacity.addEventListener('click', () => {
+                    newEventModal.classList.add('hidden');
+                });
+                showEventModalOpacity.addEventListener('click', () => {
+                    showEventModal.classList.add('hidden');
+                });
+
+                while (elements.length > 0) {
+                    elements[0].parentNode.removeChild(elements[0]);
+                }
+            }
+        </script>
+        <script>
+            function unshowUser(id) {
+                const checked = document.getElementById("user-checked-" + id);
+                const checkbox = document.getElementById("user-checkbox-show-" + id);
+                const text = document.getElementById("user-text-" + id);
+
+                if (checked.value == "true") {
+                    checked.value = "false";
+                    checkbox.classList.add('hidden');
+                    text.classList.add('line-through');
+                } else {
+                    checked.value = "true";
+                    checkbox.classList.remove('hidden');
+                    text.classList.remove('line-through');
+                }
+            }
+        </script>
+        @endsection

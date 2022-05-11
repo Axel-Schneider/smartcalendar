@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EventController;
+use App\http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,5 +21,7 @@ Route::get('/', function () {
 
 Route::post('/events', [EventController::class, 'store'])->middleware(['auth'])->name('events.store');
 Route::post('/events/{event}', [EventController::class, 'update'])->middleware(['auth'])->name('events.update');
+
+Route::post('/contacts', [ContactController::class, 'store'])->middleware(['auth'])->name('contacts.store');
 
 require __DIR__.'/auth.php';

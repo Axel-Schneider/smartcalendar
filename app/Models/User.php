@@ -54,6 +54,11 @@ class User extends Authenticatable
         return $first->get()->merge($second->get());
     }
 
+    public function contactProposals() {
+        $response = User::all()->diff($this->contacts())->where('id', '<>', $this->id)->take(5);
+        return $response;
+    }
+
     public function shareds() {
         return $this->hasMany(Shared::class);
     }
