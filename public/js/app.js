@@ -22215,6 +22215,14 @@ window.initCalendar = function () {
   window.calendar = calendar;
 };
 
+window.formatDateForInput = function (date) {
+  return "".concat(date.getFullYear(), "-").concat(to2Digit(date.getMonth() + 1), "-").concat(to2Digit(date.getDate()), "T").concat(to2Digit(date.getHours()), ":").concat(to2Digit(date.getMinutes()));
+};
+
+function to2Digit(number) {
+  return ("0" + number).slice(-2);
+}
+
 /***/ }),
 
 /***/ "./resources/js/bootstrap.js":

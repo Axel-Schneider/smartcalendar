@@ -40,4 +40,25 @@ class EventController extends Controller
 
         return redirect()->route('home');
     }
+
+    public function update(Request $request, Event $event){
+        $startDate = Carbon::parse($request->startDate . ' ' . $request->timezone);
+        $endDate = Carbon::parse($request->endDate . ' ' . $request->timezone);
+        if ($request->fullDay != 'on') {
+            $startDate = $startDate->setTimezone('UTC')->format('Y-m-d H:i:s');
+            $endDate = $endDate->setTimezone('UTC')->format('Y-m-d H:i:s');
+        }else{
+            $startDate = $startDate->format('Y-m-d 00:00:00');
+            $endDate = $endDate->addDay()->format('Y-m-d 00:00:00');
+        }
+
+        $event->title = $request->title;
+        $event->description = $request->description;
+        $event->startDate = $startDate;
+        $event->endDate = $endDate;
+        $event->fullDay = $request->boolean('fullDay');
+        $event->save();
+
+        return redirect()->route('home');
+    }
 }
