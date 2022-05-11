@@ -104,6 +104,7 @@
         </div>
     </div>
 </div>
+<div>{{old('id')}}</div>
 <div id="update-event-modal" tabindex="-1" class="{{old('modalName') == 'update-event-modal' ? '' : 'hidden'}} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex">
     <div id="update-event-modal-opacity" class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onclick="closeUpdateModal()"></div>
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
@@ -112,9 +113,9 @@
                 <h3 id="update-event-show-title" class="text-xl text-center text-gray-900 font-bold"></h3>
             </div>
             <div class="p-4 flex flex-col space-y-6">
-                <form id="update-event-form" action="{{route('events.update', 0)}}" method="POST">
+                <form id="update-event-form" action="{{route('events.update', old('modalName') == 'update-event-modal' ? old('id') : 0 )}}" method="POST">
                     @csrf
-                    <input type="hidden" name="id" id="update-event-id" value="">
+                    <input type="hidden" name="id" id="update-event-id" value="{{old('id')}}">
                     <input type="hidden" id="modalName" name="modalName" value="update-event-modal">
                     <input type="hidden" id="update-timezone" name="timezone">
                     <div class="grid gap-6 mb-6 lg:grid-cols-2">
@@ -138,7 +139,7 @@
                         <label for="fullDay" class="form-check-label">{{__('full_day')}}</label>
                     </div>
                     <div class="mb-6">
-                        <input type="text" name="title" id="update-event-title" placeholder="{{__('title')}}" value="{{old('title')}}" class="@error('title') bg-red-50 border border-red-500 text-red-900 @enderror bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <input type="text" name="title" id="update-event-title" placeholder="{{__('title')}}" value="{{old('title')}}" class="@error('title') bg-red-50 border border-red-500 text-red-900 @enderror bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" require>
                         @error('title')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{__('title-error')}}</p>
                         @enderror
