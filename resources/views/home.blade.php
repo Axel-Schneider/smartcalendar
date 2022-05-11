@@ -104,7 +104,6 @@
         </div>
     </div>
 </div>
-<div>{{old('id')}}</div>
 <div id="update-event-modal" tabindex="-1" class="{{old('modalName') == 'update-event-modal' ? '' : 'hidden'}} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex">
     <div id="update-event-modal-opacity" class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onclick="closeUpdateModal()"></div>
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
