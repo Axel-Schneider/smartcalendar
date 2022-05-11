@@ -105,7 +105,7 @@
     </div>
 </div>
 <div id="update-event-modal" tabindex="-1" class="{{old('modalName') == 'update-event-modal' ? '' : 'hidden'}} overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex">
-    <div id="update-event-modal-opacity" class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+    <div id="update-event-modal-opacity" class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onclick="closeUpdateModal()"></div>
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
         <div class="relative bg-white rounded-lg shadow">
             <div class="p-4 rounded-t border-b">
@@ -115,18 +115,19 @@
                 <form id="update-event-form" action="{{route('events.update', 0)}}" method="POST">
                     @csrf
                     <input type="hidden" name="id" id="update-event-id" value="">
-                    <input type="hidden" id="timezone" name="timezone">
+                    <input type="hidden" id="modalName" name="modalName" value="update-event-modal">
+                    <input type="hidden" id="update-timezone" name="timezone">
                     <div class="grid gap-6 mb-6 lg:grid-cols-2">
                         <div>
                             <label for="startDate" class="@error('startDate') text-red-700 @enderror block mb-1 text-sm font-medium text-gray-900">{{__('start_date')}}</label>
-                            <input type="datetime-local" name="startDate" id="update-event-startDate" value="{{old('startDate')}}" class="@error('title') bg-red-50 border border-red-500 text-red-900 @enderror form-control bg-gray-50 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" required>
+                            <input type="datetime-local" name="startDate" id="update-event-startDate" value="{{old('startDate')}}" class="@error('startDate') bg-red-50 border border-red-500 text-red-900 @enderror form-control bg-gray-50 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" required>
                             @error('startDate')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{__('start_date-error')}}</p>
                             @enderror
                         </div>
                         <div>
                             <label for="endDate" class="@error('endDate') text-red-700 @enderror block mb-1 text-sm font-medium text-gray-900">{{__('end_date')}}</label>
-                            <input type="datetime-local" name="endDate" id="update-event-endDate" value="{{old('endDate')}}" class="@error('title') bg-red-50 border border-red-500 text-red-900 @enderror form-control bg-gray-50 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" required>
+                            <input type="datetime-local" name="endDate" id="update-event-endDate" value="{{old('endDate')}}" class="@error('endDate') bg-red-50 border border-red-500 text-red-900 @enderror form-control bg-gray-50 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" required>
                             @error('endDate')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{__('end_date-error')}}</p>
                             @enderror
@@ -137,7 +138,7 @@
                         <label for="fullDay" class="form-check-label">{{__('full_day')}}</label>
                     </div>
                     <div class="mb-6">
-                        <input type="text" name="title" id="update-event-title" placeholder="{{__('title')}}" value="{{old('title')}}" class="@error('title') bg-red-50 border border-red-500 text-red-900 @enderror bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                        <input type="text" name="title" id="update-event-title" placeholder="{{__('title')}}" value="{{old('title')}}" class="@error('title') bg-red-50 border border-red-500 text-red-900 @enderror bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                         @error('title')
                         <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{__('title-error')}}</p>
                         @enderror
@@ -200,6 +201,7 @@
 
         document.getElementById('update-event-show-title').innerText = event._def.title;
         document.getElementById('update-event-id').value = event.id;
+        document.getElementById('update-timezone').value = new Date().toString().slice(25, 33);
         document.getElementById('update-event-title').value = event._def.title;
         document.getElementById('update-event-description').value = event._def.extendedProps.description;
         console.log(window.formatDateForInput(event.start));
