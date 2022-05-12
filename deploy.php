@@ -2,6 +2,7 @@
 namespace Deployer;
 
 require 'recipe/laravel.php';
+require 'contrib/rsync.php';
 
 // Config
 
@@ -14,9 +15,9 @@ add('writable_dirs', []);
 // Hosts
 
 host('smartcalendar.axelschn.ch')
-    ->stage('production')
+    ->setHostname('cr7pm.ftp.infomaniak.com')
     ->set('remote_user', 'cr7pm_deployer')
-    ->set('deploy_path', 'sites/smartcalendar.axelschn.ch');
+    ->set('deploy_path', '/home/clients/55e0a135b89a29f2d29615838ee954a1/sites/smartcalendar.axelschn.ch');
 
 add('rsync', [
     'exclude' => [
@@ -45,22 +46,18 @@ desc('Deploy the application');
 
 task('deploy', [
     'deploy:info',
-    'deploy:prepare',
     'deploy:lock',
-    'deploy:release',
     'rsync', // Deploy code & built assets
     'deploy:secrets', // Deploy secrets
     'deploy:shared',
     'deploy:vendors',
-    'deploy:writable',
-    'artisan:storage:link', // |
     'artisan:view:cache',   // |
     'artisan:config:cache', // | Laravel specific steps 
     'artisan:optimize',     // |
     'artisan:migrate',      // |
     'deploy:symlink',
     'deploy:unlock',
-    'cleanup',
+    'deploy:cleanup',
 ]);
 
 // Set up a deployer task to copy secrets to the server. 
