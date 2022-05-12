@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - Prod
+      - github-action
 
 jobs:
   build-js:
