@@ -216,7 +216,7 @@
             </div>
         </div>
     </div>
-    <div id="add-contact-modal" tabindex="-1" class=" overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex">
+    <div id="add-contact-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex">
         <div id="add-contact-modal-opacity" class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onclick="closeAddContactModal()"></div>
         <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
             <div class="relative bg-white rounded-lg shadow">
