@@ -37,19 +37,24 @@ class ContactController extends Controller
         $contact = Contact::all()->where('user_id', '=', Auth::id())->where('userRequest_id', '=', $request->user_id);
         
         if ($contact->isEmpty()) {
-            return response()->json(['error' => 'User not in your contact request'], 403);
+            return response()->json(['error' => 'User is not in your contact request'], 403);
         } else{
-            if($contact->first()->status == 'waiting'){
+            if($request->status == 'deny'){
+                $contact->first()->delete();
                 auth()->user()->notifications()->where('id', '=', $request->notification_id)->first()->markAsRead();
+                return response()->json(['success' => 'Contact request denied']);
+            }else if($contact->first()->status == 'waiting'){
                 $contact->first()->status = $request->status;
-                $contact->first()->save();
+                auth()->user()->notifications()->where('id', '=', $request->notification_id)->first()->markAsRead();
                 if($request->status == 'block'){
                     $contact->first()->blocker_id = Auth::id();
                     $contact->first()->save();
+                    return response()->json(['success' => 'Contact request blocked']);
                 }
-                return response()->json(['success' => 'Contact request answered']);
+                $contact->first()->save();
+                return response()->json(['success' => 'Contact request accepted']);
             }else{
-                return response()->json(['error' => 'Contact request already answered'], 403);
+                return response()->json(['error' => 'Contact request is already answered'], 403);
             }
         }
     }
