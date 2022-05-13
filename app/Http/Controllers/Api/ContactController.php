@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\ContactRequest;
-use App\Http\Controllers\Controller;
-
+use App\Models\User;
 use App\Models\Contact;
+
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ContactRequest;
 use PhpParser\Node\Expr\AssignOp\Concat;
+use App\Notifications\ContactAddedNotification;
 
 class ContactController extends Controller
 {
@@ -22,6 +24,7 @@ class ContactController extends Controller
             $contact->userRequest_id = Auth::user()->id;
             $contact->status = 'waiting';
             $contact->save();
+            User::all()->find($request->user_id)->notify(new ContactAddedNotification(Auth::user()));
             return response()->json(['success' => 'User added to your contact']);
         }else{
             return response()->json(['error' => 'User already in your contact'], 403);
