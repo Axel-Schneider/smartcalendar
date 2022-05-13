@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\ContactRequest;
+use App\Http\Requests\ContactRespondRequest;
 use PhpParser\Node\Expr\AssignOp\Concat;
 use App\Notifications\ContactAddedNotification;
 
@@ -29,6 +30,25 @@ class ContactController extends Controller
         }else{
             return response()->json(['error' => 'User already in your contact'], 403);
         }
+    }
 
+    public function respondContact(ContactRespondRequest $request){
+        $contact = Contact::all()->where('user_id', '=', Auth::id())->where('userRequest_id', '=', $request->user_id);
+        
+        if ($contact->isEmpty()) {
+            return response()->json(['error' => 'User not in your contact request'], 403);
+        } else{
+            if($contact->first()->status == 'waiting'){
+                $contact->first()->status = $request->status;
+                $contact->first()->save();
+                if($request->status == 'block'){
+                    $contact->first()->blocker_id = Auth::id();
+                    $contact->first()->save();
+                }
+                return response()->json(['success' => 'Contact request answered']);
+            }else{
+                return response()->json(['error' => 'Contact request already answered'], 403);
+            }
+        }
     }
 }

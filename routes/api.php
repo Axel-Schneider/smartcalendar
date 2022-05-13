@@ -25,3 +25,4 @@ Route::middleware('auth:sanctum')->get('/events/{event}', [EventController::clas
 Route::middleware('auth:sanctum')->delete('/events/{event}', [EventController::class, 'destroy'])->name('events.destroy');
 
 Route::middleware('auth:sanctum')->post('/contacts', [ContactController::class, 'addContact'])->name('contacts.add');
+Route::middleware('auth:sanctum')->post('/contacts/respond', [ContactController::class, 'respondContact'])->name('contacts.respond');
