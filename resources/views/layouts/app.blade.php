@@ -42,6 +42,7 @@
         console.log(new Date().getDate());
         console.log(logoText);
     </script>
+    <script src="../path/to/flowbite/dist/flowbite.js"></script>
 </body>
 
 </html>

@@ -53,7 +53,7 @@
                                 </div>
                             </li>
                             @empty
-                            <p>__('</p>
+                            <p>{{ __('no_contact') }}</p>
                             @endforelse
                         </ul>
                     </aside>
@@ -323,6 +323,18 @@
                         document.getElementById('user-text-' + id).classList.add('text-[#1f5c1b]');
                     }
                 });
+            }
+
+            function acceptContact(id){
+                console.log(id);
+            }
+
+            function declineContact(id){
+                console.log(id);
+            }
+
+            function blockContact(id){
+                console.log(id);
             }
 
             function editEvent() {
