@@ -12,5 +12,10 @@
     "full_day": "All day",
     "title-error": "Oops! You need a title!",
     "start_date-error": "Oops! You need a start date!",
-    "end_date-error": "Oops! You need a end date!"
+    "end_date-error": "Oops! You need a end date!",
+    "contact": "Contact",
+    "no_contact": "No contact",
+    "add_contact": "Add contact",
+    "search": "Search (unusable)",
+    "not_found": "Not found"
 }

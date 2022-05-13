@@ -12,7 +12,8 @@ class Contact extends Model
     protected $fillable = [
         'userRequest_id',
         'user_id',
-        'status'
+        'status',
+        'blocker_id',
     ];
 
     public function requestor() {
@@ -21,5 +22,9 @@ class Contact extends Model
 
     public function receiver() {
         return $this->belongsTo(User::class, "user_id");
+    }
+
+    public function blocker() {
+        return $this->belongsTo(User::class, "blocker_id");
     }
 }

@@ -1,6 +1,7 @@
 require('./bootstrap');
 
 import Alpine from 'alpinejs';
+import 'flowbite';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
