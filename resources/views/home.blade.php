@@ -23,7 +23,7 @@
                                     <path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path>
                                 </svg>
                             </button>
-                            <button class="btn mx-1 px-6 py-2.5 bg-gray-700 text-white flex-none font-medium text-xs  leading-tight uppercase rounded shadow-md hover:bg-gray-800 hover:shadow-lg focus:bg-gray-900  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center" type="button" id="button-addon2">
+                            <button onclick="showAddContactModal()" class="btn mx-1 px-6 py-2.5 bg-gray-700 text-white flex-none font-medium text-xs  leading-tight uppercase rounded shadow-md hover:bg-gray-800 hover:shadow-lg focus:bg-gray-900  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center" type="button" id="button-addon2">
                                 <svg width="16" height="16" viewBox="0 0 32 32" fill="#fff" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M9.38403 15.5V12.558L6.31132 12.5343V9.28388L3.29245 9.28181V12.5032L0 12.529V15.5H3.29245V18.6625H6.31132V15.5H9.38403Z" />
                                     <path d="M25.2672 18.1129H14.2084C10.496 18.1129 7.47559 21.1333 7.47559 24.8458V28.7353H32.0001V24.8458C32.0001 21.1334 28.9797 18.1129 25.2672 18.1129ZM29 26H20H10.5V25C10.5 22 12 21 14 21H25.0588C27.5 21 29 22.5 29 24.8459V26Z" />
@@ -232,22 +232,19 @@
                                     @forelse (Auth::user()->contactProposals() as $user)
                                     <div>
                                         <li>
-                                            <div class="flex items-center px-4 py-2 mt-2 text-gray-600 rounded-md hover:bg-gray-200 justify-between w-full" id="user-add-{{ $user->id }}" onclick="showUserProfil({{ $user->id }})">
-                                                <span id="user-text-{{ $user->id }}" class="font-medium">
+                                            <div class="flex items-center mt-2 text-gray-600 rounded-md hover:bg-gray-200 justify-between w-full" id="user-add-{{ $user->id }}">
+                                                <span id="user-text-{{ $user->id }}" class="font-medium flex-auto py-2 pl-4" onclick="showUserProfil({{ $user->id }})">
                                                     {{ $user->name }} {{ $user->lastname }}
                                                 </span>
-                                                <span class="justify-self-end rounded py-1 px-1 hover:bg-gray-300 hover:shadow-lg" onclick="addContact({{ $user->id }})">
-                                                    <form action="{{ route('contacts.store') }}" method="POST">
-                                                        @csrf
-                                                        <input type="hidden" name="user_id" value="{{ $user->id }}">
-                                                        <button type="submit">
-                                                            <svg width="22" height="22" viewBox="0 0 32 32" fill="#000" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M9.38403 15V13.0321L5.6251 13.0031V9.27856H3.7068V13.0031L0 13.0321V15H3.7068V18.6625H5.6251V15H9.38403Z" />
-                                                                <path d="M25.2672 18.1129H14.2084C10.496 18.1129 7.47559 21.1333 7.47559 24.8458V28.7353H32.0001V24.8458C32.0001 21.1334 28.9797 18.1129 25.2672 18.1129ZM30 27H20H9.36551V24.8459C9.36551 21.9391 11.3016 20 14.2084 20H25.2672C28.174 20 30 21.9391 30 24.8459V27Z" />
-                                                                <path d="M19.7377 17.4212C23.6406 17.4212 26.8159 14.2459 26.8159 10.3429C26.8159 6.44 23.6406 3.26465 19.7377 3.26465C15.8348 3.26465 12.6594 6.4399 12.6594 10.3429C12.6594 14.246 15.8348 17.4212 19.7377 17.4212ZM19.7377 5C22.8349 5 25 7.2457 25 10.343C25 13.4404 22.8349 15.6817 19.7377 15.6817C16.6404 15.6817 14.5 13.4403 14.5 10.343C14.5 7.2458 16.6404 5 19.7377 5Z" />
-                                                            </svg>
-                                                        </button>
-                                                    </form>
+                                                <span class="mr-4 rounded justify-self-end flex-none py-1 px-1 hover:bg-gray-300 hover:shadow-lg" onclick="addContact({{ $user->id }})">
+                                                    <svg width="22" height="22" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                                                        <g id="user-add-icon-{{ $user->id }}" fill="#000" fill-rule="evenodd">
+                                                            <path id="user-add-icon-add-{{ $user->id }}" d="M9.38403 15V13.0321L5.6251 13.0031V9.27856H3.7068V13.0031L0 13.0321V15H3.7068V18.6625H5.6251V15H9.38403Z" />
+                                                            <path id="user-add-icon-added-{{ $user->id }}" class="hidden" d="M1 12.7188L3.26562 14.9844L8.25 10" stroke="#1f5c1b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                            <path d="M25.2672 18.1129H14.2084C10.496 18.1129 7.47559 21.1333 7.47559 24.8458V28.7353H32.0001V24.8458C32.0001 21.1334 28.9797 18.1129 25.2672 18.1129ZM30 27H20H9.36551V24.8459C9.36551 21.9391 11.3016 20 14.2084 20H25.2672C28.174 20 30 21.9391 30 24.8459V27Z" />
+                                                            <path d="M19.7377 17.4212C23.6406 17.4212 26.8159 14.2459 26.8159 10.3429C26.8159 6.44 23.6406 3.26465 19.7377 3.26465C15.8348 3.26465 12.6594 6.4399 12.6594 10.3429C12.6594 14.246 15.8348 17.4212 19.7377 17.4212ZM19.7377 5C22.8349 5 25 7.2457 25 10.343C25 13.4404 22.8349 15.6817 19.7377 15.6817C16.6404 15.6817 14.5 13.4403 14.5 10.343C14.5 7.2458 16.6404 5 19.7377 5Z" />
+                                                        </g>
+                                                    </svg>
                                                 </span>
                                             </div>
                                         </li>
@@ -257,6 +254,13 @@
                                     @endforelse
                                 </ul>
                             </aside>
+                        </div>
+                        <div class="flex justify-between mt-5">
+                            <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="closeAddContactModal()">
+                                <svg width="32" height="32" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg%22%3E">
+                                    <path d=" M10.2626 16L24.4516 1.81105C24.807 1.45562 24.5435 0.621994 24.1881 0.266569C23.8327 -0.0888563 23.2627 -0.0888563 22.9072 0.266569L7.81173 15.3621C7.45631 15.7175 7.45631 16.2875 7.81173 16.643L22.9072 31.7318C23.0816 31.9061 23.3163 32 23.5443 32C23.7723 32 24.0071 31.9128 24.1814 31.7318C24.5368 31.3763 24.7996 30.5435 24.4442 30.1881L10.2626 16Z"></path>
+                                </svg>
+                            </div>
                         </div>
 
                     </div>
@@ -291,6 +295,32 @@
                     if (response.data.success) {
                         document.getElementById('show-event-modal').classList.add('hidden');
                         window.calendar.getEventById(id).remove();
+                    }
+                });
+            }
+
+            function showAddContactModal() {
+                document.getElementById('add-contact-modal').classList.remove('hidden');
+                document.getElementById('add-contact-modal-opacity').classList.remove('hidden');
+            }
+
+            function closeAddContactModal() {
+                document.getElementById('add-contact-modal').classList.add('hidden');
+                document.getElementById('add-contact-modal-opacity').classList.add('hidden');
+            }
+
+
+            function addContact(id) {
+                let url = "{{ route('contacts.add') }}";
+                let response = axios.post(url, {
+                    user_id: id
+                });
+                response.then(function(response) {
+                    if (response.data.success) {
+                        document.getElementById('user-add-icon-add-' + id).classList.add('hidden');
+                        document.getElementById('user-add-icon-added-' + id).classList.remove('hidden');
+                        document.getElementById('user-add-icon-' + id).setAttribute('fill', '#1f5c1b');
+                        document.getElementById('user-text-' + id).classList.add('text-[#1f5c1b]');
                     }
                 });
             }
