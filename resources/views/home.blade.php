@@ -268,179 +268,185 @@
             </div>
 
         </div>
-        @endsection
+    </div>
+    @endsection
 
-        @section("script")
-        <script>
-            function closeNewModal() {
-                document.getElementById('new-event-modal').classList.add('hidden');
-                return false;
-            }
+    @section("script")
+    <script>
+        function closeNewModal() {
+            document.getElementById('new-event-modal').classList.add('hidden');
+            return false;
+        }
 
-            function closeShowModal() {
-                document.getElementById('show-event-modal').classList.add('hidden');
-                return false;
-            }
+        function closeShowModal() {
+            document.getElementById('show-event-modal').classList.add('hidden');
+            return false;
+        }
 
-            function closeUpdateModal() {
-                document.getElementById('update-event-modal').classList.add('hidden');
-                return false;
-            }
+        function closeUpdateModal() {
+            document.getElementById('update-event-modal').classList.add('hidden');
+            return false;
+        }
 
-            function destroyEvent() {
-                let id = document.getElementById('eventId').value;
-                let url = "{{ route('events.destroy', ':id') }}";
-                let response = axios.delete(url.replace(':id', id));
-                response.then(function(response) {
-                    if (response.data.success) {
-                        document.getElementById('show-event-modal').classList.add('hidden');
-                        window.calendar.getEventById(id).remove();
-                    }
-                });
-            }
-
-            function showAddContactModal() {
-                document.getElementById('add-contact-modal').classList.remove('hidden');
-                document.getElementById('add-contact-modal-opacity').classList.remove('hidden');
-            }
-
-            function closeAddContactModal() {
-                document.getElementById('add-contact-modal').classList.add('hidden');
-                document.getElementById('add-contact-modal-opacity').classList.add('hidden');
-            }
-
-
-            function addContact(id) {
-                let url = "{{ route('contacts.add') }}";
-                let response = axios.post(url, {
-                    user_id: id
-                });
-                response.then(function(response) {
-                    if (response.data.success) {
-                        document.getElementById('user-add-icon-add-' + id).classList.add('hidden');
-                        document.getElementById('user-add-icon-added-' + id).classList.remove('hidden');
-                        document.getElementById('user-add-icon-' + id).setAttribute('fill', '#1f5c1b');
-                        document.getElementById('user-text-' + id).classList.add('text-[#1f5c1b]');
-                    }
-                });
-            }
-
-            function acceptContact(id, notificationId) {
-                let url = "{{ route('contacts.respond') }}";
-                let response = axios.post(url, {
-                    user_id: id,
-                    status: 'accept',
-                    notification_id: notificationId
-                });
-                response.then(function(response) {
-                    if (response.data.success) {
-                        document.getElementById('user-notification-' + id).classList.add('hidden');
-                    }else{
-                        console.log(response.data.error);
-                    }
-                });
-            }
-
-            function declineContact(id, notificationId){
-                let url = "{{ route('contacts.respond') }}";
-                let response = axios.post(url, {
-                    user_id: id,
-                    status: 'deny',
-                    notification_id: notificationId
-                });
-                response.then(function(response) {
-                    if (response.data.success) {
-                        document.getElementById('user-notification-' + id).classList.add('hidden');
-                    }else{
-                        console.log(response.data.error);
-                    }
-                });
-            }
-
-            function blockContact(id, notificationId){
-                let url = "{{ route('contacts.respond') }}";
-                let response = axios.post(url, {
-                    user_id: id,
-                    status: 'block',
-                    notification_id: notificationId
-                });
-                response.then(function(response) {
-                    if (response.data.success) {
-                        document.getElementById('user-notification-' + id).classList.add('hidden');
-                    }else{
-                        console.log(response.data.error);
-                    }
-                });
-            }
-
-            function editEvent() {
-                let id = document.getElementById('eventId').value;
-                let url = "{{ route('events.update', ':id') }}";
-                let event = window.calendar.getEventById(id);
-                let dt = event.start;;
-                document.getElementById('update-event-form').action = url.replace(':id', id);
-
-                document.getElementById('update-event-show-title').innerText = event._def.title;
-                document.getElementById('update-event-id').value = event.id;
-                document.getElementById('update-timezone').value = new Date().toString().slice(25, 33);
-                document.getElementById('update-event-title').value = event._def.title;
-                document.getElementById('update-event-description').value = event._def.extendedProps.description;
-                document.getElementById('update-event-startDate').value = window.formatDateForInput(event.start);
-                document.getElementById('update-event-endDate').value = window.formatDateForInput(event.end);
-                document.getElementById('update-event-fullDay').checked = event._def.extendedProps.fullDay;
-
-                document.getElementById('show-event-modal').classList.add('hidden');
-                document.getElementById('update-event-modal').classList.remove('hidden');
-            }
-
-            window.onload = function() {
-                initCalendar();
-                const elements = document.getElementsByClassName("load");
-                const newEventModalOpacity = document.getElementById("new-event-modal-opacity");
-                const newEventModal = document.getElementById('new-event-modal');
-                const showEventModalOpacity = document.getElementById("show-event-modal-opacity");
-                const showEventModal = document.getElementById('show-event-modal');
-
-                document.getElementById("timezone").value = new Date().toString().slice(25, 33);
-
-                document.getElementById("fullDay").addEventListener("change", function() {
-                    if (this.checked) {
-                        document.getElementById("endDate").value = document.getElementById("startDate").value.slice(0, 10) + "T23:59";
-                    }
-                });
-                document.getElementById("startDate").addEventListener("change", function() {
-                    console.log(this.value);
-                    if (document.getElementById("fullDay").checked) {
-                        document.getElementById("endDate").value = document.getElementById("startDate").value.slice(0, 10) + "T23:59";
-                    }
-                });
-                newEventModalOpacity.addEventListener('click', () => {
-                    newEventModal.classList.add('hidden');
-                });
-                showEventModalOpacity.addEventListener('click', () => {
-                    showEventModal.classList.add('hidden');
-                });
-
-                while (elements.length > 0) {
-                    elements[0].parentNode.removeChild(elements[0]);
+        function destroyEvent() {
+            let id = document.getElementById('eventId').value;
+            let url = "{{ route('events.destroy', ':id') }}";
+            let response = axios.delete(url.replace(':id', id));
+            response.then(function(response) {
+                if (response.data.success) {
+                    document.getElementById('show-event-modal').classList.add('hidden');
+                    window.calendar.getEventById(id).remove();
                 }
-            }
-        </script>
-        <script>
-            function unshowUser(id) {
-                const checked = document.getElementById("user-checked-" + id);
-                const checkbox = document.getElementById("user-checkbox-show-" + id);
-                const text = document.getElementById("user-text-" + id);
+            });
+        }
 
-                if (checked.value == "true") {
-                    checked.value = "false";
-                    checkbox.classList.add('hidden');
-                    text.classList.add('line-through');
+        function showAddContactModal() {
+            document.getElementById('add-contact-modal').classList.remove('hidden');
+            document.getElementById('add-contact-modal-opacity').classList.remove('hidden');
+        }
+
+        function closeAddContactModal() {
+            document.getElementById('add-contact-modal').classList.add('hidden');
+            document.getElementById('add-contact-modal-opacity').classList.add('hidden');
+        }
+
+
+        function addContact(id) {
+            let url = "{{ route('contacts.add') }}";
+            let response = axios.post(url, {
+                user_id: id
+            });
+            response.then(function(response) {
+                if (response.data.success) {
+                    document.getElementById('user-add-icon-add-' + id).classList.add('hidden');
+                    document.getElementById('user-add-icon-added-' + id).classList.remove('hidden');
+                    document.getElementById('user-add-icon-' + id).setAttribute('fill', '#1f5c1b');
+                    document.getElementById('user-text-' + id).classList.add('text-[#1f5c1b]');
+                }
+            });
+        }
+
+        function acceptContact(id, notificationId) {
+            let url = "{{ route('contacts.respond') }}";
+            let response = axios.post(url, {
+                user_id: id,
+                status: 'accept',
+                notification_id: notificationId
+            });
+            response.then(function(response) {
+                if (response.data.success) {
+                    document.getElementById('user-notification-' + id).classList.add('hidden');
                 } else {
-                    checked.value = "true";
-                    checkbox.classList.remove('hidden');
-                    text.classList.remove('line-through');
+                    console.log(response.data.error);
                 }
+            });
+        }
+
+        function declineContact(id, notificationId) {
+            let url = "{{ route('contacts.respond') }}";
+            let response = axios.post(url, {
+                user_id: id,
+                status: 'deny',
+                notification_id: notificationId
+            });
+            response.then(function(response) {
+                if (response.data.success) {
+                    document.getElementById('user-notification-' + id).classList.add('hidden');
+                } else {
+                    console.log(response.data.error);
+                }
+            });
+        }
+
+        function blockContact(id, notificationId) {
+            let url = "{{ route('contacts.respond') }}";
+            let response = axios.post(url, {
+                user_id: id,
+                status: 'block',
+                notification_id: notificationId
+            });
+            response.then(function(response) {
+                if (response.data.success) {
+                    document.getElementById('user-notification-' + id).classList.add('hidden');
+                } else {
+                    console.log(response.data.error);
+                }
+            });
+        }
+
+        function editEvent() {
+            let id = document.getElementById('eventId').value;
+            let url = "{{ route('events.update', ':id') }}";
+            let event = window.calendar.getEventById(id);
+            let dt = event.start;;
+
+            document.getElementById('update-event-form').action = url.replace(':id', id);
+
+            document.getElementById('update-event-show-title').innerText = event._def.title;
+            document.getElementById('update-event-id').value = event.id;
+            document.getElementById('update-timezone').value = new Date().toString().slice(25, 33);
+            document.getElementById('update-event-title').value = event._def.title;
+            document.getElementById('update-event-description').value = event._def.extendedProps.description;
+            document.getElementById('update-event-startDate').value = window.formatDateForInput(event.start);
+            let enddate = event.end;
+            if(event._def.extendedProps.fullDay) {
+                enddate = new Date(event.start.toString());
+                enddate.setDate(enddate.getDate() + 1);
             }
-        </script>
-        @endsection
+            document.getElementById('update-event-endDate').value = window.formatDateForInput(enddate);
+            document.getElementById('update-event-fullDay').checked = event._def.extendedProps.fullDay;
+
+            document.getElementById('show-event-modal').classList.add('hidden');
+            document.getElementById('update-event-modal').classList.remove('hidden');
+        }
+
+        window.onload = function() {
+            initCalendar();
+            const elements = document.getElementsByClassName("load");
+            const newEventModalOpacity = document.getElementById("new-event-modal-opacity");
+            const newEventModal = document.getElementById('new-event-modal');
+            const showEventModalOpacity = document.getElementById("show-event-modal-opacity");
+            const showEventModal = document.getElementById('show-event-modal');
+
+            document.getElementById("timezone").value = new Date().toString().slice(25, 33);
+
+            document.getElementById("fullDay").addEventListener("change", function() {
+                if (this.checked) {
+                    document.getElementById("endDate").value = document.getElementById("startDate").value.slice(0, 10) + "T23:59";
+                }
+            });
+            document.getElementById("startDate").addEventListener("change", function() {
+                if (document.getElementById("fullDay").checked) {
+                    document.getElementById("endDate").value = document.getElementById("startDate").value.slice(0, 10) + "T23:59";
+                }
+            });
+            newEventModalOpacity.addEventListener('click', () => {
+                newEventModal.classList.add('hidden');
+            });
+            showEventModalOpacity.addEventListener('click', () => {
+                showEventModal.classList.add('hidden');
+            });
+
+            while (elements.length > 0) {
+                elements[0].parentNode.removeChild(elements[0]);
+            }
+        }
+    </script>
+    <script>
+        function unshowUser(id) {
+            const checked = document.getElementById("user-checked-" + id);
+            const checkbox = document.getElementById("user-checkbox-show-" + id);
+            const text = document.getElementById("user-text-" + id);
+
+            if (checked.value == "true") {
+                checked.value = "false";
+                checkbox.classList.add('hidden');
+                text.classList.add('line-through');
+            } else {
+                checked.value = "true";
+                checkbox.classList.remove('hidden');
+                text.classList.remove('line-through');
+            }
+        }
+    </script>
+    @endsection
