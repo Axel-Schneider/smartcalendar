@@ -26,6 +26,7 @@ class ContactRespondRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'status' => 'required|in:accept,deny,block',
+            'notification_id' => 'required|exists:notifications,id',
         ];
     }
 }

@@ -12,6 +12,7 @@ use App\Http\Requests\ContactRequest;
 use App\Http\Requests\ContactRespondRequest;
 use PhpParser\Node\Expr\AssignOp\Concat;
 use App\Notifications\ContactAddedNotification;
+use Illuminate\Notifications\Notification;
 
 class ContactController extends Controller
 {
@@ -39,6 +40,7 @@ class ContactController extends Controller
             return response()->json(['error' => 'User not in your contact request'], 403);
         } else{
             if($contact->first()->status == 'waiting'){
+                auth()->user()->notifications()->where('id', '=', $request->notification_id)->first()->markAsRead();
                 $contact->first()->status = $request->status;
                 $contact->first()->save();
                 if($request->status == 'block'){

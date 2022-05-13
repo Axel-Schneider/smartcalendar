@@ -325,16 +325,52 @@
                 });
             }
 
-            function acceptContact(id){
-                console.log(id);
+            function acceptContact(id, notificationId) {
+                let url = "{{ route('contacts.respond') }}";
+                let response = axios.post(url, {
+                    user_id: id,
+                    status: 'accept',
+                    notification_id: notificationId
+                });
+                response.then(function(response) {
+                    if (response.data.success) {
+                        document.getElementById('user-notification-' + id).classList.add('hidden');
+                    }else{
+                        console.log(response.data.error);
+                    }
+                });
             }
 
-            function declineContact(id){
-                console.log(id);
+            function declineContact(id, notificationId){
+                let url = "{{ route('contacts.respond') }}";
+                let response = axios.post(url, {
+                    user_id: id,
+                    status: 'deny',
+                    notification_id: notificationId
+                });
+                response.then(function(response) {
+                    if (response.data.success) {
+                        document.getElementById('user-notification-' + id).classList.add('hidden');
+                    }else{
+                        console.log(response.data.error);
+                    }
+                });
             }
 
-            function blockContact(id){
-                console.log(id);
+            function blockContact(id, notificationId){
+                let url = "{{ route('contacts.respond') }}";
+                let response = axios.post(url, {
+                    user_id: id,
+                    status: 'block',
+                    notification_id: notificationId
+                });
+                response.then(function(response) {
+                    if (response.data.success) {
+                        document.getElementById('user-notification-' + id).classList.add('hidden');
+                    }else{
+                        console.log(response.data.error);
+                    }
+                });
             }
 
             function editEvent() {

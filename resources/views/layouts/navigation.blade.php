@@ -27,12 +27,12 @@
             <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded shadow w-50 dark:bg-gray-700">
               <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
                 @foreach(auth()->user()->unreadNotifications as $notification)
-                <li>
+                <li id="user-notification-{{ $notification->data['from_id'] }}">
                   <div class="px-4 py-2 text-lg flex-auto hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white flex items-center justify-between">
                     <span>{{ $notification->data['from_name'] }}</span>
                     <span class="block flex-grow justify-end lg:flex lg:items-center lg:w-auto ml-4">
                       <div class="flex items-center">
-                        <span class="mr-4 roundedpy-1 px-1 hover:bg-gray-300 hover:shadow-lg" onclick="blockContact({{ $user->id }})">
+                        <span class="mr-4 roundedpy-1 px-1 hover:bg-gray-300 hover:shadow-lg" onclick="blockContact({{ $notification->data['from_id'] }}, '{{ $notification->id }}')">
                           <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_130_3696)">
                               <path d="M25.2672 18.113H14.2084C10.496 18.113 7.47559 21.1334 7.47559 24.8459V28.7354H32.0001V24.8459C32.0001 21.1335 28.9797 18.113 25.2672 18.113ZM30.5389 27.2743H8.93677V24.846C8.93677 21.9392 11.3016 19.5743 14.2084 19.5743H25.2671C28.1739 19.5743 30.5388 21.9392 30.5388 24.846L30.5389 27.2743Z" fill="#FF0000" />
@@ -41,7 +41,7 @@
                             </g>
                           </svg>
                         </span>
-                        <span class="mr-4 rounded py-1 px-1 hover:bg-gray-300 hover:shadow-lg" onclick="declineContact({{ $user->id }})">
+                        <span class="mr-4 rounded py-1 px-1 hover:bg-gray-300 hover:shadow-lg" onclick="declineContact({{ $notification->data['from_id'] }}, '{{ $notification->id }}')">
                           <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_130_3683)">
                               <path d="M25.2672 18.113H14.2084C10.496 18.113 7.47559 21.1334 7.47559 24.8459V28.7354H32.0001V24.8459C32.0001 21.1335 28.9797 18.113 25.2672 18.113ZM30.5389 27.2743H8.93677V24.846C8.93677 21.9392 11.3016 19.5743 14.2084 19.5743H25.2671C28.1739 19.5743 30.5388 21.9392 30.5388 24.846L30.5389 27.2743Z" fill="#2D2438" />
@@ -50,7 +50,7 @@
                             </g>
                           </svg>
                         </span>
-                        <span class="rounded py-1 px-1 hover:bg-gray-300 hover:shadow-lg" onclick="acceptContact({{ $user->id }})">
+                        <span class="rounded py-1 px-1 hover:bg-gray-300 hover:shadow-lg" onclick="acceptContact({{ $notification->data['from_id'] }}, '{{ $notification->id }}')">
                           <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_130_3689)">
                               <path d="M25.2672 18.113H14.2084C10.496 18.113 7.47559 21.1334 7.47559 24.8459V28.7354H32.0001V24.8459C32.0001 21.1335 28.9797 18.113 25.2672 18.113ZM30.5389 27.2743H8.93677V24.846C8.93677 21.9392 11.3016 19.5743 14.2084 19.5743H25.2671C28.1739 19.5743 30.5388 21.9392 30.5388 24.846L30.5389 27.2743Z" fill="#2D2438" />
