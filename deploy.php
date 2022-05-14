@@ -24,7 +24,7 @@ add('rsync', [
     'exclude' => [
         '.git',
         '/.env',
-        '/storage/',
+        // '/storage/',
         '/vendor/',
         '/node_modules/',
         '.github',
@@ -52,8 +52,8 @@ task('deploy', [
     'deploy:lock',
     'rsync', // Deploy code & built assets
     'deploy:secrets', // Deploy secrets
-    'deploy:shared',
     'deploy:vendors',
+    'artisan:storage:link', // |
     'artisan:view:cache',   // |
     'artisan:config:cache', // | Laravel specific steps 
     'artisan:optimize',     // |
@@ -67,7 +67,7 @@ task('deploy', [
 // Grabs the dotenv file from the github secret
 task('deploy:secrets', function () {
     file_put_contents(__DIR__ . '/.env', getenv('DOT_ENV'));
-    upload('.env', get('deploy_path') . '/shared');
+    upload('.env', get('release_path'));
 });
 
 after('deploy:failed', 'deploy:unlock');
