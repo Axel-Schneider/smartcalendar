@@ -37,6 +37,9 @@ class EventController extends Controller
         $event->endDate = $endDate;
         $event->fullDay = $request->boolean('fullDay');
         $event->recurring = false;
+        foreach ($request->sharedWith as $userId) {
+            $event->sharedWith()->attach($userId);
+        }
         $event->save();
 
         return redirect()->route('home');
