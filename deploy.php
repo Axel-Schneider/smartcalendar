@@ -7,6 +7,7 @@ require 'contrib/rsync.php';
 // Config
 
 set('repository', 'https://github.com/Tirya/smartcalendar.git');
+set('bin/composer', '/usr/bin/composer');
 
 add('shared_files', []);
 add('shared_dirs', []);
@@ -68,3 +69,4 @@ task('deploy:secrets', function () {
 });
 
 after('deploy:failed', 'deploy:unlock');
+
