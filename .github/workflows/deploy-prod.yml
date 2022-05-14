@@ -23,7 +23,7 @@ jobs:
           path: public
   deploy:
     name: Deploy to Production
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     needs: [build-js]
     steps:
       - uses: actions/checkout@v1
