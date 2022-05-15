@@ -233,14 +233,14 @@
                                     <div>
                                         <li>
                                             <div class="flex items-center mt-2 text-gray-600 rounded-md hover:bg-gray-200 justify-between w-full" id="user-add-{{ $user->id }}">
-                                                <span id="user-text-{{ $user->id }}" class="font-medium flex-auto py-2 pl-4" onclick="showUserProfil({{ $user->id }})">
+                                                <span id="user-text-{{ $user->id }}" class="{{ (Auth::user()->isContact($user) || Auth::user()->isContactWaiting($user)) ? 'text-[#1f5c1b]' : '' }} font-medium flex-auto py-2 pl-4" onclick="showUserProfil({{ $user->id }})">
                                                     {{ $user->name }} {{ $user->lastname }}
                                                 </span>
                                                 <span class="mr-4 rounded justify-self-end flex-none py-1 px-1 hover:bg-gray-300 hover:shadow-lg" onclick="addContact({{ $user->id }})">
                                                     <svg width="22" height="22" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                                                        <g id="user-add-icon-{{ $user->id }}" fill="#000" fill-rule="evenodd">
-                                                            <path id="user-add-icon-add-{{ $user->id }}" d="M9.38403 15V13.0321L5.6251 13.0031V9.27856H3.7068V13.0031L0 13.0321V15H3.7068V18.6625H5.6251V15H9.38403Z" />
-                                                            <path id="user-add-icon-added-{{ $user->id }}" class="hidden" d="M1 12.7188L3.26562 14.9844L8.25 10" stroke="#1f5c1b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                        <g id="user-add-icon-{{ $user->id }}" fill="{{ (Auth::user()->isContact($user) || Auth::user()->isContactWaiting($user)) ? '#1f5c1b' : '#000' }}" fill-rule="evenodd">
+                                                            <path id="user-add-icon-add-{{ $user->id }}" class="{{ (Auth::user()->isContact($user) || Auth::user()->isContactWaiting($user)) ? 'hidden' : '' }}" d="M9.38403 15V13.0321L5.6251 13.0031V9.27856H3.7068V13.0031L0 13.0321V15H3.7068V18.6625H5.6251V15H9.38403Z" />
+                                                            <path id="user-add-icon-added-{{ $user->id }}" class="{{ (Auth::user()->isContact($user) || Auth::user()->isContactWaiting($user)) ? '' : 'hidden' }}" d="M1 12.7188L3.26562 14.9844L8.25 10" stroke="#1f5c1b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                                             <path d="M25.2672 18.1129H14.2084C10.496 18.1129 7.47559 21.1333 7.47559 24.8458V28.7353H32.0001V24.8458C32.0001 21.1334 28.9797 18.1129 25.2672 18.1129ZM30 27H20H9.36551V24.8459C9.36551 21.9391 11.3016 20 14.2084 20H25.2672C28.174 20 30 21.9391 30 24.8459V27Z" />
                                                             <path d="M19.7377 17.4212C23.6406 17.4212 26.8159 14.2459 26.8159 10.3429C26.8159 6.44 23.6406 3.26465 19.7377 3.26465C15.8348 3.26465 12.6594 6.4399 12.6594 10.3429C12.6594 14.246 15.8348 17.4212 19.7377 17.4212ZM19.7377 5C22.8349 5 25 7.2457 25 10.343C25 13.4404 22.8349 15.6817 19.7377 15.6817C16.6404 15.6817 14.5 13.4403 14.5 10.343C14.5 7.2458 16.6404 5 19.7377 5Z" />
                                                         </g>
