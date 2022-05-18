@@ -157,30 +157,30 @@ window.initCalendar = function () {
     window.calendar = calendar;
 }
 
-window.formatDateForInput = function(date){
+window.formatDateForInput = function (date) {
     return `${date.getFullYear()}-${to2Digit(date.getMonth() + 1)}-${to2Digit(date.getDate())}T${to2Digit(date.getHours())}:${to2Digit(date.getMinutes())}`
 }
+window.setShow = function (input_id) {
 
-window.AddOption = function(){
+    const INPUT_ID = input_id || event.target.getAttribute('input-id');
+    const select = document.getElementById('select-input-select-' + INPUT_ID);
+    var result = [];
+    var options = select && select.options;
+    var opt;
+
+    for (var i = 0, iLen = options.length; i < iLen; i++) {
+        opt = options[i];
+
+        if (opt.selected) {
+            result.push(opt.text);
+        }
+    }
+    const SHOW_DIV = document.getElementById('select-input-show-' + INPUT_ID);
+    SHOW_DIV.innerHTML = (result.length > 0) ? result.join(', ') : SHOW_DIV.getAttribute('default-text');
+}
+window.AddOption = function () {
     const INPUT_OPTION_ID = event.target.getAttribute('input-option-id');
 
-    function setShow() {
-        const INPUT_ID = event.target.getAttribute('input-id');
-        const select = document.getElementById('select-input-select-' + INPUT_ID);
-        var result = [];
-        var options = select && select.options;
-        var opt;
-
-        for (var i = 0, iLen = options.length; i < iLen; i++) {
-            opt = options[i];
-
-            if (opt.selected) {
-                result.push(opt.text);
-            }
-        }
-        const SHOW_DIV = document.getElementById('select-input-show-' + INPUT_ID);
-        SHOW_DIV.innerHTML = (result.length > 0) ? result.join(', ') : SHOW_DIV.getAttribute('default-text');
-    }
     const USER_INPUT = document.getElementById("select-input-option-" + INPUT_OPTION_ID);
     if (USER_INPUT.selected) {
         USER_INPUT.removeAttribute("selected");

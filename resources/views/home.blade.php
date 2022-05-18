@@ -79,14 +79,14 @@
                         <div class="grid gap-6 mb-6 lg:grid-cols-2">
                             <div>
                                 <label for="startDate" class="@error('startDate') text-red-700 @enderror block mb-1 text-sm font-medium text-gray-900">{{__('start_date')}}</label>
-                                <input type="datetime-local" name="startDate" id="startDate" value="{{old('startDate')}}" class="@error('title') bg-red-50 border border-red-500 text-red-900 @enderror form-control bg-gray-50 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" required>
+                                <input type="datetime-local" name="startDate" id="startDate" value="{{old('startDate')}}" class="@error('startDate') bg-red-50 border border-red-500 text-red-900 @enderror form-control bg-gray-50 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" required>
                                 @error('startDate')
                                 <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{__('start_date-error')}}</p>
                                 @enderror
                             </div>
                             <div>
                                 <label for="endDate" class="@error('endDate') text-red-700 @enderror block mb-1 text-sm font-medium text-gray-900">{{__('end_date')}}</label>
-                                <input type="datetime-local" name="endDate" id="endDate" value="{{old('endDate')}}" class="@error('title') bg-red-50 border border-red-500 text-red-900 @enderror form-control bg-gray-50 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" required>
+                                <input type="datetime-local" name="endDate" id="endDate" value="{{old('endDate')}}" class="@error('endDate') bg-red-50 border border-red-500 text-red-900 @enderror form-control bg-gray-50 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" required>
                                 @error('endDate')
                                 <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{__('end_date-error')}}</p>
                                 @enderror
@@ -107,29 +107,23 @@
                         </div>
 
                         <div>
-                            <label for="sharedUsers" class="block mb-1 text-sm font-medium text-gray-900">{{__('start_date')}}</label>
-                            <div id="sharedUsers">
+                            <label for="sharedUsers" class="block mb-1 text-sm font-medium text-gray-900">{{__('shared_with')}}</label>
+                            <div id="sharedUsers" input-id="sharedWith">
                                 <button data-dropdown-toggle="dropdownsharedWith" class="form-control inline-flex justify-between bg-gray-50 w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="button">
-                                    <span id="select-input-show-sharedWith" default-text="Select users">Select users</span>
+                                    <span id="select-input-show-sharedWith" default-text="{{__('select_users')}}"></span>
                                 </button>
                                 <div id="dropdownsharedWith" class="z-10 hidden rounded border-2 bg-white divide-y divide-gray-100 w-full mx-3 dark:bg-gray-700">
                                     <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
                                         @foreach(Auth::user()->contacts() as $user)
                                         <li>
-                                            <div class="block px-4 py-2 hover:bg-gray-100" input-option-id="{{ $user->id }}" input-id="sharedWith" onclick="AddOption();">{{ $user->name }}</div>
+                                            <div class="block px-4 py-2 {{ old('modalName') == 'new-event-modal' ? ((in_array($user->id , old('sharedWith'))) ? 'bg-gray-600 text-white hover:bg-gray-700' : 'hover:bg-gray-100') : 'hover:bg-gray-100' }}" input-option-id="{{ $user->id }}" input-id="sharedWith" onclick="AddOption();">{{ $user->name }}</div>
                                         </li>
                                         @endforeach
                                     </ul>
                                 </div>
-                                @error('sharedWith')
-
-                                @foreach ($errors->all() as $error)
-                                <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $error }}</p>
-                                @endforeach
-                                @enderror
                                 <select class="hidden" multiple="multiple" name="sharedWith[]" id="select-input-select-sharedWith">
                                     @foreach(Auth::user()->contacts() as $user)
-                                    <option value="{{ $user->id }}" id="select-input-option-{{ $user->id }}">{{ $user->name }}</option>
+                                    <option value="{{ $user->id }}" id="select-input-option-{{ $user->id }}" {{ old('modalName') == 'new-event-modal' ? ((in_array($user->id , old('sharedWith'))) ? 'selected="selected"' : '') : '' }}>{{ $user->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -432,6 +426,7 @@
         }
 
         window.onload = function() {
+            setShow("sharedWith");
             initCalendar();
             const elements = document.getElementsByClassName("load");
             const newEventModalOpacity = document.getElementById("new-event-modal-opacity");
