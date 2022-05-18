@@ -66,7 +66,7 @@ class User extends Authenticatable
     }
 
     public function shareds() {
-        return $this->hasMany(Shared::class);
+        return $this->belongsToMany(Event::class, 'event_user');
     }
 
     public function events(){

@@ -18,6 +18,12 @@ class EventController extends Controller
             ->where('startDate', '>=', $start)
             ->where('startDate', '<=', $end)
             ->get();
+
+        $sharedEvents = Auth::user()->shareds()
+            ->where('startDate', '>=', $start)
+            ->where('startDate', '<=', $end)
+            ->get();
+
         $results = [];
         foreach ($events as $event) {
             $format = $event->fullDay ? 'Y-m-d' : 'c';
@@ -29,8 +35,24 @@ class EventController extends Controller
                 "fullDay" => $event->fullDay,
                 "recurring" => $event->recurring,
                 "description" => $event->description,
+                "sharedWith" => $event->sharedWith->pluck('name')->toArray(),
             ];
         }
+
+        foreach ($sharedEvents as $event) {
+            $format = $event->fullDay ? 'Y-m-d' : 'c';
+            $results[] = [
+                "id" => $event->id,
+                "title" => $event->title,
+                "start" => $event->startDate()->format($format),
+                "end" => $event->endDate()->format($format),
+                "fullDay" => $event->fullDay,
+                "recurring" => $event->recurring,
+                "description" => $event->description,
+                "owner" => $event->owner()->get()->pluck('name'),
+            ];
+        }
+
 
         return response()->json($results);
     }
