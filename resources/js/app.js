@@ -87,6 +87,8 @@ window.initCalendar = function () {
             }
             const showTitle = document.getElementById('event-show-title');
             const showDate = document.getElementById('event-show-date');
+            const showShared = document.getElementById('event-show-shareds');
+            const showOwner = document.getElementById('event-show-owner');
             const showDescription = document.getElementById('event-show-description');
             const popup = document.getElementById('show-event-modal');
             const trash = document.getElementById('eventId');
@@ -95,6 +97,21 @@ window.initCalendar = function () {
 
             showTitle.innerText = info.event._def.title;
             showDescription.innerText = info.event._def.extendedProps.description;
+            if(info.event._def.extendedProps.sharedWith != null && info.event._def.extendedProps.sharedWith.length > 0) {
+                showShared.innerText = info.event._def.extendedProps.sharedWith.join(', ');
+                document.getElementById('event-show-shareds-div').classList.remove('hidden');
+            } else {
+                showShared.innerText = "";
+                document.getElementById('event-show-shareds-div').classList.add('hidden');
+            }
+            if(info.event._def.extendedProps.owner != null) {
+                console.log(info.event._def.extendedProps.owner);
+                showOwner.innerText = info.event._def.extendedProps.owner;
+                document.getElementById('event-show-owner-div').classList.remove('hidden');
+            }else{
+                showOwner.innerText = "";
+                document.getElementById('event-show-owner-div').classList.add('hidden');
+            }
 
             if (info.event._def.allDay) {
                 date = info.event.start.toLocaleDateString(undefined, {

@@ -148,7 +148,7 @@
     </div>
     <div id="show-event-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex">
         <div id="show-event-modal-opacity" class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-        <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+        <div class="relative w-full max-w-2xl h-full md:h-auto">
             <input type="hidden" id="eventId" name="eventId">
             <div class="relative bg-white rounded-lg shadow">
                 <div class="p-4 rounded-t border-b">
@@ -156,6 +156,8 @@
                 </div>
                 <div class="p-6">
                     <p id="event-show-date" class="font-light mb-5"></p>
+                    <p id="event-show-shareds-div" class="font-normal text-sm mb-5"><span class="italic">Shared width :</span> <span id="event-show-shareds"></span></p>
+                    <p id="event-show-owner-div" class="font-normal text-sm mb-5"><span class="italic">Shared from :</span> <span id="event-show-owner"></span></p>
                     <p id="event-show-description" class="font-normal mb-8"></p>
                     <div class="flex justify-between">
                         <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="closeShowModal()">
