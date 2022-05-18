@@ -178,7 +178,8 @@ window.AddOption = function(){
                 result.push(opt.text);
             }
         }
-        document.getElementById('select-input-show-' + INPUT_ID).innerHTML = (result.length > 0) ? result.join(', ') : 'none';
+        const SHOW_DIV = document.getElementById('select-input-show-' + INPUT_ID);
+        SHOW_DIV.innerHTML = (result.length > 0) ? result.join(', ') : SHOW_DIV.getAttribute('default-text');
     }
     const USER_INPUT = document.getElementById("select-input-option-" + INPUT_OPTION_ID);
     if (USER_INPUT.selected) {

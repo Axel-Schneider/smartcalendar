@@ -105,6 +105,37 @@
                         <div class="mb-6">
                             <textarea name="description" id="description" placeholder="{{__('description')}}" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">{{old('description')}}</textarea>
                         </div>
+
+                        <div>
+                            <label for="sharedUsers" class="block mb-1 text-sm font-medium text-gray-900">{{__('start_date')}}</label>
+                            <div id="sharedUsers">
+                                <button data-dropdown-toggle="dropdownsharedWith" class="form-control inline-flex justify-between bg-gray-50 w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="button">
+                                    <span id="select-input-show-sharedWith" default-text="Select users">Select users</span>
+                                </button>
+                                <div id="dropdownsharedWith" class="z-10 hidden rounded border-2 bg-white divide-y divide-gray-100 w-full mx-3 dark:bg-gray-700">
+                                    <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+                                        @foreach(Auth::user()->contacts() as $user)
+                                        <li>
+                                            <div class="block px-4 py-2 hover:bg-gray-100" input-option-id="{{ $user->id }}" input-id="sharedWith" onclick="AddOption();">{{ $user->name }}</div>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                @error('sharedWith')
+
+                                @foreach ($errors->all() as $error)
+                                <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ $error }}</p>
+                                @endforeach
+                                @enderror
+                                <select class="hidden" multiple="multiple" name="sharedWith[]" id="select-input-select-sharedWith">
+                                    @foreach(Auth::user()->contacts() as $user)
+                                    <option value="{{ $user->id }}" id="select-input-option-{{ $user->id }}">{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+
                         <div class="flex justify-between mt-10">
                             <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="closeNewModal()">
                                 <svg width="32" height="32" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg%22%3E">
@@ -389,7 +420,7 @@
             document.getElementById('update-event-description').value = event._def.extendedProps.description;
             document.getElementById('update-event-startDate').value = window.formatDateForInput(event.start);
             let enddate = event.end;
-            if(event._def.extendedProps.fullDay) {
+            if (event._def.extendedProps.fullDay) {
                 enddate = new Date(event.start.toString());
                 enddate.setDate(enddate.getDate() + 1);
             }
