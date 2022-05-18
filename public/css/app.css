@@ -1699,8 +1699,14 @@ input:checked + .toggle-bg {
 .font-light {
   font-weight: 300;
 }
+.font-thin {
+  font-weight: 100;
+}
 .uppercase {
   text-transform: uppercase;
+}
+.italic {
+  font-style: italic;
 }
 .leading-5 {
   line-height: 1.25rem;
