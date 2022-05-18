@@ -22154,7 +22154,9 @@ window.initCalendar = function () {
       var showOwner = document.getElementById('event-show-owner');
       var showDescription = document.getElementById('event-show-description');
       var popup = document.getElementById('show-event-modal');
-      var trash = document.getElementById('eventId');
+      var inputId = document.getElementById('eventId');
+      var trash = document.getElementById('event-show-trash');
+      var modify = document.getElementById('event-show-modify');
       var date = "";
       showTitle.innerText = info.event._def.title;
       showDescription.innerText = info.event._def.extendedProps.description;
@@ -22171,9 +22173,13 @@ window.initCalendar = function () {
         console.log(info.event._def.extendedProps.owner);
         showOwner.innerText = info.event._def.extendedProps.owner;
         document.getElementById('event-show-owner-div').classList.remove('hidden');
+        trash.classList.add('hidden');
+        modify.classList.add('hidden');
       } else {
         showOwner.innerText = "";
         document.getElementById('event-show-owner-div').classList.add('hidden');
+        trash.classList.remove('hidden');
+        modify.classList.remove('hidden');
       }
 
       if (info.event._def.allDay) {
@@ -22229,7 +22235,7 @@ window.initCalendar = function () {
       }
 
       showDate.innerText = date;
-      trash.setAttribute('value', info.event.id.toString());
+      inputId.setAttribute('value', info.event.id.toString());
       popup.classList.remove("hidden");
     }
   });

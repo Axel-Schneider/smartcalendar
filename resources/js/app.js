@@ -91,7 +91,9 @@ window.initCalendar = function () {
             const showOwner = document.getElementById('event-show-owner');
             const showDescription = document.getElementById('event-show-description');
             const popup = document.getElementById('show-event-modal');
-            const trash = document.getElementById('eventId');
+            const inputId = document.getElementById('eventId');
+            const trash = document.getElementById('event-show-trash');
+            const modify = document.getElementById('event-show-modify');
 
             let date = "";
 
@@ -108,9 +110,13 @@ window.initCalendar = function () {
                 console.log(info.event._def.extendedProps.owner);
                 showOwner.innerText = info.event._def.extendedProps.owner;
                 document.getElementById('event-show-owner-div').classList.remove('hidden');
+                trash.classList.add('hidden');
+                modify.classList.add('hidden');
             }else{
                 showOwner.innerText = "";
                 document.getElementById('event-show-owner-div').classList.add('hidden');
+                trash.classList.remove('hidden');
+                modify.classList.remove('hidden');
             }
 
             if (info.event._def.allDay) {
@@ -166,7 +172,7 @@ window.initCalendar = function () {
             }
 
             showDate.innerText = date;
-            trash.setAttribute('value', info.event.id.toString());
+            inputId.setAttribute('value', info.event.id.toString());
             popup.classList.remove("hidden");
         }
     });
