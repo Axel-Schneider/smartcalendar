@@ -22222,6 +22222,47 @@ window.formatDateForInput = function (date) {
   return "".concat(date.getFullYear(), "-").concat(to2Digit(date.getMonth() + 1), "-").concat(to2Digit(date.getDate()), "T").concat(to2Digit(date.getHours()), ":").concat(to2Digit(date.getMinutes()));
 };
 
+window.AddOption = function () {
+  var INPUT_OPTION_ID = event.target.getAttribute('input-option-id');
+
+  function setShow() {
+    var INPUT_ID = event.target.getAttribute('input-id');
+    var select = document.getElementById('select-input-select-' + INPUT_ID);
+    var result = [];
+    var options = select && select.options;
+    var opt;
+
+    for (var i = 0, iLen = options.length; i < iLen; i++) {
+      opt = options[i];
+
+      if (opt.selected) {
+        result.push(opt.text);
+      }
+    }
+
+    var SHOW_DIV = document.getElementById('select-input-show-' + INPUT_ID);
+    SHOW_DIV.innerHTML = result.length > 0 ? result.join(', ') : SHOW_DIV.getAttribute('default-text');
+  }
+
+  var USER_INPUT = document.getElementById("select-input-option-" + INPUT_OPTION_ID);
+
+  if (USER_INPUT.selected) {
+    USER_INPUT.removeAttribute("selected");
+    event.target.classList.remove("bg-gray-600");
+    event.target.classList.remove("text-white");
+    event.target.classList.remove("hover:bg-gray-700");
+    event.target.classList.add("hover:bg-gray-100");
+  } else {
+    USER_INPUT.setAttribute("selected", "selected");
+    event.target.classList.add("bg-gray-600");
+    event.target.classList.add("text-white");
+    event.target.classList.add("hover:bg-gray-700");
+    event.target.classList.remove("hover:bg-gray-100");
+  }
+
+  setShow();
+};
+
 function to2Digit(number) {
   return ("0" + number).slice(-2);
 }
