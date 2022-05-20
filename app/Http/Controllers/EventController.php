@@ -71,6 +71,35 @@ class EventController extends Controller
         $event->endDate = $endDate;
         $event->fullDay = $request->boolean('fullDay');
         $event->save();
+        
+        foreach($event->sharedWith as $user){
+            $event->sharedWith()->updateExistingPivot($user->id, ['status' => 'none']);
+        }
+
+        if($event->owner->id == Auth::user()->id){
+            foreach($event->commonWith as $user){
+                $event->commonWith()->updateExistingPivot($user->id, ['status' => 'none']);
+            }
+        }
+
+        if($request->sharedWith != null){
+            foreach ($request->sharedWith as $userId) {
+                if($event->relationsShared()->where('user_id', '=', $userId)->exists()){
+                    $event->sharedWith()->updateExistingPivot($userId, ['status' => 'shared']);
+                }else{
+                    $event->sharedWith()->attach($userId, ['status' => 'shared']);
+                }
+            }
+        }
+        if($request->commonWith != null){
+            foreach ($request->commonWith as $userId) {
+                if($event->relationsShared()->where('user_id', '=', $userId)->exists()){
+                    $event->commonWith()->updateExistingPivot($userId, ['status' => 'common']);
+                }else{
+                    $event->commonWith()->attach($userId, ['status' => 'common']);
+                }
+            }
+        }
 
         return redirect()->route('home');
     }
