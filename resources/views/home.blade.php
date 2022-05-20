@@ -106,7 +106,7 @@
                             <textarea name="description" id="description" placeholder="{{__('description')}}" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">{{old('description')}}</textarea>
                         </div>
 
-                        <div>
+                        <div class="mb-6">
                             <label for="sharedUsers" class="block mb-1 text-sm font-medium text-gray-900">{{__('shared_with')}}</label>
                             <div id="sharedUsers" input-id="sharedWith">
                                 <button data-dropdown-toggle="dropdownsharedWith" class="form-control inline-flex justify-between bg-gray-50 w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="button">
@@ -123,11 +123,36 @@
                                 </div>
                                 <select class="hidden" multiple="multiple" name="sharedWith[]" id="select-input-select-sharedWith">
                                     @foreach(Auth::user()->contacts() as $user)
-                                    <option value="{{ $user->id }}" id="select-input-option-{{ $user->id }}" {{ old('modalName') == 'new-event-modal' ? ((in_array($user->id , old('sharedWith'))) ? 'selected="selected"' : '') : '' }}>{{ $user->name }}</option>
+                                    <option value="{{ $user->id }}" id="select-input-option-sharedWith-{{ $user->id }}" {{ old('modalName') == 'new-event-modal' ? ((in_array($user->id , old('sharedWith'))) ? 'selected="selected"' : '') : '' }}>{{ $user->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
+                        
+                        <div class="mb-6">
+                            <label for="commonUsers" class="block mb-1 text-sm font-medium text-gray-900">{{__('common_with')}}</label>
+                            <div id="commonUsers" input-id="commonWith">
+                                <button data-dropdown-toggle="dropdowncommonWith" class="form-control inline-flex justify-between bg-gray-50 w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="button">
+                                    <span id="select-input-show-commonWith" default-text="{{__('select_users')}}"></span>
+                                </button>
+                                <div id="dropdowncommonWith" class="z-10 hidden rounded border-2 bg-white divide-y divide-gray-100 w-full mx-3 dark:bg-gray-700">
+                                    <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+                                        @foreach(Auth::user()->contacts() as $user)
+                                        <li>
+                                            <div class="block px-4 py-2 {{ old('modalName') == 'new-event-modal' ? ((in_array($user->id , old('commonWith'))) ? 'bg-gray-600 text-white hover:bg-gray-700' : 'hover:bg-gray-100') : 'hover:bg-gray-100' }}" input-option-id="{{ $user->id }}" input-id="commonWith" onclick="AddOption();">{{ $user->name }}</div>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <select class="hidden" multiple="multiple" name="commonWith[]" id="select-input-select-commonWith">
+                                    @foreach(Auth::user()->contacts() as $user)
+                                    <option value="{{ $user->id }}" id="select-input-option-commonWith-{{ $user->id }}" {{ old('modalName') == 'new-event-modal' ? ((in_array($user->id , old('commonWith'))) ? 'selected="selected"' : '') : '' }}>{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+
 
 
                         <div class="flex justify-between mt-10">
@@ -429,6 +454,7 @@
 
         window.onload = function() {
             setShow("sharedWith");
+            setShow("commonWith");
             initCalendar();
             const elements = document.getElementsByClassName("load");
             const newEventModalOpacity = document.getElementById("new-event-modal-opacity");

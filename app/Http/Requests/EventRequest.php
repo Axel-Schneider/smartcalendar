@@ -31,6 +31,7 @@ class EventRequest extends FormRequest
             'timezone' => 'required|string',
             'modalName' => 'required|string',
             'sharedWith[]' => 'array',
+            'commonWith[]' => 'array',
         ];
     }
 }

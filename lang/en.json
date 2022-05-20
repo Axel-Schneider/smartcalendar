@@ -13,6 +13,8 @@
     "shared_with": "Shared with",
     "shared_from": "Shared from",
     "select_users": "Select users",
+    "common_with": "Common with",
+    "common_from": "Common from",
     "title-error": "Oops! You need a title!",
     "start_date-error": "Oops! You need a start date!",
     "end_date-error": "Oops! You need a end date!",

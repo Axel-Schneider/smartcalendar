@@ -201,17 +201,22 @@ window.setShow = function (input_id) {
     const SHOW_DIV = document.getElementById('select-input-show-' + INPUT_ID);
     SHOW_DIV.innerHTML = (result.length > 0) ? result.join(', ') : SHOW_DIV.getAttribute('default-text');
 }
+
 window.AddOption = function () {
     const INPUT_OPTION_ID = event.target.getAttribute('input-option-id');
-
-    const USER_INPUT = document.getElementById("select-input-option-" + INPUT_OPTION_ID);
+    const INPUT_ID = event.target.getAttribute('input-id');
+    console.log("select-input-option-" + INPUT_ID + "-" + INPUT_OPTION_ID);
+    const USER_INPUT = document.getElementById("select-input-option-" + INPUT_ID + "-" + INPUT_OPTION_ID);
+    
     if (USER_INPUT.selected) {
+        console.log("already selected");
         USER_INPUT.removeAttribute("selected");
         event.target.classList.remove("bg-gray-600");
         event.target.classList.remove("text-white");
         event.target.classList.remove("hover:bg-gray-700");
         event.target.classList.add("hover:bg-gray-100");
     } else {
+        console.log("not selected");
         USER_INPUT.setAttribute("selected", "selected");
         event.target.classList.add("bg-gray-600");
         event.target.classList.add("text-white");

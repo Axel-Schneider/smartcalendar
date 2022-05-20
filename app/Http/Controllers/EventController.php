@@ -39,7 +39,13 @@ class EventController extends Controller
         $event->save();
 
         foreach ($request->sharedWith as $userId) {
-            $event->sharedWith()->attach($userId);
+            if(in_array($userId ,$request->commonWith)){
+                $event->sharedWith()->attach($userId, ['status' => 'shared']);
+            }
+        }
+        
+        foreach ($request->commonWith as $userId) {
+            $event->commonWith()->attach($userId, ['status' => 'common']);
         }
 
 
