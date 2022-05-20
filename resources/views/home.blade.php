@@ -261,9 +261,9 @@
                                     <span id="select-input-show-update-sharedWith" default-text="{{__('select_users')}}"></span>
                                 </button>
                                 <div id="dropdownupdate-sharedWith" class="z-10 hidden rounded border-2 bg-white divide-y divide-gray-100 w-full mx-3 dark:bg-gray-700">
-                                    <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+                                    <ul id="dropdown-update-sharedWith-list-show" class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
                                         @foreach(Auth::user()->contacts() as $user)
-                                        <li>
+                                        <li incontact="true">
                                             <!--here-->
                                             <div id="dropdown-option-update-sharedWith-{{ $user->id }}" class="block px-4 py-2 {{ old('modalName') == 'new-event-modal' ? ((in_array($user->id , old('sharedWith'))) ? 'bg-gray-600 text-white hover:bg-gray-700' : 'hover:bg-gray-100') : 'hover:bg-gray-100' }}" input-option-id="{{ $user->id }}" input-id="update-sharedWith" onclick="AddOption();">{{ $user->name }}</div>
                                         </li>
@@ -479,6 +479,22 @@
             let event = window.calendar.getEventById(id);
             let dt = event.start;;
 
+            let dropdownUpdateList = document.getElementById('dropdown-update-sharedWith-list-show');
+            Array.from(dropdownUpdateList.children).forEach(function(item) {
+                let clickable = item.children[0];
+                let id = clickable.getAttribute('input-option-id');
+                let option = document.getElementById('select-input-option-update-sharedWith-' + id);
+                option.setAttribute('selected', 'selected');
+                clickable.click();
+                
+                if (!item.hasAttribute('incontact') || item.getAttribute('incontact') != 'true') {
+                    let option = document.getElementById('select-input-option-update-sharedWith-' + id);
+                    console.log(id);
+                    option.remove();
+                    dropdownUpdateList.removeChild(item);
+                }
+            });
+
             document.getElementById('update-event-form').action = url.replace(':id', id);
 
             document.getElementById('update-event-show-title').innerText = event._def.title;
@@ -497,12 +513,33 @@
 
             Object.keys(event._def.extendedProps.sharedWith).forEach(key => {
                 let select = document.getElementById('select-input-option-update-sharedWith-' + key);
-                if (select != null) {
+                if (select == null) {
+                    let selectList = document.getElementById('select-input-select-update-sharedWith');
+                    let option = new Option(event._def.extendedProps.sharedWith[key], key);
+                    option.setAttribute('id', 'select-input-option-update-sharedWith-' + key);
+                    option.setAttribute('selected', 'selected');
+                    selectList.appendChild(option);
+
+                    let dropdownList = document.getElementById('dropdown-update-sharedWith-list-show');
+                    let dropdownLi = document.createElement('li');
+                    let dropdownOption = document.createElement('div');
+                    dropdownOption.setAttribute('id', 'dropdown-option-update-sharedWith-' + key);
+                    dropdownOption.setAttribute('class', 'block px-4 py-2 bg-gray-600 text-white hover:bg-gray-700');
+                    dropdownOption.setAttribute('input-option-id', key);
+                    dropdownOption.setAttribute('input-id', 'update-sharedWith');
+                    dropdownOption.innerText = event._def.extendedProps.sharedWith[key];
+
+                    dropdownLi.appendChild(dropdownOption);
+                    dropdownList.appendChild(dropdownLi);
+
+                    select = document.getElementById('select-input-option-update-sharedWith-' + key);
+                    console.log(event._def.extendedProps.sharedWith[key]);
+                }else{
                     select.removeAttribute('selected');
                     document.getElementById('dropdown-option-update-sharedWith-' + key).click();
                 }
             });
-            if(event._def.extendedProps.owner == window.user.name){
+            if(event._def.extendedProps.owner == null){
                 document.getElementById('update-event-common-div').classList.remove('hidden');
             }else{
                 document.getElementById('update-event-common-div').classList.add('hidden');
