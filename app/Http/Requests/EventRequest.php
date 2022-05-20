@@ -23,14 +23,14 @@ class EventRequest extends FormRequest
      */
     public function rules()
     {
-        // dd($this->all());
         return [
             'title' => 'required|max:255',
-            'description' => 'required|string',
+            'description' => 'string',
             'startDate' => 'required|date',
             'endDate' => 'required|date',
             'timezone' => 'required|string',
             'modalName' => 'required|string',
+            'sharedWith[]' => 'array',
         ];
     }
 }

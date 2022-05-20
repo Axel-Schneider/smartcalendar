@@ -28,7 +28,6 @@ class EventController extends Controller
             $startDate = $startDate->format('Y-m-d 00:00:00');
             $endDate = $endDate->addDay()->format('Y-m-d 00:00:00');
         }
-
         $event = new Event();
         $event->user_id = Auth::user()->id;
         $event->title = $request->title;
@@ -38,6 +37,11 @@ class EventController extends Controller
         $event->fullDay = $request->boolean('fullDay');
         $event->recurring = false;
         $event->save();
+
+        foreach ($request->sharedWith as $userId) {
+            $event->sharedWith()->attach($userId);
+        }
+
 
         return redirect()->route('home');
     }

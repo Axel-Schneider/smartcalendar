@@ -22150,12 +22150,37 @@ window.initCalendar = function () {
 
       var showTitle = document.getElementById('event-show-title');
       var showDate = document.getElementById('event-show-date');
+      var showShared = document.getElementById('event-show-shareds');
+      var showOwner = document.getElementById('event-show-owner');
       var showDescription = document.getElementById('event-show-description');
       var popup = document.getElementById('show-event-modal');
-      var trash = document.getElementById('eventId');
+      var inputId = document.getElementById('eventId');
+      var trash = document.getElementById('event-show-trash');
+      var modify = document.getElementById('event-show-modify');
       var date = "";
       showTitle.innerText = info.event._def.title;
       showDescription.innerText = info.event._def.extendedProps.description;
+
+      if (info.event._def.extendedProps.sharedWith != null && info.event._def.extendedProps.sharedWith.length > 0) {
+        showShared.innerText = info.event._def.extendedProps.sharedWith.join(', ');
+        document.getElementById('event-show-shareds-div').classList.remove('hidden');
+      } else {
+        showShared.innerText = "";
+        document.getElementById('event-show-shareds-div').classList.add('hidden');
+      }
+
+      if (info.event._def.extendedProps.owner != null) {
+        console.log(info.event._def.extendedProps.owner);
+        showOwner.innerText = info.event._def.extendedProps.owner;
+        document.getElementById('event-show-owner-div').classList.remove('hidden');
+        trash.classList.add('hidden');
+        modify.classList.add('hidden');
+      } else {
+        showOwner.innerText = "";
+        document.getElementById('event-show-owner-div').classList.add('hidden');
+        trash.classList.remove('hidden');
+        modify.classList.remove('hidden');
+      }
 
       if (info.event._def.allDay) {
         date = info.event.start.toLocaleDateString(undefined, {
@@ -22210,7 +22235,7 @@ window.initCalendar = function () {
       }
 
       showDate.innerText = date;
-      trash.setAttribute('value', info.event.id.toString());
+      inputId.setAttribute('value', info.event.id.toString());
       popup.classList.remove("hidden");
     }
   });
@@ -22220,6 +22245,46 @@ window.initCalendar = function () {
 
 window.formatDateForInput = function (date) {
   return "".concat(date.getFullYear(), "-").concat(to2Digit(date.getMonth() + 1), "-").concat(to2Digit(date.getDate()), "T").concat(to2Digit(date.getHours()), ":").concat(to2Digit(date.getMinutes()));
+};
+
+window.setShow = function (input_id) {
+  var INPUT_ID = input_id || event.target.getAttribute('input-id');
+  var select = document.getElementById('select-input-select-' + INPUT_ID);
+  var result = [];
+  var options = select && select.options;
+  var opt;
+
+  for (var i = 0, iLen = options.length; i < iLen; i++) {
+    opt = options[i];
+
+    if (opt.selected) {
+      result.push(opt.text);
+    }
+  }
+
+  var SHOW_DIV = document.getElementById('select-input-show-' + INPUT_ID);
+  SHOW_DIV.innerHTML = result.length > 0 ? result.join(', ') : SHOW_DIV.getAttribute('default-text');
+};
+
+window.AddOption = function () {
+  var INPUT_OPTION_ID = event.target.getAttribute('input-option-id');
+  var USER_INPUT = document.getElementById("select-input-option-" + INPUT_OPTION_ID);
+
+  if (USER_INPUT.selected) {
+    USER_INPUT.removeAttribute("selected");
+    event.target.classList.remove("bg-gray-600");
+    event.target.classList.remove("text-white");
+    event.target.classList.remove("hover:bg-gray-700");
+    event.target.classList.add("hover:bg-gray-100");
+  } else {
+    USER_INPUT.setAttribute("selected", "selected");
+    event.target.classList.add("bg-gray-600");
+    event.target.classList.add("text-white");
+    event.target.classList.add("hover:bg-gray-700");
+    event.target.classList.remove("hover:bg-gray-100");
+  }
+
+  setShow();
 };
 
 function to2Digit(number) {

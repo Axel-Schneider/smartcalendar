@@ -23,11 +23,15 @@ class Event extends Model
     ];
 
     public function owner() {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function shareds() {
         return $this->hasMany(Shared::class);
+    }
+
+    public function sharedWith() {
+        return $this->belongsToMany(User::class, 'event_user');
     }
 
     public function recurringPatern() {

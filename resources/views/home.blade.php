@@ -79,14 +79,14 @@
                         <div class="grid gap-6 mb-6 lg:grid-cols-2">
                             <div>
                                 <label for="startDate" class="@error('startDate') text-red-700 @enderror block mb-1 text-sm font-medium text-gray-900">{{__('start_date')}}</label>
-                                <input type="datetime-local" name="startDate" id="startDate" value="{{old('startDate')}}" class="@error('title') bg-red-50 border border-red-500 text-red-900 @enderror form-control bg-gray-50 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" required>
+                                <input type="datetime-local" name="startDate" id="startDate" value="{{old('startDate')}}" class="@error('startDate') bg-red-50 border border-red-500 text-red-900 @enderror form-control bg-gray-50 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" required>
                                 @error('startDate')
                                 <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{__('start_date-error')}}</p>
                                 @enderror
                             </div>
                             <div>
                                 <label for="endDate" class="@error('endDate') text-red-700 @enderror block mb-1 text-sm font-medium text-gray-900">{{__('end_date')}}</label>
-                                <input type="datetime-local" name="endDate" id="endDate" value="{{old('endDate')}}" class="@error('title') bg-red-50 border border-red-500 text-red-900 @enderror form-control bg-gray-50 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" required>
+                                <input type="datetime-local" name="endDate" id="endDate" value="{{old('endDate')}}" class="@error('endDate') bg-red-50 border border-red-500 text-red-900 @enderror form-control bg-gray-50 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" required>
                                 @error('endDate')
                                 <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{__('end_date-error')}}</p>
                                 @enderror
@@ -105,6 +105,31 @@
                         <div class="mb-6">
                             <textarea name="description" id="description" placeholder="{{__('description')}}" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">{{old('description')}}</textarea>
                         </div>
+
+                        <div>
+                            <label for="sharedUsers" class="block mb-1 text-sm font-medium text-gray-900">{{__('shared_with')}}</label>
+                            <div id="sharedUsers" input-id="sharedWith">
+                                <button data-dropdown-toggle="dropdownsharedWith" class="form-control inline-flex justify-between bg-gray-50 w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="button">
+                                    <span id="select-input-show-sharedWith" default-text="{{__('select_users')}}"></span>
+                                </button>
+                                <div id="dropdownsharedWith" class="z-10 hidden rounded border-2 bg-white divide-y divide-gray-100 w-full mx-3 dark:bg-gray-700">
+                                    <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+                                        @foreach(Auth::user()->contacts() as $user)
+                                        <li>
+                                            <div class="block px-4 py-2 {{ old('modalName') == 'new-event-modal' ? ((in_array($user->id , old('sharedWith'))) ? 'bg-gray-600 text-white hover:bg-gray-700' : 'hover:bg-gray-100') : 'hover:bg-gray-100' }}" input-option-id="{{ $user->id }}" input-id="sharedWith" onclick="AddOption();">{{ $user->name }}</div>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <select class="hidden" multiple="multiple" name="sharedWith[]" id="select-input-select-sharedWith">
+                                    @foreach(Auth::user()->contacts() as $user)
+                                    <option value="{{ $user->id }}" id="select-input-option-{{ $user->id }}" {{ old('modalName') == 'new-event-modal' ? ((in_array($user->id , old('sharedWith'))) ? 'selected="selected"' : '') : '' }}>{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+
                         <div class="flex justify-between mt-10">
                             <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="closeNewModal()">
                                 <svg width="32" height="32" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg%22%3E">
@@ -123,7 +148,7 @@
     </div>
     <div id="show-event-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center flex">
         <div id="show-event-modal-opacity" class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-        <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+        <div class="relative w-full max-w-2xl h-full md:h-auto">
             <input type="hidden" id="eventId" name="eventId">
             <div class="relative bg-white rounded-lg shadow">
                 <div class="p-4 rounded-t border-b">
@@ -131,6 +156,8 @@
                 </div>
                 <div class="p-6">
                     <p id="event-show-date" class="font-light mb-5"></p>
+                    <p id="event-show-shareds-div" class="font-normal text-sm mb-5"><span class="italic">{{ __('shared_with') }} :</span> <span id="event-show-shareds"></span></p>
+                    <p id="event-show-owner-div" class="font-normal text-sm mb-5"><span class="italic">{{ __('shared_from') }} :</span> <span id="event-show-owner"></span></p>
                     <p id="event-show-description" class="font-normal mb-8"></p>
                     <div class="flex justify-between">
                         <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="closeShowModal()">
@@ -139,12 +166,12 @@
                             </svg>
                         </div>
                         <div class="flex justify-between space-x-5">
-                            <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="editEvent()">
+                            <div id="event-show-modify" class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="editEvent()">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 59.985 59.985" style="enable-background:new 0 0 59.985 59.985;" xml:space="preserve">
                                     <path d="M59.985,7c0-1.87-0.728-3.627-2.05-4.949S54.855,0,52.985,0s-3.627,0.729-4.95,2.051l-1.414,1.414l-4.243,4.242l0,0L4.536,45.551c-0.11,0.109-0.192,0.243-0.242,0.391L0.051,58.669c-0.12,0.359-0.026,0.756,0.242,1.023c0.19,0.19,0.446,0.293,0.707,0.293c0.106,0,0.212-0.017,0.316-0.052l12.728-4.243c0.147-0.049,0.281-0.132,0.391-0.241l37.843-37.843l0,0l4.242-4.242l0,0l1.415-1.415C59.257,10.627,59.985,8.87,59.985,7z M52.278,14.778l-7.071-7.071l1.414-1.414 l7.071,7.071L52.278,14.778z M5.68,48.109l6.197,6.196l-9.296,3.099L5.68,48.109z M13.728,53.328l-7.071-7.07L43.793,9.121l7.071,7.071L13.728,53.328z M55.106,11.95l-7.071-7.071l1.414-1.414C50.394,2.521,51.65,2,52.985,2s2.591,0.521,3.536,1.465s1.464,2.2,1.464,3.535s-0.52,2.591-1.464,3.535L55.106,11.95z" />
                                 </svg>
                             </div>
-                            <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="destroyEvent()">
+                            <div id="event-show-trash" class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="destroyEvent()">
                                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M26.6664 3.98301H20.4004C20.1792 1.75005 18.2903 0 16 0C13.7098 0 11.8209 1.75005 11.5997 3.98301H5.33373C3.45365 3.98301 1.92407 5.51258 1.92407 7.39266C1.92407 9.216 3.36271 10.7095 5.16448 10.7981V27.8822C5.16448 30.1528 7.01169 32 9.28226 32H22.7179C24.9885 32 26.8357 30.1528 26.8357 27.8822V10.7981C28.6375 10.7096 30.0761 9.21607 30.0761 7.39273C30.0761 5.51258 28.5465 3.98301 26.6664 3.98301ZM16 2.09378C17.1337 2.09378 18.0803 2.90848 18.2864 3.98301H13.7136C13.9197 2.90848 14.8663 2.09378 16 2.09378ZM24.7419 27.8823C24.7419 28.9984 23.8339 29.9063 22.7179 29.9063H9.28219C8.16613 29.9063 7.2582 28.9984 7.2582 27.8823V10.8024C8.11274 10.8024 24.0735 10.8024 24.7419 10.8024V27.8823ZM26.6664 8.70861C26.4482 8.70861 5.51931 8.70861 5.33373 8.70861C4.60816 8.70861 4.01786 8.1183 4.01786 7.39273C4.01786 6.66717 4.60816 6.07686 5.33373 6.07686H26.6664C27.392 6.07686 27.9823 6.66717 27.9823 7.39273C27.9823 8.1183 27.392 8.70861 26.6664 8.70861Z" fill="#2D2438" />
                                     <path d="M16 27.3813C16.5782 27.3813 17.0469 26.9126 17.0469 26.3344V14.2111C17.0469 13.6329 16.5783 13.1642 16 13.1642C15.4219 13.1642 14.9531 13.6329 14.9531 14.2111V26.3344C14.9531 26.9126 15.4219 27.3813 16 27.3813Z" fill="#2D2438" />
@@ -233,14 +260,14 @@
                                     <div>
                                         <li>
                                             <div class="flex items-center mt-2 text-gray-600 rounded-md hover:bg-gray-200 justify-between w-full" id="user-add-{{ $user->id }}">
-                                                <span id="user-text-{{ $user->id }}" class="font-medium flex-auto py-2 pl-4" onclick="showUserProfil({{ $user->id }})">
+                                                <span id="user-text-{{ $user->id }}" class="{{ (Auth::user()->isContact($user) || Auth::user()->isContactWaiting($user)) ? 'text-[#1f5c1b]' : '' }} font-medium flex-auto py-2 pl-4" onclick="showUserProfil({{ $user->id }})">
                                                     {{ $user->name }} {{ $user->lastname }}
                                                 </span>
                                                 <span class="mr-4 rounded justify-self-end flex-none py-1 px-1 hover:bg-gray-300 hover:shadow-lg" onclick="addContact({{ $user->id }})">
                                                     <svg width="22" height="22" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                                                        <g id="user-add-icon-{{ $user->id }}" fill="#000" fill-rule="evenodd">
-                                                            <path id="user-add-icon-add-{{ $user->id }}" d="M9.38403 15V13.0321L5.6251 13.0031V9.27856H3.7068V13.0031L0 13.0321V15H3.7068V18.6625H5.6251V15H9.38403Z" />
-                                                            <path id="user-add-icon-added-{{ $user->id }}" class="hidden" d="M1 12.7188L3.26562 14.9844L8.25 10" stroke="#1f5c1b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                                        <g id="user-add-icon-{{ $user->id }}" fill="{{ (Auth::user()->isContact($user) || Auth::user()->isContactWaiting($user)) ? '#1f5c1b' : '#000' }}" fill-rule="evenodd">
+                                                            <path id="user-add-icon-add-{{ $user->id }}" class="{{ (Auth::user()->isContact($user) || Auth::user()->isContactWaiting($user)) ? 'hidden' : '' }}" d="M9.38403 15V13.0321L5.6251 13.0031V9.27856H3.7068V13.0031L0 13.0321V15H3.7068V18.6625H5.6251V15H9.38403Z" />
+                                                            <path id="user-add-icon-added-{{ $user->id }}" class="{{ (Auth::user()->isContact($user) || Auth::user()->isContactWaiting($user)) ? '' : 'hidden' }}" d="M1 12.7188L3.26562 14.9844L8.25 10" stroke="#1f5c1b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                                             <path d="M25.2672 18.1129H14.2084C10.496 18.1129 7.47559 21.1333 7.47559 24.8458V28.7353H32.0001V24.8458C32.0001 21.1334 28.9797 18.1129 25.2672 18.1129ZM30 27H20H9.36551V24.8459C9.36551 21.9391 11.3016 20 14.2084 20H25.2672C28.174 20 30 21.9391 30 24.8459V27Z" />
                                                             <path d="M19.7377 17.4212C23.6406 17.4212 26.8159 14.2459 26.8159 10.3429C26.8159 6.44 23.6406 3.26465 19.7377 3.26465C15.8348 3.26465 12.6594 6.4399 12.6594 10.3429C12.6594 14.246 15.8348 17.4212 19.7377 17.4212ZM19.7377 5C22.8349 5 25 7.2457 25 10.343C25 13.4404 22.8349 15.6817 19.7377 15.6817C16.6404 15.6817 14.5 13.4403 14.5 10.343C14.5 7.2458 16.6404 5 19.7377 5Z" />
                                                         </g>
@@ -389,7 +416,7 @@
             document.getElementById('update-event-description').value = event._def.extendedProps.description;
             document.getElementById('update-event-startDate').value = window.formatDateForInput(event.start);
             let enddate = event.end;
-            if(event._def.extendedProps.fullDay) {
+            if (event._def.extendedProps.fullDay) {
                 enddate = new Date(event.start.toString());
                 enddate.setDate(enddate.getDate() + 1);
             }
@@ -401,6 +428,7 @@
         }
 
         window.onload = function() {
+            setShow("sharedWith");
             initCalendar();
             const elements = document.getElementsByClassName("load");
             const newEventModalOpacity = document.getElementById("new-event-modal-opacity");

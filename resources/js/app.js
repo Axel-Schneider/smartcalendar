@@ -87,14 +87,37 @@ window.initCalendar = function () {
             }
             const showTitle = document.getElementById('event-show-title');
             const showDate = document.getElementById('event-show-date');
+            const showShared = document.getElementById('event-show-shareds');
+            const showOwner = document.getElementById('event-show-owner');
             const showDescription = document.getElementById('event-show-description');
             const popup = document.getElementById('show-event-modal');
-            const trash = document.getElementById('eventId');
+            const inputId = document.getElementById('eventId');
+            const trash = document.getElementById('event-show-trash');
+            const modify = document.getElementById('event-show-modify');
 
             let date = "";
 
             showTitle.innerText = info.event._def.title;
             showDescription.innerText = info.event._def.extendedProps.description;
+            if(info.event._def.extendedProps.sharedWith != null && info.event._def.extendedProps.sharedWith.length > 0) {
+                showShared.innerText = info.event._def.extendedProps.sharedWith.join(', ');
+                document.getElementById('event-show-shareds-div').classList.remove('hidden');
+            } else {
+                showShared.innerText = "";
+                document.getElementById('event-show-shareds-div').classList.add('hidden');
+            }
+            if(info.event._def.extendedProps.owner != null) {
+                console.log(info.event._def.extendedProps.owner);
+                showOwner.innerText = info.event._def.extendedProps.owner;
+                document.getElementById('event-show-owner-div').classList.remove('hidden');
+                trash.classList.add('hidden');
+                modify.classList.add('hidden');
+            }else{
+                showOwner.innerText = "";
+                document.getElementById('event-show-owner-div').classList.add('hidden');
+                trash.classList.remove('hidden');
+                modify.classList.remove('hidden');
+            }
 
             if (info.event._def.allDay) {
                 date = info.event.start.toLocaleDateString(undefined, {
@@ -149,7 +172,7 @@ window.initCalendar = function () {
             }
 
             showDate.innerText = date;
-            trash.setAttribute('value', info.event.id.toString());
+            inputId.setAttribute('value', info.event.id.toString());
             popup.classList.remove("hidden");
         }
     });
@@ -157,8 +180,45 @@ window.initCalendar = function () {
     window.calendar = calendar;
 }
 
-window.formatDateForInput = function(date){
+window.formatDateForInput = function (date) {
     return `${date.getFullYear()}-${to2Digit(date.getMonth() + 1)}-${to2Digit(date.getDate())}T${to2Digit(date.getHours())}:${to2Digit(date.getMinutes())}`
+}
+window.setShow = function (input_id) {
+
+    const INPUT_ID = input_id || event.target.getAttribute('input-id');
+    const select = document.getElementById('select-input-select-' + INPUT_ID);
+    var result = [];
+    var options = select && select.options;
+    var opt;
+
+    for (var i = 0, iLen = options.length; i < iLen; i++) {
+        opt = options[i];
+
+        if (opt.selected) {
+            result.push(opt.text);
+        }
+    }
+    const SHOW_DIV = document.getElementById('select-input-show-' + INPUT_ID);
+    SHOW_DIV.innerHTML = (result.length > 0) ? result.join(', ') : SHOW_DIV.getAttribute('default-text');
+}
+window.AddOption = function () {
+    const INPUT_OPTION_ID = event.target.getAttribute('input-option-id');
+
+    const USER_INPUT = document.getElementById("select-input-option-" + INPUT_OPTION_ID);
+    if (USER_INPUT.selected) {
+        USER_INPUT.removeAttribute("selected");
+        event.target.classList.remove("bg-gray-600");
+        event.target.classList.remove("text-white");
+        event.target.classList.remove("hover:bg-gray-700");
+        event.target.classList.add("hover:bg-gray-100");
+    } else {
+        USER_INPUT.setAttribute("selected", "selected");
+        event.target.classList.add("bg-gray-600");
+        event.target.classList.add("text-white");
+        event.target.classList.add("hover:bg-gray-700");
+        event.target.classList.remove("hover:bg-gray-100");
+    }
+    setShow();
 }
 
 function to2Digit(number){
