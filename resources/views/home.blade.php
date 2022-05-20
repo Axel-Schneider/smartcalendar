@@ -97,13 +97,13 @@
                             <label for="fullDay" class="form-check-label">{{__('full_day')}}</label>
                         </div>
                         <div class="mb-6">
-                            <input type="text" name="title" id="title" placeholder="{{__('title')}}" value="{{old('title')}}" class="@error('title') bg-red-50 border border-red-500 text-red-900 @enderror bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                            <input type="text" name="title" id="title" placeholder="{{__('title')}}" maxlength="255" value="{{old('title')}}" class="@error('title') bg-red-50 border border-red-500 text-red-900 @enderror bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
                             @error('title')
                             <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{__('title-error')}}</p>
                             @enderror
                         </div>
                         <div class="mb-6">
-                            <textarea name="description" id="description" placeholder="{{__('description')}}" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">{{old('description')}}</textarea>
+                            <textarea name="description" id="description" maxlength="500000" placeholder="{{__('description')}}" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">{{old('description')}}</textarea>
                         </div>
 
                         <div class="mb-6">
@@ -174,7 +174,7 @@
             <input type="hidden" id="eventId" name="eventId">
             <div class="relative bg-white rounded-lg shadow">
                 <div class="p-4 rounded-t border-b">
-                    <h3 class="text-xl text-center text-gray-900 font-bold" id="event-show-title"></h3>
+                    <h3 class="text-xl text-center text-gray-900 font-bold break-words" id="event-show-title"></h3>
                 </div>
                 <div class="p-6">
                     <p id="event-show-date" class="font-light mb-5"></p>
