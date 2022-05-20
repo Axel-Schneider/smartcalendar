@@ -22,16 +22,30 @@ class EventController extends Controller
         $end = $request->query('end');
 
         $events = Event::where('user_id', '=', Auth::user()->id)
-            ->where('startDate', '>=', $start)
-            ->where('startDate', '<=', $end)
-            ->get();
+            ->orWhere(function ($query) use ($start, $end) {
+                $query->where('startDate', '>=', $start)
+                    ->where('startDate', '<=', $end);
+            })->orWhere(function ($query) use ($start, $end) {
+                $query->where('endDate', '>=', $start)
+                    ->where('endDate', '<=', $end);
+            })->orWhere(function ($query) use ($start, $end) {
+                $query->where('startDate', '<=', $start)
+                    ->where('endDate', '>=', $end);
+            })->get();
 
-        $sharedEvents = Auth::user()->shareds()
-            ->where('startDate', '>=', $start)
-            ->where('startDate', '<=', $end)
-            ->get();
-            
-        $events = $events->merge($sharedEvents);
+        // $sharedEvents = Auth::user()->shareds()
+        //     ->orWhere(function ($query) use ($start, $end) {
+        //         $query->where('startDate', '>=', $start)
+        //             ->where('startDate', '<=', $end);
+        //     })->orWhere(function ($query) use ($start, $end) {
+        //         $query->where('endDate', '>=', $start)
+        //             ->where('endDate', '<=', $end);
+        //     })->orWhere(function ($query) use ($start, $end) {
+        //         $query->where('startDate', '<=', $start)
+        //             ->where('endDate', '>=', $end);
+        //     })->get();
+
+        // $events = $events->merge($sharedEvents);
 
         $results = [];
         foreach ($events as $event) {
