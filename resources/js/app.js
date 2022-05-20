@@ -203,7 +203,6 @@ window.formatDateForInput = function (date) {
     return `${date.getFullYear()}-${to2Digit(date.getMonth() + 1)}-${to2Digit(date.getDate())}T${to2Digit(date.getHours())}:${to2Digit(date.getMinutes())}`
 }
 window.setShow = function (input_id) {
-
     const INPUT_ID = input_id || event.target.getAttribute('input-id');
     const select = document.getElementById('select-input-select-' + INPUT_ID);
     var result = [];
