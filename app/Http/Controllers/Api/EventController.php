@@ -30,7 +30,7 @@ class EventController extends Controller
             ->where('startDate', '>=', $start)
             ->where('startDate', '<=', $end)
             ->get();
-
+            
         $events = $events->merge($sharedEvents);
 
         $results = [];
@@ -47,6 +47,7 @@ class EventController extends Controller
                 "description" => $event->description,
                 "sharedWith" => (asPower($event)) ? $event->sharedWith->pluck('name', 'id')->toArray() : [],
                 "commonWith" => (asPower($event)) ? $event->commonWith()->where('user_id', '!=', Auth::user()->id)->get()->pluck('name', 'id')->toArray() : [],
+                "asPower" => asPower($event),
                 "owner" => ($owner->id != Auth::user()->id) ? $owner->name : null,
             ];
         }

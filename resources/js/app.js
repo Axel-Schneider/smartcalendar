@@ -114,12 +114,13 @@ window.initCalendar = function () {
             if (info.event._def.extendedProps.owner != null) {
                 showOwner.innerText = info.event._def.extendedProps.owner;
                 document.getElementById('event-show-owner-div').classList.remove('hidden');
-                if (Object.values(info.event._def.extendedProps.sharedWith).includes(window.user.name)) {
+                if (info.event._def.extendedProps.asPower) {
+                    if(info.event._def.extendedProps.owner == null) trash.classList.remove('hidden');
+                    else trash.classList.add('hidden');
+                    modify.classList.remove('hidden');
+                } else {
                     trash.classList.add('hidden');
                     modify.classList.add('hidden');
-                } else {
-                    trash.classList.remove('hidden');
-                    modify.classList.remove('hidden');
                 }
             } else {
                 console.log('not owner');
