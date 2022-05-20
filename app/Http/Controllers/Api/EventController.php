@@ -22,7 +22,21 @@ class EventController extends Controller
         $end = $request->query('end');
 
         $events = Event::where('user_id', '=', Auth::user()->id)
-            ->orWhere(function ($query) use ($start, $end) {
+            ->where(function ($query) use ($start, $end) {
+                $query->orWhere(function ($query) use ($start, $end) {
+                    $query->where('startDate', '>=', $start)
+                        ->where('startDate', '<=', $end);
+                })->orWhere(function ($query) use ($start, $end) {
+                    $query->where('endDate', '>=', $start)
+                        ->where('endDate', '<=', $end);
+                })->orWhere(function ($query) use ($start, $end) {
+                    $query->where('startDate', '<=', $start)
+                        ->where('endDate', '>=', $end);
+                });
+            })->get();
+
+        $sharedEvents = Auth::user()->shareds()->where(function ($query) use ($start, $end) {
+            $query->orWhere(function ($query) use ($start, $end) {
                 $query->where('startDate', '>=', $start)
                     ->where('startDate', '<=', $end);
             })->orWhere(function ($query) use ($start, $end) {
@@ -31,21 +45,10 @@ class EventController extends Controller
             })->orWhere(function ($query) use ($start, $end) {
                 $query->where('startDate', '<=', $start)
                     ->where('endDate', '>=', $end);
-            })->get();
+            });
+        })->get();
 
-        // $sharedEvents = Auth::user()->shareds()
-        //     ->orWhere(function ($query) use ($start, $end) {
-        //         $query->where('startDate', '>=', $start)
-        //             ->where('startDate', '<=', $end);
-        //     })->orWhere(function ($query) use ($start, $end) {
-        //         $query->where('endDate', '>=', $start)
-        //             ->where('endDate', '<=', $end);
-        //     })->orWhere(function ($query) use ($start, $end) {
-        //         $query->where('startDate', '<=', $start)
-        //             ->where('endDate', '>=', $end);
-        //     })->get();
-
-        // $events = $events->merge($sharedEvents);
+        $events = $events->merge($sharedEvents);
 
         $results = [];
         foreach ($events as $event) {
