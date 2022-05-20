@@ -30,6 +30,12 @@
         </main>
     </div>
     @yield('popup')
+    <script>
+        window.user = {
+                id: {{ Auth::user()->id }},
+                name: "{{ Auth::user()->name }}"
+            };
+    </script>
     @yield('script')
     <!-- Scripts -->
     <script src="{{asset('js/core/libraries/jquery.min.js')}}" type="text/javascript" defer></script>

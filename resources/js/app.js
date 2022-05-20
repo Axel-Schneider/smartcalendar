@@ -89,6 +89,7 @@ window.initCalendar = function () {
             const showDate = document.getElementById('event-show-date');
             const showShared = document.getElementById('event-show-shareds');
             const showOwner = document.getElementById('event-show-owner');
+            const showCommons = document.getElementById('event-show-commons');
             const showDescription = document.getElementById('event-show-description');
             const popup = document.getElementById('show-event-modal');
             const inputId = document.getElementById('eventId');
@@ -99,24 +100,42 @@ window.initCalendar = function () {
 
             showTitle.innerText = info.event._def.title;
             showDescription.innerText = info.event._def.extendedProps.description;
-            if(info.event._def.extendedProps.sharedWith != null && info.event._def.extendedProps.sharedWith.length > 0) {
-                showShared.innerText = info.event._def.extendedProps.sharedWith.join(', ');
+            if (info.event._def.extendedProps.sharedWith != null && Object.values(info.event._def.extendedProps.sharedWith).length > 0) {
+                showShared.innerText = Object.values(info.event._def.extendedProps.sharedWith).join(', ');
+
                 document.getElementById('event-show-shareds-div').classList.remove('hidden');
             } else {
                 showShared.innerText = "";
                 document.getElementById('event-show-shareds-div').classList.add('hidden');
             }
-            if(info.event._def.extendedProps.owner != null) {
-                console.log(info.event._def.extendedProps.owner);
+
+            console.log(Object.values(info.event._def.extendedProps.sharedWith));
+            console.log(window.user);
+            if (info.event._def.extendedProps.owner != null) {
                 showOwner.innerText = info.event._def.extendedProps.owner;
                 document.getElementById('event-show-owner-div').classList.remove('hidden');
-                trash.classList.add('hidden');
-                modify.classList.add('hidden');
-            }else{
+                if (info.event._def.extendedProps.asPower) {
+                    if(info.event._def.extendedProps.owner == null) trash.classList.remove('hidden');
+                    else trash.classList.add('hidden');
+                    modify.classList.remove('hidden');
+                } else {
+                    trash.classList.add('hidden');
+                    modify.classList.add('hidden');
+                }
+            } else {
+                console.log('not owner');
                 showOwner.innerText = "";
                 document.getElementById('event-show-owner-div').classList.add('hidden');
                 trash.classList.remove('hidden');
                 modify.classList.remove('hidden');
+            }
+
+            if (info.event._def.extendedProps.commonWith != null && Object.values(info.event._def.extendedProps.commonWith).length > 0) {
+                showCommons.innerText = Object.values(info.event._def.extendedProps.commonWith).join(', ');
+                document.getElementById('event-show-commons-div').classList.remove('hidden');
+            } else {
+                showCommons.innerText = "";
+                document.getElementById('event-show-commons-div').classList.add('hidden');
             }
 
             if (info.event._def.allDay) {
@@ -184,7 +203,6 @@ window.formatDateForInput = function (date) {
     return `${date.getFullYear()}-${to2Digit(date.getMonth() + 1)}-${to2Digit(date.getDate())}T${to2Digit(date.getHours())}:${to2Digit(date.getMinutes())}`
 }
 window.setShow = function (input_id) {
-
     const INPUT_ID = input_id || event.target.getAttribute('input-id');
     const select = document.getElementById('select-input-select-' + INPUT_ID);
     var result = [];
@@ -194,33 +212,39 @@ window.setShow = function (input_id) {
     for (var i = 0, iLen = options.length; i < iLen; i++) {
         opt = options[i];
 
-        if (opt.selected) {
+        if (opt.hasAttribute('selected')) {
             result.push(opt.text);
         }
     }
     const SHOW_DIV = document.getElementById('select-input-show-' + INPUT_ID);
     SHOW_DIV.innerHTML = (result.length > 0) ? result.join(', ') : SHOW_DIV.getAttribute('default-text');
 }
+
 window.AddOption = function () {
     const INPUT_OPTION_ID = event.target.getAttribute('input-option-id');
+    const INPUT_ID = event.target.getAttribute('input-id');
+    const USER_INPUT = document.getElementById("select-input-option-" + INPUT_ID + "-" + INPUT_OPTION_ID);
 
-    const USER_INPUT = document.getElementById("select-input-option-" + INPUT_OPTION_ID);
-    if (USER_INPUT.selected) {
+
+    if (USER_INPUT.hasAttribute('selected')) {
+        console.log('selected');
         USER_INPUT.removeAttribute("selected");
         event.target.classList.remove("bg-gray-600");
         event.target.classList.remove("text-white");
         event.target.classList.remove("hover:bg-gray-700");
         event.target.classList.add("hover:bg-gray-100");
     } else {
+        console.log('not selected');
         USER_INPUT.setAttribute("selected", "selected");
         event.target.classList.add("bg-gray-600");
         event.target.classList.add("text-white");
         event.target.classList.add("hover:bg-gray-700");
         event.target.classList.remove("hover:bg-gray-100");
     }
-    setShow();
+    console.log(INPUT_ID);
+    setShow(INPUT_ID);
 }
 
-function to2Digit(number){
+function to2Digit(number) {
     return ("0" + (number)).slice(-2);
 }

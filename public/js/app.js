@@ -22152,6 +22152,7 @@ window.initCalendar = function () {
       var showDate = document.getElementById('event-show-date');
       var showShared = document.getElementById('event-show-shareds');
       var showOwner = document.getElementById('event-show-owner');
+      var showCommons = document.getElementById('event-show-commons');
       var showDescription = document.getElementById('event-show-description');
       var popup = document.getElementById('show-event-modal');
       var inputId = document.getElementById('eventId');
@@ -22161,25 +22162,42 @@ window.initCalendar = function () {
       showTitle.innerText = info.event._def.title;
       showDescription.innerText = info.event._def.extendedProps.description;
 
-      if (info.event._def.extendedProps.sharedWith != null && info.event._def.extendedProps.sharedWith.length > 0) {
-        showShared.innerText = info.event._def.extendedProps.sharedWith.join(', ');
+      if (info.event._def.extendedProps.sharedWith != null && Object.values(info.event._def.extendedProps.sharedWith).length > 0) {
+        showShared.innerText = Object.values(info.event._def.extendedProps.sharedWith).join(', ');
         document.getElementById('event-show-shareds-div').classList.remove('hidden');
       } else {
         showShared.innerText = "";
         document.getElementById('event-show-shareds-div').classList.add('hidden');
       }
 
+      console.log(Object.values(info.event._def.extendedProps.sharedWith));
+      console.log(window.user);
+
       if (info.event._def.extendedProps.owner != null) {
-        console.log(info.event._def.extendedProps.owner);
         showOwner.innerText = info.event._def.extendedProps.owner;
         document.getElementById('event-show-owner-div').classList.remove('hidden');
-        trash.classList.add('hidden');
-        modify.classList.add('hidden');
+
+        if (info.event._def.extendedProps.asPower) {
+          if (info.event._def.extendedProps.owner == null) trash.classList.remove('hidden');else trash.classList.add('hidden');
+          modify.classList.remove('hidden');
+        } else {
+          trash.classList.add('hidden');
+          modify.classList.add('hidden');
+        }
       } else {
+        console.log('not owner');
         showOwner.innerText = "";
         document.getElementById('event-show-owner-div').classList.add('hidden');
         trash.classList.remove('hidden');
         modify.classList.remove('hidden');
+      }
+
+      if (info.event._def.extendedProps.commonWith != null && Object.values(info.event._def.extendedProps.commonWith).length > 0) {
+        showCommons.innerText = Object.values(info.event._def.extendedProps.commonWith).join(', ');
+        document.getElementById('event-show-commons-div').classList.remove('hidden');
+      } else {
+        showCommons.innerText = "";
+        document.getElementById('event-show-commons-div').classList.add('hidden');
       }
 
       if (info.event._def.allDay) {
@@ -22257,7 +22275,7 @@ window.setShow = function (input_id) {
   for (var i = 0, iLen = options.length; i < iLen; i++) {
     opt = options[i];
 
-    if (opt.selected) {
+    if (opt.hasAttribute('selected')) {
       result.push(opt.text);
     }
   }
@@ -22268,15 +22286,18 @@ window.setShow = function (input_id) {
 
 window.AddOption = function () {
   var INPUT_OPTION_ID = event.target.getAttribute('input-option-id');
-  var USER_INPUT = document.getElementById("select-input-option-" + INPUT_OPTION_ID);
+  var INPUT_ID = event.target.getAttribute('input-id');
+  var USER_INPUT = document.getElementById("select-input-option-" + INPUT_ID + "-" + INPUT_OPTION_ID);
 
-  if (USER_INPUT.selected) {
+  if (USER_INPUT.hasAttribute('selected')) {
+    console.log('selected');
     USER_INPUT.removeAttribute("selected");
     event.target.classList.remove("bg-gray-600");
     event.target.classList.remove("text-white");
     event.target.classList.remove("hover:bg-gray-700");
     event.target.classList.add("hover:bg-gray-100");
   } else {
+    console.log('not selected');
     USER_INPUT.setAttribute("selected", "selected");
     event.target.classList.add("bg-gray-600");
     event.target.classList.add("text-white");
@@ -22284,7 +22305,8 @@ window.AddOption = function () {
     event.target.classList.remove("hover:bg-gray-100");
   }
 
-  setShow();
+  console.log(INPUT_ID);
+  setShow(INPUT_ID);
 };
 
 function to2Digit(number) {

@@ -106,7 +106,7 @@
                             <textarea name="description" id="description" placeholder="{{__('description')}}" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">{{old('description')}}</textarea>
                         </div>
 
-                        <div>
+                        <div class="mb-6">
                             <label for="sharedUsers" class="block mb-1 text-sm font-medium text-gray-900">{{__('shared_with')}}</label>
                             <div id="sharedUsers" input-id="sharedWith">
                                 <button data-dropdown-toggle="dropdownsharedWith" class="form-control inline-flex justify-between bg-gray-50 w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="button">
@@ -123,12 +123,34 @@
                                 </div>
                                 <select class="hidden" multiple="multiple" name="sharedWith[]" id="select-input-select-sharedWith">
                                     @foreach(Auth::user()->contacts() as $user)
-                                    <option value="{{ $user->id }}" id="select-input-option-{{ $user->id }}" {{ old('modalName') == 'new-event-modal' ? ((in_array($user->id , old('sharedWith'))) ? 'selected="selected"' : '') : '' }}>{{ $user->name }}</option>
+                                    <option value="{{ $user->id }}" id="select-input-option-sharedWith-{{ $user->id }}" {{ old('modalName') == 'new-event-modal' ? ((in_array($user->id , old('sharedWith'))) ? 'selected="selected"' : '') : '' }}>{{ $user->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
 
+                        <div class="mb-6">
+                            <label for="commonUsers" class="block mb-1 text-sm font-medium text-gray-900">{{__('common_with')}}</label>
+                            <div id="commonUsers" input-id="commonWith">
+                                <button data-dropdown-toggle="dropdowncommonWith" class="form-control inline-flex justify-between bg-gray-50 w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="button">
+                                    <span id="select-input-show-commonWith" default-text="{{__('select_users')}}"></span>
+                                </button>
+                                <div id="dropdowncommonWith" class="z-10 hidden rounded border-2 bg-white divide-y divide-gray-100 w-full mx-3 dark:bg-gray-700">
+                                    <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+                                        @foreach(Auth::user()->contacts() as $user)
+                                        <li>
+                                            <div class="block px-4 py-2 {{ old('modalName') == 'new-event-modal' ? ((in_array($user->id , old('commonWith'))) ? 'bg-gray-600 text-white hover:bg-gray-700' : 'hover:bg-gray-100') : 'hover:bg-gray-100' }}" input-option-id="{{ $user->id }}" input-id="commonWith" onclick="AddOption();">{{ $user->name }}</div>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <select class="hidden" multiple="multiple" name="commonWith[]" id="select-input-select-commonWith">
+                                    @foreach(Auth::user()->contacts() as $user)
+                                    <option value="{{ $user->id }}" id="select-input-option-commonWith-{{ $user->id }}" {{ old('modalName') == 'new-event-modal' ? ((in_array($user->id , old('commonWith'))) ? 'selected="selected"' : '') : '' }}>{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="flex justify-between mt-10">
                             <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="closeNewModal()">
@@ -156,8 +178,11 @@
                 </div>
                 <div class="p-6">
                     <p id="event-show-date" class="font-light mb-5"></p>
-                    <p id="event-show-shareds-div" class="font-normal text-sm mb-5"><span class="italic">{{ __('shared_with') }} :</span> <span id="event-show-shareds"></span></p>
-                    <p id="event-show-owner-div" class="font-normal text-sm mb-5"><span class="italic">{{ __('shared_from') }} :</span> <span id="event-show-owner"></span></p>
+                    <div class="mb-5">
+                        <p id="event-show-owner-div" class="font-normal text-sm mb-1"><span class="italic">{{ __('shared_from') }} :</span> <span id="event-show-owner"></span></p>
+                        <p id="event-show-shareds-div" class="font-normal text-sm mb-1"><span class="italic">{{ __('shared_with') }} :</span> <span id="event-show-shareds"></span></p>
+                        <p id="event-show-commons-div" class="font-normal text-sm mb-1"><span class="italic">{{ __('common_with') }} :</span> <span id="event-show-commons"></span></p>
+                    </div>
                     <p id="event-show-description" class="font-normal mb-8"></p>
                     <div class="flex justify-between">
                         <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="closeShowModal()">
@@ -227,6 +252,53 @@
                         </div>
                         <div class="mb-6">
                             <textarea name="description" id="update-event-description" placeholder="{{__('description')}}" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500">{{old('description')}}</textarea>
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="update-sharedUsers" class="block mb-1 text-sm font-medium text-gray-900">{{__('shared_with')}}</label>
+                            <div id="update-sharedUsers" input-id="update-sharedWith">
+                                <button data-dropdown-toggle="dropdownupdate-sharedWith" class="form-control inline-flex justify-between bg-gray-50 w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="button">
+                                    <span id="select-input-show-update-sharedWith" default-text="{{__('select_users')}}"></span>
+                                </button>
+                                <div id="dropdownupdate-sharedWith" class="z-10 hidden rounded border-2 bg-white divide-y divide-gray-100 w-full mx-3 dark:bg-gray-700">
+                                    <ul id="dropdown-update-sharedWith-list-show" class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+                                        @foreach(Auth::user()->contacts() as $user)
+                                        <li incontact="true">
+                                            <!--here-->
+                                            <div id="dropdown-option-update-sharedWith-{{ $user->id }}" class="block px-4 py-2 {{ old('modalName') == 'new-event-modal' ? ((in_array($user->id , old('sharedWith'))) ? 'bg-gray-600 text-white hover:bg-gray-700' : 'hover:bg-gray-100') : 'hover:bg-gray-100' }}" input-option-id="{{ $user->id }}" input-id="update-sharedWith" onclick="AddOption();">{{ $user->name }}</div>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <select class="hidden" multiple="multiple" name="sharedWith[]" id="select-input-select-update-sharedWith">
+                                    @foreach(Auth::user()->contacts() as $user)
+                                    <option value="{{ $user->id }}" id="select-input-option-update-sharedWith-{{ $user->id }}" {{ old('modalName') == 'new-event-modal' ? ((in_array($user->id , old('sharedWith'))) ? 'selected="selected"' : '') : '' }}>{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-6" id="update-event-common-div">
+                            <label for="update-commonUsers" class="block mb-1 text-sm font-medium text-gray-900">{{__('common_with')}}</label>
+                            <div id="update-commonUsers" input-id="update-commonWith">
+                                <button data-dropdown-toggle="dropdownupdate-commonWith" class="form-control inline-flex justify-between bg-gray-50 w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="button">
+                                    <span id="select-input-show-update-commonWith" default-text="{{__('select_users')}}"></span>
+                                </button>
+                                <div id="dropdownupdate-commonWith" class="z-10 hidden rounded border-2 bg-white divide-y divide-gray-100 w-full mx-3 dark:bg-gray-700">
+                                    <ul id="dropdown-update-commonWith-list-show" class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefault">
+                                        @foreach(Auth::user()->contacts() as $user)
+                                        <li>
+                                            <div id="dropdown-option-update-commonWith-{{ $user->id }}" class="block px-4 py-2 {{ old('modalName') == 'new-event-modal' ? ((in_array($user->id , old('commonWith'))) ? 'bg-gray-600 text-white hover:bg-gray-700' : 'hover:bg-gray-100') : 'hover:bg-gray-100' }}" input-option-id="{{ $user->id }}" input-id="update-commonWith" onclick="AddOption();">{{ $user->name }}</div>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <select class="hidden" multiple="multiple" name="commonWith[]" id="select-input-select-update-commonWith">
+                                    @foreach(Auth::user()->contacts() as $user)
+                                    <option value="{{ $user->id }}" id="select-input-option-update-commonWith-{{ $user->id }}" {{ old('modalName') == 'new-event-modal' ? ((in_array($user->id , old('commonWith'))) ? 'selected="selected"' : '') : '' }}>{{ $user->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="flex justify-between mt-10">
                             <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="closeUpdateModal()">
@@ -407,8 +479,34 @@
             let event = window.calendar.getEventById(id);
             let dt = event.start;;
 
-            document.getElementById('update-event-form').action = url.replace(':id', id);
+            let dropdownUpdateListShared = document.getElementById('dropdown-update-sharedWith-list-show');
+            Array.from(dropdownUpdateListShared.children).forEach(function(item) {
+                let clickable = item.children[0];
+                let id = clickable.getAttribute('input-option-id');
+                let option = document.getElementById('select-input-option-update-sharedWith-' + id);
+                option.setAttribute('selected', 'selected');
+                clickable.click();
+                
+                if (!item.hasAttribute('incontact') || item.getAttribute('incontact') != 'true') {
+                    let option = document.getElementById('select-input-option-update-sharedWith-' + id);
+                    console.log(id);
+                    option.remove();
+                    dropdownUpdateListShared.removeChild(item);
+                }
+            });
 
+            let dropdownUpdateListCommon = document.getElementById('dropdown-update-commonWith-list-show');
+            Array.from(dropdownUpdateListCommon.children).forEach(function(item) {
+                let clickable = item.children[0];
+                let id = clickable.getAttribute('input-option-id');
+                let option = document.getElementById('select-input-option-update-commonWith-' + id);
+                console.log(option)
+                option.setAttribute('selected', 'selected');
+                clickable.click();
+            });
+
+
+            document.getElementById('update-event-form').action = url.replace(':id', id);
             document.getElementById('update-event-show-title').innerText = event._def.title;
             document.getElementById('update-event-id').value = event.id;
             document.getElementById('update-timezone').value = new Date().toString().slice(25, 33);
@@ -423,12 +521,53 @@
             document.getElementById('update-event-endDate').value = window.formatDateForInput(enddate);
             document.getElementById('update-event-fullDay').checked = event._def.extendedProps.fullDay;
 
+            Object.keys(event._def.extendedProps.sharedWith).forEach(key => {
+                let select = document.getElementById('select-input-option-update-sharedWith-' + key);
+                if (select == null) {
+                    let selectList = document.getElementById('select-input-select-update-sharedWith');
+                    let option = new Option(event._def.extendedProps.sharedWith[key], key);
+                    option.setAttribute('id', 'select-input-option-update-sharedWith-' + key);
+                    option.setAttribute('selected', 'selected');
+                    selectList.appendChild(option);
+
+                    let dropdownList = document.getElementById('dropdown-update-sharedWith-list-show');
+                    let dropdownLi = document.createElement('li');
+                    let dropdownOption = document.createElement('div');
+                    dropdownOption.setAttribute('id', 'dropdown-option-update-sharedWith-' + key);
+                    dropdownOption.setAttribute('class', 'block px-4 py-2 bg-gray-600 text-white hover:bg-gray-700');
+                    dropdownOption.setAttribute('input-option-id', key);
+                    dropdownOption.setAttribute('input-id', 'update-sharedWith');
+                    dropdownOption.innerText = event._def.extendedProps.sharedWith[key];
+
+                    dropdownLi.appendChild(dropdownOption);
+                    dropdownList.appendChild(dropdownLi);
+
+                    select = document.getElementById('select-input-option-update-sharedWith-' + key);
+                    console.log(event._def.extendedProps.sharedWith[key]);
+                }else{
+                    select.removeAttribute('selected');
+                    document.getElementById('dropdown-option-update-sharedWith-' + key).click();
+                }
+            });
+
+            if(event._def.extendedProps.owner == null){
+                document.getElementById('update-event-common-div').classList.remove('hidden');
+            }else{
+                document.getElementById('update-event-common-div').classList.add('hidden');
+            }
             document.getElementById('show-event-modal').classList.add('hidden');
             document.getElementById('update-event-modal').classList.remove('hidden');
+
+            
+            setShow("update-sharedWith");
+            setShow("update-commonWith");
         }
 
         window.onload = function() {
             setShow("sharedWith");
+            setShow("commonWith");
+            setShow("update-sharedWith");
+            setShow("update-commonWith");
             initCalendar();
             const elements = document.getElementsByClassName("load");
             const newEventModalOpacity = document.getElementById("new-event-modal-opacity");

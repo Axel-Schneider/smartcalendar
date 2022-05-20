@@ -66,7 +66,7 @@ class User extends Authenticatable
     }
 
     public function shareds() {
-        return $this->belongsToMany(Event::class, 'event_user');
+        return $this->belongsToMany(Event::class, 'event_user')->whereNot('status', '=', 'none')->withTimestamps();
     }
 
     public function events(){
