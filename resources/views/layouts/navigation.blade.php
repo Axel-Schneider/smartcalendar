@@ -6,6 +6,9 @@
         <span class="ml-2 font-semibold text-2xl tracking-tight">SmartCalendar</span>
       </a>
     </div>
+    <div class="text-white">
+      {{ Auth::user()->name }}
+    </div>
     <div class="block flex-grow justify-end lg:flex lg:items-center lg:w-auto">
       <div class="text-sm">
         <div class="flex items-center">
