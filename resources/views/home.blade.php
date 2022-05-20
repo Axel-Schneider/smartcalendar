@@ -178,8 +178,11 @@
                 </div>
                 <div class="p-6">
                     <p id="event-show-date" class="font-light mb-5"></p>
-                    <p id="event-show-shareds-div" class="font-normal text-sm mb-5"><span class="italic">{{ __('shared_with') }} :</span> <span id="event-show-shareds"></span></p>
-                    <p id="event-show-owner-div" class="font-normal text-sm mb-5"><span class="italic">{{ __('shared_from') }} :</span> <span id="event-show-owner"></span></p>
+                    <div class="mb-5">
+                        <p id="event-show-owner-div" class="font-normal text-sm mb-1"><span class="italic">{{ __('shared_from') }} :</span> <span id="event-show-owner"></span></p>
+                        <p id="event-show-shareds-div" class="font-normal text-sm mb-1"><span class="italic">{{ __('shared_with') }} :</span> <span id="event-show-shareds"></span></p>
+                        <p id="event-show-commons-div" class="font-normal text-sm mb-1"><span class="italic">{{ __('common_with') }} :</span> <span id="event-show-commons"></span></p>
+                    </div>
                     <p id="event-show-description" class="font-normal mb-8"></p>
                     <div class="flex justify-between">
                         <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="closeShowModal()">

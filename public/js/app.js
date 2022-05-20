@@ -22152,6 +22152,7 @@ window.initCalendar = function () {
       var showDate = document.getElementById('event-show-date');
       var showShared = document.getElementById('event-show-shareds');
       var showOwner = document.getElementById('event-show-owner');
+      var showCommons = document.getElementById('event-show-commons');
       var showDescription = document.getElementById('event-show-description');
       var popup = document.getElementById('show-event-modal');
       var inputId = document.getElementById('eventId');
@@ -22180,6 +22181,14 @@ window.initCalendar = function () {
         document.getElementById('event-show-owner-div').classList.add('hidden');
         trash.classList.remove('hidden');
         modify.classList.remove('hidden');
+      }
+
+      if (info.event._def.extendedProps.commonWith != null && Object.values(info.event._def.extendedProps.commonWith).length > 0) {
+        showCommons.innerText = Object.values(info.event._def.extendedProps.commonWith).join(', ');
+        document.getElementById('event-show-commons-div').classList.remove('hidden');
+      } else {
+        showCommons.innerText = "";
+        document.getElementById('event-show-commons-div').classList.add('hidden');
       }
 
       if (info.event._def.allDay) {
