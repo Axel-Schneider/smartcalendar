@@ -37,15 +37,17 @@ class EventController extends Controller
         $event->fullDay = $request->boolean('fullDay');
         $event->recurring = false;
         $event->save();
-
-        foreach ($request->sharedWith as $userId) {
-            if(in_array($userId ,$request->commonWith)){
-                $event->sharedWith()->attach($userId, ['status' => 'shared']);
+        if($request->sharedWith != null){
+            foreach ($request->sharedWith as $userId) {
+                if($request->commonWith == null || !in_array($userId ,$request->commonWith)){
+                    $event->sharedWith()->attach($userId, ['status' => 'shared']);
+                }
             }
         }
-        
-        foreach ($request->commonWith as $userId) {
-            $event->commonWith()->attach($userId, ['status' => 'common']);
+        if($request->commonWith != null){
+            foreach ($request->commonWith as $userId) {
+                $event->commonWith()->attach($userId, ['status' => 'common']);
+            }
         }
 
 

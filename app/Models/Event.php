@@ -34,7 +34,7 @@ class Event extends Model
         return $this->belongsToMany(User::class, 'event_user')->where('status', 'shared')->withTimestamps();
     }
     public function commonWith() {
-        return $this->belongsToMany(User::class, 'event_user')->where('status', 'common')->withTimestamps();
+        return $this->belongsToMany(User::class, 'event_user')->where('status', '=', 'common')->withTimestamps();
     }
 
     public function recurringPatern() {

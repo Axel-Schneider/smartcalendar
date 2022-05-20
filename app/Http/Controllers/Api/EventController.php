@@ -38,7 +38,8 @@ class EventController extends Controller
                 "fullDay" => $event->fullDay,
                 "recurring" => $event->recurring,
                 "description" => $event->description,
-                "sharedWith" => ($owner->id == Auth::user()->id) ? $event->sharedWith->pluck('name')->toArray() : [],
+                "sharedWith" => ($owner->id == Auth::user()->id) ? $event->sharedWith->pluck('name', 'id')->toArray() : [],
+                "commonWith" => ($owner->id == Auth::user()->id) ? $event->commonWith->pluck('name', 'id')->toArray() : [],
                 "owner" => ($owner->id != Auth::user()->id) ? $owner->name : null,
             ];
         }
