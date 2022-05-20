@@ -19,9 +19,11 @@ return new class extends Migration
             $table->unsignedBigInteger('userRequest_id');
             $table->unsignedBigInteger('user_id');
             $table->enum('status', ['waiting', 'accept', 'deny', 'block']);
+            $table->unsignedBigInteger('blocker_id')->nullable();
             
             $table->foreign('userRequest_id')->references('id')->on('users');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('blocker_id')->references('id')->on('users');
         });
     }
 

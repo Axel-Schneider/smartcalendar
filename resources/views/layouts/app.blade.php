@@ -20,16 +20,22 @@
     <div>
 
         <!-- Page Heading -->
-        <header class="header">
+        <header class="h-2/6">
             @include('layouts.navigation')
         </header>
 
         <!-- Page Content -->
-        <main>
+        <main class="h-4/6">
             @yield('content')
         </main>
     </div>
     @yield('popup')
+    <script>
+        window.user = {
+                id: {{ Auth::user()->id }},
+                name: "{{ Auth::user()->name }}"
+            };
+    </script>
     @yield('script')
     <!-- Scripts -->
     <script src="{{asset('js/core/libraries/jquery.min.js')}}" type="text/javascript" defer></script>
@@ -39,9 +45,8 @@
         logoText.innerHTML = new Date().getDate().toLocaleString('local', {
             minimumIntegerDigits: 2
         });
-        console.log(new Date().getDate());
-        console.log(logoText);
     </script>
+    <script src="../path/to/flowbite/dist/flowbite.js"></script>
 </body>
 
 </html>

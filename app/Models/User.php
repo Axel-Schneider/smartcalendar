@@ -49,14 +49,35 @@ class User extends Authenticatable
     }
 
     public function contacts() {
-        return $this->hasMany(Contact::class);
+        $first = $this->belongsToMany(User::class, 'contacts', 'user_id', 'userRequest_id')->where('status', '=', 'accept');
+        $second = $this->belongsToMany(User::class, 'contacts', 'userRequest_id', 'user_id')->where('status', '=', 'accept');
+        return $first->get()->merge($second->get());
+    }
+    
+    public function contactsWaiting() {
+        $first = $this->belongsToMany(User::class, 'contacts', 'user_id', 'userRequest_id')->where('status', '=', 'waiting');
+        $second = $this->belongsToMany(User::class, 'contacts', 'userRequest_id', 'user_id')->where('status', '=', 'waiting');
+        return $first->get()->merge($second->get());
+    }
+
+    public function contactProposals() {
+        $response = User::all()->diff($this->contacts())->where('id', '<>', $this->id)->take(5);
+        return $response;
     }
 
     public function shareds() {
-        return $this->hasMany(Shared::class);
+        return $this->belongsToMany(Event::class, 'event_user')->whereNot('status', '=', 'none')->withTimestamps();
     }
 
     public function events(){
         return $this->hasMany(Event::class);
+    }
+
+    public function isContact($user) {
+        return $this->contacts()->where('id', '=', $user->id)->count() > 0;
+    }
+
+    public function isContactWaiting($user) {
+        return $this->contactsWaiting()->where('id', '=', $user->id)->count() > 0;
     }
 }

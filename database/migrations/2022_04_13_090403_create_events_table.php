@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('title', 45); 
-            $table->longText('description');
+            $table->string('title', 255); 
+            $table->longText('description')->nullable();
             $table->dateTime('startDate');
             $table->dateTime('endDate');
             $table->boolean('fullDay')->default(0);
@@ -27,7 +27,6 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('todo_id')->nullable();
             $table->unsignedBigInteger('recurringPatern_id')->nullable();
-
         });
     }
 

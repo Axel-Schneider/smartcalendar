@@ -23,11 +23,23 @@ class Event extends Model
     ];
 
     public function owner() {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function shareds() {
         return $this->hasMany(Shared::class);
+    }
+
+    public function relationsShared(){
+        return $this->belongsToMany(User::class, 'event_user')->withTimestamps();
+    }
+
+
+    public function sharedWith() {
+        return $this->belongsToMany(User::class, 'event_user')->where('status', '=', 'shared')->withTimestamps();
+    }
+    public function commonWith() {
+        return $this->belongsToMany(User::class, 'event_user')->where('status', '=', 'common')->withTimestamps();
     }
 
     public function recurringPatern() {
