@@ -22170,13 +22170,22 @@ window.initCalendar = function () {
         document.getElementById('event-show-shareds-div').classList.add('hidden');
       }
 
+      console.log(Object.values(info.event._def.extendedProps.sharedWith));
+      console.log(window.user);
+
       if (info.event._def.extendedProps.owner != null) {
-        console.log(info.event._def.extendedProps.owner);
         showOwner.innerText = info.event._def.extendedProps.owner;
         document.getElementById('event-show-owner-div').classList.remove('hidden');
-        trash.classList.add('hidden');
-        modify.classList.add('hidden');
+
+        if (Object.values(info.event._def.extendedProps.sharedWith).includes(window.user.name)) {
+          trash.classList.add('hidden');
+          modify.classList.add('hidden');
+        } else {
+          trash.classList.remove('hidden');
+          modify.classList.remove('hidden');
+        }
       } else {
+        console.log('not owner');
         showOwner.innerText = "";
         document.getElementById('event-show-owner-div').classList.add('hidden');
         trash.classList.remove('hidden');

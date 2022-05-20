@@ -100,29 +100,36 @@ window.initCalendar = function () {
 
             showTitle.innerText = info.event._def.title;
             showDescription.innerText = info.event._def.extendedProps.description;
-            if(info.event._def.extendedProps.sharedWith != null && Object.values(info.event._def.extendedProps.sharedWith).length > 0) {
+            if (info.event._def.extendedProps.sharedWith != null && Object.values(info.event._def.extendedProps.sharedWith).length > 0) {
                 showShared.innerText = Object.values(info.event._def.extendedProps.sharedWith).join(', ');
-                
+
                 document.getElementById('event-show-shareds-div').classList.remove('hidden');
             } else {
                 showShared.innerText = "";
                 document.getElementById('event-show-shareds-div').classList.add('hidden');
             }
 
-            if(info.event._def.extendedProps.owner != null) {
-                console.log(info.event._def.extendedProps.owner);
+            console.log(Object.values(info.event._def.extendedProps.sharedWith));
+            console.log(window.user);
+            if (info.event._def.extendedProps.owner != null) {
                 showOwner.innerText = info.event._def.extendedProps.owner;
                 document.getElementById('event-show-owner-div').classList.remove('hidden');
-                trash.classList.add('hidden');
-                modify.classList.add('hidden');
-            }else{
+                if (Object.values(info.event._def.extendedProps.sharedWith).includes(window.user.name)) {
+                    trash.classList.add('hidden');
+                    modify.classList.add('hidden');
+                } else {
+                    trash.classList.remove('hidden');
+                    modify.classList.remove('hidden');
+                }
+            } else {
+                console.log('not owner');
                 showOwner.innerText = "";
                 document.getElementById('event-show-owner-div').classList.add('hidden');
                 trash.classList.remove('hidden');
                 modify.classList.remove('hidden');
             }
 
-            if(info.event._def.extendedProps.commonWith != null && Object.values(info.event._def.extendedProps.commonWith).length > 0) {
+            if (info.event._def.extendedProps.commonWith != null && Object.values(info.event._def.extendedProps.commonWith).length > 0) {
                 showCommons.innerText = Object.values(info.event._def.extendedProps.commonWith).join(', ');
                 document.getElementById('event-show-commons-div').classList.remove('hidden');
             } else {
@@ -217,7 +224,7 @@ window.AddOption = function () {
     const INPUT_OPTION_ID = event.target.getAttribute('input-option-id');
     const INPUT_ID = event.target.getAttribute('input-id');
     const USER_INPUT = document.getElementById("select-input-option-" + INPUT_ID + "-" + INPUT_OPTION_ID);
-    
+
 
     if (USER_INPUT.hasAttribute('selected')) {
         console.log('selected');
@@ -238,6 +245,6 @@ window.AddOption = function () {
     setShow(INPUT_ID);
 }
 
-function to2Digit(number){
+function to2Digit(number) {
     return ("0" + (number)).slice(-2);
 }

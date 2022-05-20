@@ -278,7 +278,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-6">
+                        <div class="mb-6" id="update-event-common-div">
                             <label for="update-commonUsers" class="block mb-1 text-sm font-medium text-gray-900">{{__('common_with')}}</label>
                             <div id="update-commonUsers" input-id="update-commonWith">
                                 <button data-dropdown-toggle="dropdownupdate-commonWith" class="form-control inline-flex justify-between bg-gray-50 w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="button">
@@ -493,16 +493,20 @@
                 enddate.setDate(enddate.getDate() + 1);
             }
             document.getElementById('update-event-endDate').value = window.formatDateForInput(enddate);
-            document.getElementById('update-event-fullDay').checked = event._def.extendedProps.fullDay; 
-               
+            document.getElementById('update-event-fullDay').checked = event._def.extendedProps.fullDay;
+
             Object.keys(event._def.extendedProps.sharedWith).forEach(key => {
-                document.getElementById('select-input-option-update-sharedWith-' + key).removeAttribute('selected');
-                document.getElementById('dropdown-option-update-sharedWith-' + key).click();
+                let select = document.getElementById('select-input-option-update-sharedWith-' + key);
+                if (select != null) {
+                    select.removeAttribute('selected');
+                    document.getElementById('dropdown-option-update-sharedWith-' + key).click();
+                }
             });
-            Object.keys(event._def.extendedProps.commonWith).forEach(key => {
-                document.getElementById('select-input-option-update-commonWith-' + key).removeAttribute('selected');
-                document.getElementById('dropdown-option-update-commonWith-' + key).click();
-            });
+            if(event._def.extendedProps.owner == window.user.name){
+                document.getElementById('update-event-common-div').classList.remove('hidden');
+            }else{
+                document.getElementById('update-event-common-div').classList.add('hidden');
+            }
             document.getElementById('show-event-modal').classList.add('hidden');
             document.getElementById('update-event-modal').classList.remove('hidden');
         }

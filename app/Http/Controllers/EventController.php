@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EventRequest;
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -73,7 +74,9 @@ class EventController extends Controller
         $event->save();
         
         foreach($event->sharedWith as $user){
-            $event->sharedWith()->updateExistingPivot($user->id, ['status' => 'none']);
+            if(Auth::user()->contacts()->contains($user)){
+                $event->sharedWith()->updateExistingPivot($user->id, ['status' => 'none']);
+            }
         }
 
         if($event->owner->id == Auth::user()->id){
