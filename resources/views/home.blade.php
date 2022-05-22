@@ -609,10 +609,16 @@
                 checked.value = "false";
                 checkbox.classList.add('hidden');
                 text.classList.add('line-through');
+                Array.from(document.getElementsByClassName("user-" + id)).forEach(function(item) {
+                    item.classList.add('hideClass');
+                });
             } else {
                 checked.value = "true";
                 checkbox.classList.remove('hidden');
                 text.classList.remove('line-through');
+                Array.from(document.getElementsByClassName("user-" + id)).forEach(function(item) {
+                    item.classList.remove('hideClass');
+                });
             }
         }
     </script>

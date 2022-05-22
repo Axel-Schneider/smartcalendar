@@ -1553,6 +1553,10 @@ input:checked + .toggle-bg {
 .bg-white\/50 {
   background-color: rgb(255 255 255 / 0.5);
 }
+.bg-red-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(224 36 36 / var(--tw-bg-opacity));
+}
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -1915,6 +1919,8 @@ input:checked + .toggle-bg {
 .ease-in {
   transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
+.hideClass
+{ display:none !important; }
 .hover\:border-gray-300:hover {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
