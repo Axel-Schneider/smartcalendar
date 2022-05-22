@@ -66,6 +66,7 @@ class EventController extends Controller
                 "commonWith" => (asPower($event)) ? $event->commonWith()->where('user_id', '!=', Auth::user()->id)->get()->pluck('name', 'id')->toArray() : [],
                 "asPower" => asPower($event),
                 "owner" => ($owner->id != Auth::user()->id) ? $owner->name : null,
+                "color" => ($owner->id != Auth::user()->id) ? $owner->contact(Auth::user())->color() : "",
                 "classNames" => ($owner->id != Auth::user()->id) ? [
                         "user-" . $owner->id,
                     ] : [],

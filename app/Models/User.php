@@ -54,6 +54,11 @@ class User extends Authenticatable
         return $first->get()->merge($second->get());
     }
     
+    public function contact($user) {
+        $first = $this->hasMany(Contact::class, 'user_id')->where('status', '=', 'accept')->where('userRequest_id', '=', $user->id)->get();
+        return ($first->count() > 0) ? $first->first() : $this->hasMany(Contact::class, 'userRequest_id')->where('status', '=', 'accept')->where('user_id', '=', $user->id)->get()->first();
+    }
+    
     public function contactsWaiting() {
         $first = $this->belongsToMany(User::class, 'contacts', 'user_id', 'userRequest_id')->where('status', '=', 'waiting');
         $second = $this->belongsToMany(User::class, 'contacts', 'userRequest_id', 'user_id')->where('status', '=', 'waiting');
