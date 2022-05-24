@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,3 +27,5 @@ Route::middleware('auth:sanctum')->delete('/events/{event}', [EventController::c
 
 Route::middleware('auth:sanctum')->post('/contacts', [ContactController::class, 'addContact'])->name('contacts.add');
 Route::middleware('auth:sanctum')->post('/contacts/respond', [ContactController::class, 'respondContact'])->name('contacts.respond');
+
+Route::middleware('auth:sanctum')->post('/task/complete/{task}', [TaskController::class, 'setComplete'])->name('task.complete');

@@ -16,7 +16,7 @@ class Task extends Model
     ];
 
     public function list(){
-        return $this->hasOne(ToDo::class);
+        return $this->belongsTo(ToDo::class, 'todo_id', 'id');
     }
 
     public function getFills(){
