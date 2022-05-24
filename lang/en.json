@@ -22,5 +22,6 @@
     "add_contact": "Add contact",
     "search": "Search (unusable)",
     "not_found": "Not found",
-    "error": "Error"
+    "error": "Error",
+    "toDo": "To-do list"
 }

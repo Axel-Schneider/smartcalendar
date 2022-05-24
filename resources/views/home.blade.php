@@ -445,7 +445,7 @@
                 if (response.data.success) {
                     document.getElementById('user-notification-' + id).classList.add('hidden');
                 } else {
-                    console.log(response.data.error);
+                    alert(response.data.error);
                 }
             });
         }
@@ -461,7 +461,7 @@
                 if (response.data.success) {
                     document.getElementById('user-notification-' + id).classList.add('hidden');
                 } else {
-                    console.log(response.data.error);
+                    alert(response.data.error);
                 }
             });
         }
@@ -477,7 +477,7 @@
                 if (response.data.success) {
                     document.getElementById('user-notification-' + id).classList.add('hidden');
                 } else {
-                    console.log(response.data.error);
+                    alert(response.data.error);
                 }
             });
         }
@@ -498,7 +498,6 @@
                 
                 if (!item.hasAttribute('incontact') || item.getAttribute('incontact') != 'true') {
                     let option = document.getElementById('select-input-option-update-sharedWith-' + id);
-                    console.log(id);
                     option.remove();
                     dropdownUpdateListShared.removeChild(item);
                 }
@@ -509,7 +508,6 @@
                 let clickable = item.children[0];
                 let id = clickable.getAttribute('input-option-id');
                 let option = document.getElementById('select-input-option-update-commonWith-' + id);
-                console.log(option)
                 option.setAttribute('selected', 'selected');
                 clickable.click();
             });
@@ -552,7 +550,6 @@
                     dropdownList.appendChild(dropdownLi);
 
                     select = document.getElementById('select-input-option-update-sharedWith-' + key);
-                    console.log(event._def.extendedProps.sharedWith[key]);
                 } else {
                     select.removeAttribute('selected');
                     document.getElementById('dropdown-option-update-sharedWith-' + key).click();
@@ -632,10 +629,14 @@
         }
 
         function checkTask() {
-            const id = event.target.getAttribute('task-id')
+            const id = event.target.getAttribute('task-id');
+            const hasPower = event.target.getAttribute('has-power');
+            let url = "{{ route('task.complete', ':id') }}";
             const input = document.getElementById("task-checked-" + id);
             const checkbox = document.getElementById("task-checkbox-show-" + id);
             const text = document.getElementById("task-text-" + id);
+
+            if(hasPower == "false") return;
 
             let checked = input.value == "true";
             input.value = !checked;
@@ -647,6 +648,22 @@
                 checkbox.classList.remove('hidden');
                 text.classList.add('line-through');
             }
+
+            url = url.replace(':id', id);
+
+            let response = axios.post(url, {
+                complete: !checked
+            });
+            response.catch(function(error) {
+                    input.value = checked;
+                    if (checked) {
+                        checkbox.classList.remove('hidden');
+                        text.classList.add('line-through');
+                    } else {
+                        text.classList.remove('line-through');
+                        console.log("checked");
+                    }
+            });
         }
     </script>
     @endsection
