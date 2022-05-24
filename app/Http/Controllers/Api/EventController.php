@@ -70,6 +70,9 @@ class EventController extends Controller
                 "classNames" => ($owner->id != Auth::user()->id) ? [
                         "user-" . $owner->id,
                     ] : [],
+                "todo" => $event->todo != null ? $event->todo->tasks->map(function ($task) {
+                    return $task->getFills();
+                }) : null,
             ];
         }
 
