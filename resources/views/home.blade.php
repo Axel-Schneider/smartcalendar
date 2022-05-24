@@ -57,7 +57,7 @@
                             @endforelse
                         </ul>
                     </aside>
-
+                    
                 </div>
             </div>
         </div>
@@ -184,6 +184,16 @@
                         <p id="event-show-commons-div" class="font-normal text-sm mb-1"><span class="italic">{{ __('common_with') }} :</span> <span id="event-show-commons"></span></p>
                     </div>
                     <p id="event-show-description" class="font-normal mb-8"></p>
+
+                    <div id="event-show-todo" class="flex flex-col">
+                        <div class="flex flex-col justify-between mb-5 shadow-lg rounded-md p-2">
+                            <h2 class="text-xl font-semibold text-center mb-1">{{__('toDo')}}</h2>
+                            <aside>
+                                <ul id="event-show-toDo-group"> 
+                                </ul>
+                            </aside>
+                        </div>
+                    </div>
                     <div class="flex justify-between">
                         <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="closeShowModal()">
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg%22%3E">
@@ -204,7 +214,6 @@
                                     <path d="M10.5967 27.3813C11.1749 27.3813 11.6436 26.9126 11.6436 26.3344V14.2111C11.6436 13.6329 11.1749 13.1642 10.5967 13.1642C10.0185 13.1642 9.5498 13.6329 9.5498 14.2111V26.3344C9.5498 26.9126 10.0185 27.3813 10.5967 27.3813Z" fill="#2D2438" />
                                 </svg>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -544,21 +553,21 @@
 
                     select = document.getElementById('select-input-option-update-sharedWith-' + key);
                     console.log(event._def.extendedProps.sharedWith[key]);
-                }else{
+                } else {
                     select.removeAttribute('selected');
                     document.getElementById('dropdown-option-update-sharedWith-' + key).click();
                 }
             });
 
-            if(event._def.extendedProps.owner == null){
+            if (event._def.extendedProps.owner == null) {
                 document.getElementById('update-event-common-div').classList.remove('hidden');
-            }else{
+            } else {
                 document.getElementById('update-event-common-div').classList.add('hidden');
             }
             document.getElementById('show-event-modal').classList.add('hidden');
             document.getElementById('update-event-modal').classList.remove('hidden');
 
-            
+
             setShow("update-sharedWith");
             setShow("update-commonWith");
         }
@@ -619,6 +628,24 @@
                 Array.from(document.getElementsByClassName("user-" + id)).forEach(function(item) {
                     item.classList.remove('hideClass');
                 });
+            }
+        }
+
+        function checkTask() {
+            const id = event.target.getAttribute('task-id')
+            const input = document.getElementById("task-checked-" + id);
+            const checkbox = document.getElementById("task-checkbox-show-" + id);
+            const text = document.getElementById("task-text-" + id);
+
+            let checked = input.value == "true";
+            input.value = !checked;
+
+            if (checked) {
+                checkbox.classList.add('hidden');
+                text.classList.remove('line-through');
+            } else {
+                checkbox.classList.remove('hidden');
+                text.classList.add('line-through');
             }
         }
     </script>
