@@ -28,4 +28,5 @@ Route::middleware('auth:sanctum')->delete('/events/{event}', [EventController::c
 Route::middleware('auth:sanctum')->post('/contacts', [ContactController::class, 'addContact'])->name('contacts.add');
 Route::middleware('auth:sanctum')->post('/contacts/respond', [ContactController::class, 'respondContact'])->name('contacts.respond');
 
-Route::middleware('auth:sanctum')->post('/task/complete/{task}', [TaskController::class, 'setComplete'])->name('task.complete');
+Route::middleware('auth:sanctum')->post('/task/{task}/complete', [TaskController::class, 'setComplete'])->name('task.complete');
+Route::middleware('auth:sanctum')->post('/task/{todo}/add', [TaskController::class, 'store'])->name('task.add');

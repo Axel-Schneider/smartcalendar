@@ -22259,11 +22259,10 @@ window.initCalendar = function () {
         showTodoGroup.innerHTML = '';
 
         info.event._def.extendedProps.todo.forEach(function (task) {
-          var li = document.createElement('li');
-          li.innerHTML = "\n                    <div class=\"flex items-center px-4 py-2 mt-2 rounded-md hover:bg-gray-100\" id=\"task-".concat(task.id, "\" has-power=\"").concat(info.event._def.extendedProps.asPower, "\" task-id=\"").concat(task.id, "\" onclick=\"checkTask()\">\n                        <input type=\"hidden\" id=\"task-checked-").concat(task.id, "\" value=\"").concat(task.complete == 1 ? true : false, "\">\n                        <svg width=\"22\" height=\"22\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n                            <rect x=\"1.25\" y=\"1.25\" width=\"17.5\" height=\"17.5\" rx=\"2.75\" stroke=\"#000\" stroke-width=\"1.5\" />\n                            <path fill=\"#000\" id=\"task-checkbox-show-").concat(task.id, "\" class=\"").concat(task.complete == 1 ? "" : "hidden", "\" d=\"M3.55939 3.55247C3.81128 3.35094 4.17367 3.36793 4.40561 3.59213L10 9L15.4406 3.55941C15.7389 3.26113 16.2303 3.28868 16.4934 3.61844C16.7178 3.89981 16.6951 4.3049 16.4406 4.55941L11 10L16.4036 15.3807C16.6844 15.6604 16.6849 16.115 16.4046 16.3953C16.1248 16.6752 15.671 16.6752 15.3911 16.3953L9.99581 11L4.55065 16.4452C4.30059 16.6952 3.89517 16.6952 3.64511 16.4452C3.39805 16.1981 3.39466 15.7986 3.63751 15.5474L9 10L3.50656 4.50656C3.23633 4.23633 3.26098 3.79121 3.55939 3.55247Z\" />\n                        </svg>\n                \n                        <div id=\"task-text-").concat(task.id, "\" class=\"").concat(task.complete == 1 ? "line-through" : "", " mx-4 font-medium bg-transparent\">\n                            ").concat(task.description, " \n                        </div>\n                    </div>\n                    ");
-          showTodoGroup.appendChild(li);
+          showTodoGroup.appendChild(window.getTask(task, info.event._def.extendedProps.asPower));
         });
 
+        document.getElementById("event-show-toDo-form-todo_id").value = info.event._def.extendedProps.todo_id;
         showTodo.classList.remove('hidden');
       }
       inputId.setAttribute('value', info.event.id.toString());
@@ -22272,6 +22271,13 @@ window.initCalendar = function () {
   });
   calendar.render();
   window.calendar = calendar;
+};
+
+window.getTask = function (task, hasPower) {
+  console.log(task);
+  var li = document.createElement('li');
+  li.innerHTML = "\n    <div class=\"flex items-center px-4 py-2 mt-2 rounded-md hover:bg-gray-100\" id=\"task-".concat(task.id, "\" has-power=\"").concat(hasPower, "\" task-id=\"").concat(task.id, "\" onclick=\"checkTask()\">\n        <input type=\"hidden\" id=\"task-checked-").concat(task.id, "\" value=\"").concat(task.complete == 1 ? true : false, "\">\n        <svg width=\"22\" height=\"22\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n            <rect x=\"1.25\" y=\"1.25\" width=\"17.5\" height=\"17.5\" rx=\"2.75\" stroke=\"#000\" stroke-width=\"1.5\" />\n            <path fill=\"#000\" id=\"task-checkbox-show-").concat(task.id, "\" class=\"").concat(task.complete == 1 ? "" : "hidden", "\" d=\"M3.55939 3.55247C3.81128 3.35094 4.17367 3.36793 4.40561 3.59213L10 9L15.4406 3.55941C15.7389 3.26113 16.2303 3.28868 16.4934 3.61844C16.7178 3.89981 16.6951 4.3049 16.4406 4.55941L11 10L16.4036 15.3807C16.6844 15.6604 16.6849 16.115 16.4046 16.3953C16.1248 16.6752 15.671 16.6752 15.3911 16.3953L9.99581 11L4.55065 16.4452C4.30059 16.6952 3.89517 16.6952 3.64511 16.4452C3.39805 16.1981 3.39466 15.7986 3.63751 15.5474L9 10L3.50656 4.50656C3.23633 4.23633 3.26098 3.79121 3.55939 3.55247Z\" />\n        </svg>\n\n        <div id=\"task-text-").concat(task.id, "\" class=\"").concat(task.complete == 1 ? "line-through" : "", " mx-4 font-medium bg-transparent\">\n            ").concat(task.description, " \n        </div>\n    </div>");
+  return li;
 };
 
 window.formatDateForInput = function (date) {

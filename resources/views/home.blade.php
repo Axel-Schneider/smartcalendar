@@ -57,7 +57,7 @@
                             @endforelse
                         </ul>
                     </aside>
-                    
+
                 </div>
             </div>
         </div>
@@ -183,15 +183,24 @@
                         <p id="event-show-shareds-div" class="font-normal text-sm mb-1"><span class="italic">{{ __('shared_with') }} :</span> <span id="event-show-shareds"></span></p>
                         <p id="event-show-commons-div" class="font-normal text-sm mb-1"><span class="italic">{{ __('common_with') }} :</span> <span id="event-show-commons"></span></p>
                     </div>
-                    <p id="event-show-description" class="font-normal mb-8"></p>
+                    <p id="event-show-description" class="font-normal mb-8 overflow-y-scroll max-h-60"></p>
 
                     <div id="event-show-todo" class="flex flex-col">
                         <div class="flex flex-col justify-between mb-5 shadow-lg rounded-md p-2">
                             <h2 class="text-xl font-semibold text-center mb-1">{{__('toDo')}}</h2>
                             <aside>
-                                <ul id="event-show-toDo-group"> 
+                                <ul id="event-show-toDo-group" class="overflow-y-scroll max-h-60">
                                 </ul>
                             </aside>
+                            <div>
+                                <form>
+                                    <input type="hidden" name="todo_id" id="event-show-toDo-form-todo_id">
+                                    <div class="flex mt-2 px-4 h-8 mb-5">
+                                        <input type="text" name="description" id="event-show-toDo-form-description" class="shadow appearance-none border rounded-md w-full py-2 px-3 mr-2 text-grey-darker" placeholder="{{__('AddTodo')}}">
+                                        <div class="bg-gray-800 text-white px-2 rounded-md align-middle" onclick="AddTask()">{{__('Add')}}</div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     <div class="flex justify-between">
@@ -445,7 +454,7 @@
                 if (response.data.success) {
                     document.getElementById('user-notification-' + id).classList.add('hidden');
                 } else {
-                    alert(response.data.error);
+                    console.error(response.data.error);
                 }
             });
         }
@@ -461,7 +470,7 @@
                 if (response.data.success) {
                     document.getElementById('user-notification-' + id).classList.add('hidden');
                 } else {
-                    alert(response.data.error);
+                    console.error(response.data.error);
                 }
             });
         }
@@ -477,7 +486,7 @@
                 if (response.data.success) {
                     document.getElementById('user-notification-' + id).classList.add('hidden');
                 } else {
-                    alert(response.data.error);
+                    console.error(response.data.error);
                 }
             });
         }
@@ -495,7 +504,7 @@
                 let option = document.getElementById('select-input-option-update-sharedWith-' + id);
                 option.setAttribute('selected', 'selected');
                 clickable.click();
-                
+
                 if (!item.hasAttribute('incontact') || item.getAttribute('incontact') != 'true') {
                     let option = document.getElementById('select-input-option-update-sharedWith-' + id);
                     option.remove();
@@ -636,7 +645,7 @@
             const checkbox = document.getElementById("task-checkbox-show-" + id);
             const text = document.getElementById("task-text-" + id);
 
-            if(hasPower == "false") return;
+            if (hasPower == "false") return;
 
             let checked = input.value == "true";
             input.value = !checked;
@@ -655,14 +664,61 @@
                 complete: !checked
             });
             response.catch(function(error) {
-                    input.value = checked;
-                    if (checked) {
-                        checkbox.classList.remove('hidden');
-                        text.classList.add('line-through');
-                    } else {
-                        text.classList.remove('line-through');
-                        console.log("checked");
-                    }
+                input.value = checked;
+                if (checked) {
+                    checkbox.classList.remove('hidden');
+                    text.classList.add('line-through');
+                } else {
+                    text.classList.remove('line-through');
+                }
+            });
+        }
+
+
+        function AddTask() {
+            const todo_id = document.getElementById("event-show-toDo-form-todo_id").value;
+            const task_text = document.getElementById("event-show-toDo-form-description");
+            const task_name = task_text.value;
+            const showTodoGroup = document.getElementById('event-show-toDo-group');
+            const target = event.target;
+
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
+            if (task_name == "") {
+                task_text.classList.add('border-red-500');
+                sleep(1000).then(() => {
+                    task_text.classList.remove('border-red-500');
+                });
+                return;
+            }
+
+            let url = `{{ route('task.add', ':id') }}`;
+            url = url.replace(':id', todo_id);
+
+            let response = axios.post(url, {
+                todo_id: todo_id,
+                description: task_name
+            });
+            response.then(function(resp) {
+                if (resp.data.success) {
+                    console.log(resp.data.task);
+                    showTodoGroup.appendChild(window.getTask(resp.data.task, "true"));
+                    calendar.getEventById(document.getElementById("eventId").value)._def.extendedProps.todo.push(resp.data.task);
+                    console.log(calendar.getEventById(document.getElementById("eventId").value)._def.extendedProps.todo);
+                    task_text.value = "";
+                } else {
+                    target.classList.add('bg-red-500');
+                    console.error(resp.data.error);
+                }
+            });
+            response.catch(function(error) {
+                console.error(error);
+                target.classList.add('bg-red-500');
+                sleep(1000).then(() => {
+                    target.classList.remove('bg-red-500');
+                });
             });
         }
     </script>
