@@ -22156,6 +22156,7 @@ window.initCalendar = function () {
       var showDescription = document.getElementById('event-show-description');
       var showTodo = document.getElementById('event-show-todo');
       var showTodoGroup = document.getElementById('event-show-toDo-group');
+      var showTodoForm = document.getElementById('event-show-toDo-add-form');
       var popup = document.getElementById('show-event-modal');
       var inputId = document.getElementById('eventId');
       var trash = document.getElementById('event-show-trash');
@@ -22264,6 +22265,12 @@ window.initCalendar = function () {
 
         document.getElementById("event-show-toDo-form-todo_id").value = info.event._def.extendedProps.todo_id;
         showTodo.classList.remove('hidden');
+
+        if (info.event._def.extendedProps.asPower == false) {
+          showTodoForm.classList.add('hidden');
+        } else {
+          showTodoForm.classList.remove('hidden');
+        }
       }
       inputId.setAttribute('value', info.event.id.toString());
       popup.classList.remove("hidden");

@@ -93,6 +93,7 @@ window.initCalendar = function () {
             const showDescription = document.getElementById('event-show-description');
             const showTodo = document.getElementById('event-show-todo');
             const showTodoGroup = document.getElementById('event-show-toDo-group');
+            const showTodoForm = document.getElementById('event-show-toDo-add-form');
             const popup = document.getElementById('show-event-modal');
             const inputId = document.getElementById('eventId');
             const trash = document.getElementById('event-show-trash');
@@ -203,6 +204,11 @@ window.initCalendar = function () {
                 });
                 document.getElementById("event-show-toDo-form-todo_id").value = info.event._def.extendedProps.todo_id;
                 showTodo.classList.remove('hidden');
+                if(info.event._def.extendedProps.asPower == false) {
+                    showTodoForm.classList.add('hidden');
+                } else {
+                    showTodoForm.classList.remove('hidden');
+                }
             }
 
             inputId.setAttribute('value', info.event.id.toString());

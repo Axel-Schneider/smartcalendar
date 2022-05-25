@@ -192,7 +192,7 @@
                                 <ul id="event-show-toDo-group" class="overflow-y-scroll max-h-60">
                                 </ul>
                             </aside>
-                            <div>
+                            <div id="event-show-toDo-add-form">
                                 <form>
                                     <input type="hidden" name="todo_id" id="event-show-toDo-form-todo_id">
                                     <div class="flex mt-2 px-4 h-8 mb-5">

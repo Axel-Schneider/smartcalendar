@@ -35,6 +35,9 @@ class TaskController extends Controller
             ) {
             return response()->json(['error' => 'Bad Request'], 400);
         }
+        if(ToDo::where('id', $request->todo_id)->first()->event->user_id !== $request->user()->id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
 
         $task = new Task();
         $task->description = $request->description;
