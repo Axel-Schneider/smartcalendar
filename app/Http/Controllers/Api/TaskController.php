@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Models\ToDo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
@@ -35,7 +36,7 @@ class TaskController extends Controller
             ) {
             return response()->json(['error' => 'Bad Request'], 400);
         }
-        if(ToDo::where('id', $request->todo_id)->first()->event->user_id !== $request->user()->id) {
+        if(!Auth::user()->hasPower(ToDo::where('id', $request->todo_id)->first()->event)) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
