@@ -1,9 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EventRequest;
 use App\Models\Event;
+use App\Models\ToDo;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +37,17 @@ class EventController extends Controller
         $event->endDate = $endDate;
         $event->fullDay = $request->boolean('fullDay');
         $event->recurring = false;
+        if($request->tasks != null) {
+            $todo = new ToDo();
+            $todo->name = $request->title . "-todo";
+            $todo->save();
+            $event->todo_id = $todo->id;
+            foreach ($request->tasks as $task) {
+                $todo->tasks()->create([
+                    'description' => $task,
+                ]);
+            }
+        }
         $event->save();
         if ($request->sharedWith != null) {
             foreach ($request->sharedWith as $userId) {

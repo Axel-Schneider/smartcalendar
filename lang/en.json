@@ -23,5 +23,6 @@
     "search": "Search (unusable)",
     "not_found": "Not found",
     "error": "Error",
-    "toDo": "To-do list"
+    "toDo": "To-do list",
+    "AddTodo": "Add to-do"
 }

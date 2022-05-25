@@ -220,7 +220,6 @@ window.initCalendar = function () {
 }
 
 window.getTask = function (task, hasPower) {
-    console.log(task);
     let li = document.createElement('li');
     li.innerHTML = `
     <div class="flex items-center px-4 py-2 mt-2 rounded-md hover:bg-gray-100" id="task-${task.id}" has-power="${hasPower}" task-id="${task.id}" onclick="checkTask()">
@@ -234,6 +233,17 @@ window.getTask = function (task, hasPower) {
             ${task.description} 
         </div>
     </div>`
+    return li;
+}
+
+window.getOptionTask = function (description){
+    let li = document.createElement('li');
+    li.innerHTML = `
+    <div class="flex items-center px-4 py-2 mt-2 rounded-md hover:bg-gray-100">
+        <div class="mx-4 font-medium bg-transparent">
+            ${description} 
+        </div>
+    </div>`;
     return li;
 }
 

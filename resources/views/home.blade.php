@@ -44,7 +44,7 @@
                                     <input type="hidden" id="user-checked-{{ $user->id }}" value="true">
                                     <svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect x="1.25" y="1.25" width="17.5" height="17.5" rx="2.75" stroke="{{ Auth::user()->contact($user)->color() }}" stroke-width="1.5" />
-                                        <path fill="{{ Auth::user()->contact($user)->color() }}" id="user-checkbox-show-{{ $user->id }}" d="M3.55939 3.55247C3.81128 3.35094 4.17367 3.36793 4.40561 3.59213L10 9L15.4406 3.55941C15.7389 3.26113 16.2303 3.28868 16.4934 3.61844C16.7178 3.89981 16.6951 4.3049 16.4406 4.55941L11 10L16.4036 15.3807C16.6844 15.6604 16.6849 16.115 16.4046 16.3953C16.1248 16.6752 15.671 16.6752 15.3911 16.3953L9.99581 11L4.55065 16.4452C4.30059 16.6952 3.89517 16.6952 3.64511 16.4452C3.39805 16.1981 3.39466 15.7986 3.63751 15.5474L9 10L3.50656 4.50656C3.23633 4.23633 3.26098 3.79121 3.55939 3.55247Z"/>
+                                        <path fill="{{ Auth::user()->contact($user)->color() }}" id="user-checkbox-show-{{ $user->id }}" d="M3.55939 3.55247C3.81128 3.35094 4.17367 3.36793 4.40561 3.59213L10 9L15.4406 3.55941C15.7389 3.26113 16.2303 3.28868 16.4934 3.61844C16.7178 3.89981 16.6951 4.3049 16.4406 4.55941L11 10L16.4036 15.3807C16.6844 15.6604 16.6849 16.115 16.4046 16.3953C16.1248 16.6752 15.671 16.6752 15.3911 16.3953L9.99581 11L4.55065 16.4452C4.30059 16.6952 3.89517 16.6952 3.64511 16.4452C3.39805 16.1981 3.39466 15.7986 3.63751 15.5474L9 10L3.50656 4.50656C3.23633 4.23633 3.26098 3.79121 3.55939 3.55247Z" />
                                     </svg>
 
                                     <span id="user-text-{{ $user->id }}" class="mx-4 font-medium">
@@ -151,6 +151,25 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div id="event-create-todo" class="flex flex-col">
+                            <div class="flex flex-col justify-between mb-5 shadow-lg rounded-md p-2">
+                                <select class="hidden" multiple="multiple" name="tasks[]" id="select-input-select-tasks">
+                                </select>
+                                <h2 class="text-xl font-semibold text-center mb-1">{{__('toDo')}}</h2>
+                                <aside>
+                                    <ul id="event-create-toDo-group" class="overflow-y-scroll justify-items-end max-h-52">
+                                    </ul>
+                                </aside>
+                                <div id="event-create-toDo-add-form">
+                                    <div class="flex mt-2 px-4 h-8 mb-5">
+                                        <input type="text" id="event-create-toDo-form-description" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 mr-3 rounded-lg border border-gray-300" placeholder="{{__('AddTodo')}}">
+                                        <div class="bg-gray-800 text-white px-2 rounded-md align-middle" onclick="AddTaskCreate()">{{__('Add')}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div class="flex justify-between mt-10">
                             <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="closeNewModal()">
@@ -706,7 +725,7 @@
                     console.log(resp.data.task);
                     showTodoGroup.appendChild(window.getTask(resp.data.task, "true"));
                     calendar.getEventById(document.getElementById("eventId").value)._def.extendedProps.todo.push(resp.data.task);
-                    console.log(calendar.getEventById(document.getElementById("eventId").value)._def.extendedProps.todo);
+                    showTodoGroup.scrollTop = showTodoGroup.scrollHeight; 
                     task_text.value = "";
                 } else {
                     target.classList.add('bg-red-500');
@@ -720,6 +739,36 @@
                     target.classList.remove('bg-red-500');
                 });
             });
+        }
+
+        function AddTaskCreate() {
+            const task_text = document.getElementById("event-create-toDo-form-description");
+            const task_name = task_text.value;
+            const showTodoGroup = document.getElementById('event-create-toDo-group');
+            const optionTodoGroup = document.getElementById('select-input-select-tasks');
+
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
+            if (task_name == "") {
+                task_text.classList.add('border-red-500');
+                sleep(1000).then(() => {
+                    task_text.classList.remove('border-red-500');
+                });
+                return;
+            }
+
+            let shOption = window.getOptionTask(task_name);
+            showTodoGroup.appendChild(shOption);
+            const option = document.createElement('option');
+            option.value = task_name;
+            option.innerHTML = task_name;
+            option.setAttribute('selected', 'selected');
+            optionTodoGroup.appendChild(option);
+            task_text.value = "";
+            
+            showTodoGroup.scrollTop = showTodoGroup.scrollHeight; 
         }
     </script>
     @endsection
