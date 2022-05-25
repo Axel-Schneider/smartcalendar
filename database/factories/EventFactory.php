@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Carbon\Carbon;
+use App\Models\ToDo;
+use App\Models\User;
+use App\Models\Event;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
-use App\Models\Event;
-use App\Models\User;
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 
 /**
@@ -23,6 +24,13 @@ class EventFactory extends Factory
     public function definition()
     {
         $start = Carbon::now()->subDays(rand(1, 10));
+        if(rand(0, 1)){
+            $todo = new ToDo();
+            $todo->name = $this->faker->word();
+            $todo->save();
+        }else {
+            $todo = null;
+        }
 
         return [
             'user_id' => User::all()->random()->id,
@@ -31,6 +39,7 @@ class EventFactory extends Factory
             'startDate' => $start,
             'endDate' => $start->clone()->addHours(rand(1, 10)),
             'fullDay' => rand(0, 1),
+            'todo_id' => $todo,
             'recurring' => 0,
         ];
     }
