@@ -43,6 +43,9 @@
                 complete: "{{ route('task.complete', ':id') }}"
             }
         };
+        window.newEvent = {
+            TaskCount: 0,
+        };
     </script>
     @yield('script')
     <script src="{{asset('js/core/libraries/jquery.min.js')}}" type="text/javascript" defer></script>

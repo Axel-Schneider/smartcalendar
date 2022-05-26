@@ -774,16 +774,26 @@
                 return;
             }
 
-            let shOption = window.getOptionTask(task_name);
+            window.newEvent.TaskCount++;
+            let shOption = window.getOptionTask(task_name, window.newEvent.TaskCount);
             showTodoGroup.appendChild(shOption);
             const option = document.createElement('option');
             option.value = task_name;
             option.innerHTML = task_name;
             option.setAttribute('selected', 'selected');
+            option.setAttribute('id', 'new-option-task-' + window.newEvent.TaskCount);
             optionTodoGroup.appendChild(option);
             task_text.value = "";
 
             showTodoGroup.scrollTop = showTodoGroup.scrollHeight;
+        }
+
+        function removeTask(id) {
+            const option = document.getElementById('new-option-task-' + id);
+            const showOption = document.getElementById('li-task-show-' + id);
+
+            option.remove();
+            showOption.remove();
         }
     </script>
     @endsection
