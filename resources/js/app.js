@@ -195,8 +195,7 @@ window.initCalendar = function () {
 
             showDate.innerText = date;
 
-            if (info.event._def.extendedProps.todo == null) showTodo.classList.add('hidden');
-            else {
+            if (info.event._def.extendedProps.todo != null) {
                 showTodoGroup.innerHTML = '';
 
                 info.event._def.extendedProps.todo.forEach(task => {
@@ -210,6 +209,15 @@ window.initCalendar = function () {
                     showTodoForm.classList.remove('hidden');
                 }
             }
+            if (info.event._def.extendedProps.asPower == false) {
+                showTodo.classList.add('hidden');
+                showTodoForm.classList.add('hidden');
+                console.log(showTodo);
+            } else {
+                showTodo.classList.remove('hidden');
+                showTodoForm.classList.remove('hidden');
+            }
+
 
             inputId.setAttribute('value', info.event.id.toString());
             popup.classList.remove("hidden");

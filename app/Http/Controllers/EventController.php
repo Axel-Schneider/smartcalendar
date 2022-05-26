@@ -37,11 +37,11 @@ class EventController extends Controller
         $event->endDate = $endDate;
         $event->fullDay = $request->boolean('fullDay');
         $event->recurring = false;
+        $todo = new ToDo();
+        $todo->name = $request->title . "-todo";
+        $todo->save();
+        $event->todo_id = $todo->id;
         if($request->tasks != null) {
-            $todo = new ToDo();
-            $todo->name = $request->title . "-todo";
-            $todo->save();
-            $event->todo_id = $todo->id;
             foreach ($request->tasks as $task) {
                 $todo->tasks()->create([
                     'description' => $task,
