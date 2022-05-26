@@ -12,7 +12,7 @@ class TaskController extends Controller
 {
     public function setComplete(Request $request, Task $task)
     {
-        if($task->list->event->user_id !== $request->user()->id) {
+        if(!Auth::user()->hasPower($task->list->event)) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
         if($request->complete != true && $request->complete != false) {
@@ -49,6 +49,19 @@ class TaskController extends Controller
         return response()->json([
             'success' => true,
             'task' => $task
+        ]);
+    }
+
+    public function destroy(Task $task)
+    {
+        if(!Auth::user()->hasPower($task->list->event)) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $task->delete();
+
+        return response()->json([
+            'success' => true,
         ]);
     }
 }

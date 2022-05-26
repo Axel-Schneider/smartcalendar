@@ -656,8 +656,7 @@
             }
         }
 
-        function checkTask() {
-            const id = event.target.getAttribute('task-id');
+        function checkTask(id) {
             const hasPower = event.target.getAttribute('has-power');
             let url = "{{ route('task.complete', ':id') }}";
             const input = document.getElementById("task-checked-" + id);
@@ -725,7 +724,7 @@
                     console.log(resp.data.task);
                     showTodoGroup.appendChild(window.getTask(resp.data.task, "true"));
                     calendar.getEventById(document.getElementById("eventId").value)._def.extendedProps.todo.push(resp.data.task);
-                    showTodoGroup.scrollTop = showTodoGroup.scrollHeight; 
+                    showTodoGroup.scrollTop = showTodoGroup.scrollHeight;
                     task_text.value = "";
                 } else {
                     target.classList.add('bg-red-500');
@@ -739,6 +738,22 @@
                     target.classList.remove('bg-red-500');
                 });
             });
+        }
+
+        function destroyTask(id) {
+            const task = document.getElementById('task-' + id);
+            let url = window.api.task.destroy.replace(':id', id);
+            if (task.getAttribute('has-power') == "true") {
+                let response = axios.delete(url);
+                response.then(function(response) {
+                    if (response.data.success) {
+                        task.parentNode.parentNode.removeChild(task.parentNode);
+                    }
+                });
+                response.catch(function(error) {
+                    console.error(error);
+                })
+            }
         }
 
         function AddTaskCreate() {
@@ -767,8 +782,8 @@
             option.setAttribute('selected', 'selected');
             optionTodoGroup.appendChild(option);
             task_text.value = "";
-            
-            showTodoGroup.scrollTop = showTodoGroup.scrollHeight; 
+
+            showTodoGroup.scrollTop = showTodoGroup.scrollHeight;
         }
     </script>
     @endsection

@@ -30,3 +30,4 @@ Route::middleware('auth:sanctum')->post('/contacts/respond', [ContactController:
 
 Route::middleware('auth:sanctum')->post('/task/{task}/complete', [TaskController::class, 'setComplete'])->name('task.complete');
 Route::middleware('auth:sanctum')->post('/task/{todo}/add', [TaskController::class, 'store'])->name('task.add');
+Route::middleware('auth:sanctum')->delete('/task/{task}', [TaskController::class, 'destroy'])->name('task.delete');
