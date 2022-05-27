@@ -30,14 +30,24 @@
         </main>
     </div>
     @yield('popup')
+    <!-- Scripts -->
     <script>
         window.user = {
-                id: {{ Auth::user()->id }},
-                name: "{{ Auth::user()->name }}"
-            };
+            id: {{ Auth::user()->id }},
+            name: "{{ Auth::user()->name }}"
+        };
+        window.api = {
+            task: {
+                destroy: "{{ route('task.delete', ':id') }}",
+                add: "{{ route('task.add', ':id') }}",
+                complete: "{{ route('task.complete', ':id') }}"
+            }
+        };
+        window.newEvent = {
+            TaskCount: 0,
+        };
     </script>
     @yield('script')
-    <!-- Scripts -->
     <script src="{{asset('js/core/libraries/jquery.min.js')}}" type="text/javascript" defer></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script>

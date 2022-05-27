@@ -85,4 +85,11 @@ class User extends Authenticatable
     public function isContactWaiting($user) {
         return $this->contactsWaiting()->where('id', '=', $user->id)->count() > 0;
     }
+    
+    function hasPower(Event $event)
+    {
+        if ($event->owner->id == $this->id) return true;
+        if ($event->commonWith()->where('user_id', $this->id)->exists()) return true;
+        return false;
+    }
 }

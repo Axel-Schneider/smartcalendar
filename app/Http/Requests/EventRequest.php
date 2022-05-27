@@ -30,8 +30,9 @@ class EventRequest extends FormRequest
             'endDate' => 'required|date',
             'timezone' => 'required|string',
             'modalName' => 'required|string',
-            'sharedWith[]' => 'array',
-            'commonWith[]' => 'array',
+            'tasks[]' => 'array:string',
+            'sharedWith[]' => 'array:exists:users,id',
+            'commonWith[]' => 'array:exists:users,id',
         ];
     }
 }
