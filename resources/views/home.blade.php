@@ -212,13 +212,11 @@
                                 </ul>
                             </aside>
                             <div id="event-show-toDo-add-form">
-                                <form>
-                                    <input type="hidden" name="todo_id" id="event-show-toDo-form-todo_id">
-                                    <div class="flex mt-2 px-4 h-8 mb-5">
-                                        <input type="text" name="description" id="event-show-toDo-form-description" class="shadow appearance-none border rounded-md w-full py-2 px-3 mr-2 text-grey-darker" placeholder="{{__('AddTodo')}}">
-                                        <div class="bg-gray-800 text-white px-2 rounded-md align-middle" onclick="AddTask()">{{__('Add')}}</div>
-                                    </div>
-                                </form>
+                                <input type="hidden" name="todo_id" id="event-show-toDo-form-todo_id">
+                                <div class="flex mt-2 px-4 h-8 mb-5">
+                                    <input type="text" name="description" id="event-show-toDo-form-description" class="shadow appearance-none border rounded-md w-full py-2 px-3 mr-2 text-grey-darker" placeholder="{{__('AddTodo')}}">
+                                    <div class="bg-gray-800 text-white px-2 rounded-md align-middle" onclick="AddTask()">{{__('Add')}}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -346,13 +344,11 @@
                                     </ul>
                                 </aside>
                                 <div id="event-update-toDo-add-form">
-                                    <form>
-                                        <input type="hidden" name="todo_id" id="event-update-toDo-form-todo_id">
-                                        <div class="flex mt-2 px-4 h-8 mb-5">
-                                            <input type="text" name="description" id="event-update-toDo-form-description" class="shadow appearance-none border rounded-md w-full py-2 px-3 mr-2 text-grey-darker" placeholder="{{__('AddTodo')}}">
-                                            <div class="bg-gray-800 text-white px-2 rounded-md align-middle" onclick="AddTaskUpdate()">{{__('Add')}}</div>
-                                        </div>
-                                    </form>
+                                    <input type="hidden" name="todo_id" id="event-update-toDo-form-todo_id">
+                                    <div class="flex mt-2 px-4 h-8 mb-5">
+                                        <input type="text" name="description" id="event-update-toDo-form-description" class="shadow appearance-none border rounded-md w-full py-2 px-3 mr-2 text-grey-darker" placeholder="{{__('AddTodo')}}">
+                                        <div class="bg-gray-800 text-white px-2 rounded-md align-middle" onclick="AddTaskUpdate()">{{__('Add')}}</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
