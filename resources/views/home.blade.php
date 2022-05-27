@@ -337,6 +337,26 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div id="event-update-todo" class="flex flex-col">
+                            <div class="flex flex-col justify-between mb-5 shadow-lg rounded-md p-2">
+                                <h2 class="text-xl font-semibold text-center mb-1">{{__('toDo')}}</h2>
+                                <aside>
+                                    <ul id="event-update-toDo-group" class="overflow-y-scroll max-h-60">
+                                    </ul>
+                                </aside>
+                                <div id="event-update-toDo-add-form">
+                                    <form>
+                                        <input type="hidden" name="todo_id" id="event-update-toDo-form-todo_id">
+                                        <div class="flex mt-2 px-4 h-8 mb-5">
+                                            <input type="text" name="description" id="event-update-toDo-form-description" class="shadow appearance-none border rounded-md w-full py-2 px-3 mr-2 text-grey-darker" placeholder="{{__('AddTodo')}}">
+                                            <div class="bg-gray-800 text-white px-2 rounded-md align-middle" onclick="AddTaskUpdate()">{{__('Add')}}</div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="flex justify-between mt-10">
                             <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="closeUpdateModal()">
                                 <svg width="32" height="32" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg%22%3E">
@@ -787,6 +807,53 @@
 
             showTodoGroup.scrollTop = showTodoGroup.scrollHeight;
         }
+
+        function AddTaskUpdate() {
+            const todo_id = document.getElementById("event-show-toDo-form-todo_id").value;
+            const task_text = document.getElementById("event-update-toDo-form-description");
+            const task_name = task_text.value;
+            const showTodoGroup = document.getElementById('event-update-toDo-group');
+            const target = event.target;
+
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
+            if (task_name == "") {
+                task_text.classList.add('border-red-500');
+                sleep(1000).then(() => {
+                    task_text.classList.remove('border-red-500');
+                });
+                return;
+            }
+
+            let url = `{{ route('task.add', ':id') }}`;
+            url = url.replace(':id', todo_id);
+
+            let response = axios.post(url, {
+                todo_id: todo_id,
+                description: task_name
+            });
+            response.then(function(resp) {
+                if (resp.data.success) {
+                    console.log(resp.data.task);
+                    showTodoGroup.appendChild(window.getTask(resp.data.task, "true"));
+                    calendar.getEventById(document.getElementById("eventId").value)._def.extendedProps.todo.push(resp.data.task);
+                    showTodoGroup.scrollTop = showTodoGroup.scrollHeight;
+                    task_text.value = "";
+                } else {
+                    target.classList.add('bg-red-500');
+                    console.error(resp.data.error);
+                }
+            });
+            response.catch(function(error) {
+                console.error(error);
+                target.classList.add('bg-red-500');
+                sleep(1000).then(() => {
+                    target.classList.remove('bg-red-500');
+                });
+            });
+        };
 
         function removeTask(id) {
             const option = document.getElementById('new-option-task-' + id);
