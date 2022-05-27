@@ -487,7 +487,8 @@
             });
             response.then(function(response) {
                 if (response.data.success) {
-                    document.getElementById('user-notification-' + id).classList.add('hidden');
+                    document.getElementById('user-notification-' + id).remove();
+                    decrementNotif()
                 } else {
                     console.error(response.data.error);
                 }
@@ -503,7 +504,8 @@
             });
             response.then(function(response) {
                 if (response.data.success) {
-                    document.getElementById('user-notification-' + id).classList.add('hidden');
+                    document.getElementById('user-notification-' + id).remove();
+                    decrementNotif()
                 } else {
                     console.error(response.data.error);
                 }
@@ -519,11 +521,20 @@
             });
             response.then(function(response) {
                 if (response.data.success) {
-                    document.getElementById('user-notification-' + id).classList.add('hidden');
+                    document.getElementById('user-notification-' + id).remove();
+                    decrementNotif()
                 } else {
                     console.error(response.data.error);
                 }
             });
+        }
+
+        function decrementNotif(){
+            const notif = document.getElementById('notification-count');
+            if (parseInt(notif.innerHTML) - 1 <= 0) {
+                document.getElementById('notification-group').classList.add('hidden');
+            }
+            notif.innerHTML = parseInt(document.getElementById('notification-count').innerHTML) - 1;
         }
 
         function editEvent() {
