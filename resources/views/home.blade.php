@@ -11,7 +11,7 @@
         <div class="w-3/4 m-8 overflow-y-auto">
             <div id="calendar"></div>
         </div>
-        <div class="flex flex-col w-1/4 border-r">
+        <div class="flex flex-col w-1/4 border-r mt-8">
             <h2 class="text-3xl font-semibold text-center mb-5">{{__('contact')}}</h2>
             <div>
                 <div>
