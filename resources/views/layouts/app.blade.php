@@ -48,7 +48,6 @@
         };
     </script>
     @yield('script')
-    <script src="{{asset('js/core/libraries/jquery.min.js')}}" type="text/javascript" defer></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script>
         let logoText = document.getElementById("logo-day");
@@ -56,7 +55,6 @@
             minimumIntegerDigits: 2
         });
     </script>
-    <script src="../path/to/flowbite/dist/flowbite.js"></script>
 </body>
 
 </html>

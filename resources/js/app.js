@@ -111,9 +111,6 @@ window.initCalendar = function () {
                 showShared.innerText = "";
                 document.getElementById('event-show-shareds-div').classList.add('hidden');
             }
-
-            console.log(Object.values(info.event._def.extendedProps.sharedWith));
-            console.log(window.user);
             if (info.event._def.extendedProps.owner != null) {
                 showOwner.innerText = info.event._def.extendedProps.owner;
                 document.getElementById('event-show-owner-div').classList.remove('hidden');
@@ -126,7 +123,6 @@ window.initCalendar = function () {
                     modify.classList.add('hidden');
                 }
             } else {
-                console.log('not owner');
                 showOwner.innerText = "";
                 document.getElementById('event-show-owner-div').classList.add('hidden');
                 trash.classList.remove('hidden');
@@ -212,7 +208,6 @@ window.initCalendar = function () {
             if (info.event._def.extendedProps.asPower == false) {
                 showTodo.classList.add('hidden');
                 showTodoForm.classList.add('hidden');
-                console.log(showTodo);
             } else {
                 showTodo.classList.remove('hidden');
                 showTodoForm.classList.remove('hidden');
@@ -305,21 +300,18 @@ window.AddOption = function () {
 
 
     if (USER_INPUT.hasAttribute('selected')) {
-        console.log('selected');
         USER_INPUT.removeAttribute("selected");
         event.target.classList.remove("bg-gray-600");
         event.target.classList.remove("text-white");
         event.target.classList.remove("hover:bg-gray-700");
         event.target.classList.add("hover:bg-gray-100");
     } else {
-        console.log('not selected');
         USER_INPUT.setAttribute("selected", "selected");
         event.target.classList.add("bg-gray-600");
         event.target.classList.add("text-white");
         event.target.classList.add("hover:bg-gray-700");
         event.target.classList.remove("hover:bg-gray-100");
     }
-    console.log(INPUT_ID);
     setShow(INPUT_ID);
 }
 

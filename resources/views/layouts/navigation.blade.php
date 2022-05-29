@@ -21,7 +21,7 @@
               <g>
                 <circle cx="24" cy="8" r="8" fill="#EC1515" />
                 <text id="notification-count" x="23.75" y="8" font-family="Verdana" font-size="10" fill="#fff" dominant-baseline="central" text-anchor="middle">
-                  {{auth()->user()->unreadNotifications->count()+10 > 9 ? '9+' : auth()->user()->unreadNotifications->count()}}
+                  {{auth()->user()->unreadNotifications->count() > 9 ? '9+' : auth()->user()->unreadNotifications->count()}}
                 </text>
               </g>
             </svg>
