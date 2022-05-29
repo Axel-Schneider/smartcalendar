@@ -748,7 +748,6 @@
             });
             response.then(function(resp) {
                 if (resp.data.success) {
-                    console.log(resp.data.task);
                     showTodoGroup.appendChild(window.getTask(resp.data.task, "true"));
                     calendar.getEventById(document.getElementById("eventId").value)._def.extendedProps.todo.push(resp.data.task);
                     showTodoGroup.scrollTop = showTodoGroup.scrollHeight;
@@ -843,7 +842,6 @@
             });
             response.then(function(resp) {
                 if (resp.data.success) {
-                    console.log(resp.data.task);
                     showTodoGroup.appendChild(window.getTask(resp.data.task, "true"));
                     calendar.getEventById(document.getElementById("eventId").value)._def.extendedProps.todo.push(resp.data.task);
                     showTodoGroup.scrollTop = showTodoGroup.scrollHeight;
