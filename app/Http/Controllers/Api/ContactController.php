@@ -25,6 +25,8 @@ class ContactController extends Controller
             $contact->user_id = $request->user_id;
             $contact->userRequest_id = Auth::user()->id;
             $contact->status = 'waiting';
+            $contact->requesterColor = '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+            $contact->receiverColor = '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
             $contact->save();
             User::all()->find($request->user_id)->notify(new ContactAddedNotification(Auth::user()));
             return response()->json(['success' => 'User added to your contact']);

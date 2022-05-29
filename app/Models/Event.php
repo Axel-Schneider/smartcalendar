@@ -47,7 +47,7 @@ class Event extends Model
     }
 
     public function toDo() {
-        return $this->hasOne(ToDo::class);
+        return $this->hasOne(ToDo::class, 'id', 'todo_id');
     }
 
     public function startDate() {

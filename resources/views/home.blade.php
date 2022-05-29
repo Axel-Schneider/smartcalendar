@@ -11,7 +11,7 @@
         <div class="w-3/4 m-8 overflow-y-auto">
             <div id="calendar"></div>
         </div>
-        <div class="flex flex-col w-1/4 border-r">
+        <div class="flex flex-col w-1/4 border-r mt-8">
             <h2 class="text-3xl font-semibold text-center mb-5">{{__('contact')}}</h2>
             <div>
                 <div>
@@ -40,11 +40,11 @@
                         <ul>
                             @forelse (Auth::user()->contacts() as $user)
                             <li>
-                                <div class="flex items-center px-4 py-2 mt-2 text-gray-600 rounded-md hover:bg-gray-200" id="user-{{ $user->id }}" onclick="unshowUser({{ $user->id }})">
+                                <div style="color: {{ Auth::user()->contact($user)->color() }}" class="flex items-center px-4 py-2 mt-2 {{ (Auth::user()->contact($user)->colorBlackWhite() == '#fff') ? '' : 'bg-gray-800' }} rounded-md hover:{{ (Auth::user()->contact($user)->colorBlackWhite() == '#fff') ? 'bg-gray-100' : 'bg-gray-700' }}" id="user-{{ $user->id }}" onclick="unshowUser({{ $user->id }})">
                                     <input type="hidden" id="user-checked-{{ $user->id }}" value="true">
                                     <svg width="22" height="22" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="1.25" y="1.25" width="17.5" height="17.5" rx="2.75" stroke="#2D2438" stroke-width="1.5" />
-                                        <path id="user-checkbox-show-{{ $user->id }}" d="M3.55939 3.55247C3.81128 3.35094 4.17367 3.36793 4.40561 3.59213L10 9L15.4406 3.55941C15.7389 3.26113 16.2303 3.28868 16.4934 3.61844C16.7178 3.89981 16.6951 4.3049 16.4406 4.55941L11 10L16.4036 15.3807C16.6844 15.6604 16.6849 16.115 16.4046 16.3953C16.1248 16.6752 15.671 16.6752 15.3911 16.3953L9.99581 11L4.55065 16.4452C4.30059 16.6952 3.89517 16.6952 3.64511 16.4452C3.39805 16.1981 3.39466 15.7986 3.63751 15.5474L9 10L3.50656 4.50656C3.23633 4.23633 3.26098 3.79121 3.55939 3.55247Z" fill="#2D2438" />
+                                        <rect x="1.25" y="1.25" width="17.5" height="17.5" rx="2.75" stroke="{{ Auth::user()->contact($user)->color() }}" stroke-width="1.5" />
+                                        <path fill="{{ Auth::user()->contact($user)->color() }}" id="user-checkbox-show-{{ $user->id }}" d="M3.55939 3.55247C3.81128 3.35094 4.17367 3.36793 4.40561 3.59213L10 9L15.4406 3.55941C15.7389 3.26113 16.2303 3.28868 16.4934 3.61844C16.7178 3.89981 16.6951 4.3049 16.4406 4.55941L11 10L16.4036 15.3807C16.6844 15.6604 16.6849 16.115 16.4046 16.3953C16.1248 16.6752 15.671 16.6752 15.3911 16.3953L9.99581 11L4.55065 16.4452C4.30059 16.6952 3.89517 16.6952 3.64511 16.4452C3.39805 16.1981 3.39466 15.7986 3.63751 15.5474L9 10L3.50656 4.50656C3.23633 4.23633 3.26098 3.79121 3.55939 3.55247Z" />
                                     </svg>
 
                                     <span id="user-text-{{ $user->id }}" class="mx-4 font-medium">
@@ -152,6 +152,25 @@
                             </div>
                         </div>
 
+                        <div id="event-create-todo" class="flex flex-col">
+                            <div class="flex flex-col justify-between mb-5 shadow-lg rounded-md p-2">
+                                <select class="hidden" multiple="multiple" name="tasks[]" id="select-input-select-tasks">
+                                </select>
+                                <h2 class="text-xl font-semibold text-center mb-1">{{__('toDo')}}</h2>
+                                <aside>
+                                    <ul id="event-create-toDo-group" class="overflow-y-scroll justify-items-end max-h-52">
+                                    </ul>
+                                </aside>
+                                <div id="event-create-toDo-add-form">
+                                    <div class="flex mt-2 px-4 h-8 mb-5">
+                                        <input type="text" id="event-create-toDo-form-description" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 mr-3 rounded-lg border border-gray-300" placeholder="{{__('AddTodo')}}">
+                                        <div class="bg-gray-800 text-white px-2 rounded-md align-middle" onclick="AddTaskCreate()">{{__('Add')}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <div class="flex justify-between mt-10">
                             <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="closeNewModal()">
                                 <svg width="32" height="32" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg%22%3E">
@@ -183,7 +202,24 @@
                         <p id="event-show-shareds-div" class="font-normal text-sm mb-1"><span class="italic">{{ __('shared_with') }} :</span> <span id="event-show-shareds"></span></p>
                         <p id="event-show-commons-div" class="font-normal text-sm mb-1"><span class="italic">{{ __('common_with') }} :</span> <span id="event-show-commons"></span></p>
                     </div>
-                    <p id="event-show-description" class="font-normal mb-8"></p>
+                    <p id="event-show-description" class="font-normal mb-8 overflow-y-scroll max-h-60"></p>
+
+                    <div id="event-show-todo" class="flex flex-col">
+                        <div class="flex flex-col justify-between mb-5 shadow-lg rounded-md p-2">
+                            <h2 class="text-xl font-semibold text-center mb-1">{{__('toDo')}}</h2>
+                            <aside>
+                                <ul id="event-show-toDo-group" class="overflow-y-scroll max-h-60">
+                                </ul>
+                            </aside>
+                            <div id="event-show-toDo-add-form">
+                                <input type="hidden" name="todo_id" id="event-show-toDo-form-todo_id">
+                                <div class="flex mt-2 px-4 h-8 mb-5">
+                                    <input type="text" name="description" id="event-show-toDo-form-description" class="shadow appearance-none border rounded-md w-full py-2 px-3 mr-2 text-grey-darker" placeholder="{{__('AddTodo')}}">
+                                    <div class="bg-gray-800 text-white px-2 rounded-md align-middle" onclick="AddTask()">{{__('Add')}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="flex justify-between">
                         <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="closeShowModal()">
                             <svg width="32" height="32" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg%22%3E">
@@ -204,7 +240,6 @@
                                     <path d="M10.5967 27.3813C11.1749 27.3813 11.6436 26.9126 11.6436 26.3344V14.2111C11.6436 13.6329 11.1749 13.1642 10.5967 13.1642C10.0185 13.1642 9.5498 13.6329 9.5498 14.2111V26.3344C9.5498 26.9126 10.0185 27.3813 10.5967 27.3813Z" fill="#2D2438" />
                                 </svg>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -300,6 +335,24 @@
                                 </select>
                             </div>
                         </div>
+
+                        <div id="event-update-todo" class="flex flex-col">
+                            <div class="flex flex-col justify-between mb-5 shadow-lg rounded-md p-2">
+                                <h2 class="text-xl font-semibold text-center mb-1">{{__('toDo')}}</h2>
+                                <aside>
+                                    <ul id="event-update-toDo-group" class="overflow-y-scroll max-h-60">
+                                    </ul>
+                                </aside>
+                                <div id="event-update-toDo-add-form">
+                                    <input type="hidden" name="todo_id" id="event-update-toDo-form-todo_id">
+                                    <div class="flex mt-2 px-4 h-8 mb-5">
+                                        <input type="text" name="description" id="event-update-toDo-form-description" class="shadow appearance-none border rounded-md w-full py-2 px-3 mr-2 text-grey-darker" placeholder="{{__('AddTodo')}}">
+                                        <div class="bg-gray-800 text-white px-2 rounded-md align-middle" onclick="AddTaskUpdate()">{{__('Add')}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="flex justify-between mt-10">
                             <div class="items-center text-sm font-medium text-center text-black rounded-lg focus:ring-4" onclick="closeUpdateModal()">
                                 <svg width="32" height="32" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg%22%3E">
@@ -434,9 +487,10 @@
             });
             response.then(function(response) {
                 if (response.data.success) {
-                    document.getElementById('user-notification-' + id).classList.add('hidden');
+                    document.getElementById('user-notification-' + id).remove();
+                    decrementNotif()
                 } else {
-                    console.log(response.data.error);
+                    console.error(response.data.error);
                 }
             });
         }
@@ -450,9 +504,10 @@
             });
             response.then(function(response) {
                 if (response.data.success) {
-                    document.getElementById('user-notification-' + id).classList.add('hidden');
+                    document.getElementById('user-notification-' + id).remove();
+                    decrementNotif()
                 } else {
-                    console.log(response.data.error);
+                    console.error(response.data.error);
                 }
             });
         }
@@ -466,11 +521,20 @@
             });
             response.then(function(response) {
                 if (response.data.success) {
-                    document.getElementById('user-notification-' + id).classList.add('hidden');
+                    document.getElementById('user-notification-' + id).remove();
+                    decrementNotif()
                 } else {
-                    console.log(response.data.error);
+                    console.error(response.data.error);
                 }
             });
+        }
+
+        function decrementNotif(){
+            const notif = document.getElementById('notification-count');
+            if (parseInt(notif.innerHTML) - 1 <= 0) {
+                document.getElementById('notification-group').classList.add('hidden');
+            }
+            notif.innerHTML = parseInt(document.getElementById('notification-count').innerHTML) - 1;
         }
 
         function editEvent() {
@@ -486,10 +550,9 @@
                 let option = document.getElementById('select-input-option-update-sharedWith-' + id);
                 option.setAttribute('selected', 'selected');
                 clickable.click();
-                
+
                 if (!item.hasAttribute('incontact') || item.getAttribute('incontact') != 'true') {
                     let option = document.getElementById('select-input-option-update-sharedWith-' + id);
-                    console.log(id);
                     option.remove();
                     dropdownUpdateListShared.removeChild(item);
                 }
@@ -500,7 +563,6 @@
                 let clickable = item.children[0];
                 let id = clickable.getAttribute('input-option-id');
                 let option = document.getElementById('select-input-option-update-commonWith-' + id);
-                console.log(option)
                 option.setAttribute('selected', 'selected');
                 clickable.click();
             });
@@ -543,22 +605,21 @@
                     dropdownList.appendChild(dropdownLi);
 
                     select = document.getElementById('select-input-option-update-sharedWith-' + key);
-                    console.log(event._def.extendedProps.sharedWith[key]);
-                }else{
+                } else {
                     select.removeAttribute('selected');
                     document.getElementById('dropdown-option-update-sharedWith-' + key).click();
                 }
             });
 
-            if(event._def.extendedProps.owner == null){
+            if (event._def.extendedProps.owner == null) {
                 document.getElementById('update-event-common-div').classList.remove('hidden');
-            }else{
+            } else {
                 document.getElementById('update-event-common-div').classList.add('hidden');
             }
             document.getElementById('show-event-modal').classList.add('hidden');
             document.getElementById('update-event-modal').classList.remove('hidden');
 
-            
+
             setShow("update-sharedWith");
             setShow("update-commonWith");
         }
@@ -609,11 +670,204 @@
                 checked.value = "false";
                 checkbox.classList.add('hidden');
                 text.classList.add('line-through');
+                Array.from(document.getElementsByClassName("user-" + id)).forEach(function(item) {
+                    item.classList.add('hideClass');
+                });
             } else {
                 checked.value = "true";
                 checkbox.classList.remove('hidden');
                 text.classList.remove('line-through');
+                Array.from(document.getElementsByClassName("user-" + id)).forEach(function(item) {
+                    item.classList.remove('hideClass');
+                });
             }
+        }
+
+        function checkTask(id) {
+            const hasPower = event.target.getAttribute('has-power');
+            let url = "{{ route('task.complete', ':id') }}";
+            const input = document.getElementById("task-checked-" + id);
+            const checkbox = document.getElementById("task-checkbox-show-" + id);
+            const text = document.getElementById("task-text-" + id);
+
+            if (hasPower == "false") return;
+
+            let checked = input.value == "true";
+            input.value = !checked;
+
+            if (checked) {
+                checkbox.classList.add('hidden');
+                text.classList.remove('line-through');
+            } else {
+                checkbox.classList.remove('hidden');
+                text.classList.add('line-through');
+            }
+
+            url = url.replace(':id', id);
+
+            let response = axios.post(url, {
+                complete: !checked
+            });
+            response.catch(function(error) {
+                input.value = checked;
+                if (checked) {
+                    checkbox.classList.remove('hidden');
+                    text.classList.add('line-through');
+                } else {
+                    text.classList.remove('line-through');
+                }
+            });
+        }
+
+
+        function AddTask() {
+            const todo_id = document.getElementById("event-show-toDo-form-todo_id").value;
+            const task_text = document.getElementById("event-show-toDo-form-description");
+            const task_name = task_text.value;
+            const showTodoGroup = document.getElementById('event-show-toDo-group');
+            const target = event.target;
+
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
+            if (task_name == "") {
+                task_text.classList.add('border-red-500');
+                sleep(1000).then(() => {
+                    task_text.classList.remove('border-red-500');
+                });
+                return;
+            }
+
+            let url = `{{ route('task.add', ':id') }}`;
+            url = url.replace(':id', todo_id);
+
+            let response = axios.post(url, {
+                todo_id: todo_id,
+                description: task_name
+            });
+            response.then(function(resp) {
+                if (resp.data.success) {
+                    console.log(resp.data.task);
+                    showTodoGroup.appendChild(window.getTask(resp.data.task, "true"));
+                    calendar.getEventById(document.getElementById("eventId").value)._def.extendedProps.todo.push(resp.data.task);
+                    showTodoGroup.scrollTop = showTodoGroup.scrollHeight;
+                    task_text.value = "";
+                } else {
+                    target.classList.add('bg-red-500');
+                    console.error(resp.data.error);
+                }
+            });
+            response.catch(function(error) {
+                console.error(error);
+                target.classList.add('bg-red-500');
+                sleep(1000).then(() => {
+                    target.classList.remove('bg-red-500');
+                });
+            });
+        }
+
+        function destroyTask(id) {
+            const task = document.getElementById('task-' + id);
+            let url = window.api.task.destroy.replace(':id', id);
+            if (task.getAttribute('has-power') == "true") {
+                let response = axios.delete(url);
+                response.then(function(response) {
+                    if (response.data.success) {
+                        task.parentNode.parentNode.removeChild(task.parentNode);
+                    }
+                });
+                response.catch(function(error) {
+                    console.error(error);
+                })
+            }
+        }
+
+        function AddTaskCreate() {
+            const task_text = document.getElementById("event-create-toDo-form-description");
+            const task_name = task_text.value;
+            const showTodoGroup = document.getElementById('event-create-toDo-group');
+            const optionTodoGroup = document.getElementById('select-input-select-tasks');
+
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
+            if (task_name == "") {
+                task_text.classList.add('border-red-500');
+                sleep(1000).then(() => {
+                    task_text.classList.remove('border-red-500');
+                });
+                return;
+            }
+
+            window.newEvent.TaskCount++;
+            let shOption = window.getOptionTask(task_name, window.newEvent.TaskCount);
+            showTodoGroup.appendChild(shOption);
+            const option = document.createElement('option');
+            option.value = task_name;
+            option.innerHTML = task_name;
+            option.setAttribute('selected', 'selected');
+            option.setAttribute('id', 'new-option-task-' + window.newEvent.TaskCount);
+            optionTodoGroup.appendChild(option);
+            task_text.value = "";
+
+            showTodoGroup.scrollTop = showTodoGroup.scrollHeight;
+        }
+
+        function AddTaskUpdate() {
+            const todo_id = document.getElementById("event-show-toDo-form-todo_id").value;
+            const task_text = document.getElementById("event-update-toDo-form-description");
+            const task_name = task_text.value;
+            const showTodoGroup = document.getElementById('event-update-toDo-group');
+            const target = event.target;
+
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
+            if (task_name == "") {
+                task_text.classList.add('border-red-500');
+                sleep(1000).then(() => {
+                    task_text.classList.remove('border-red-500');
+                });
+                return;
+            }
+
+            let url = `{{ route('task.add', ':id') }}`;
+            url = url.replace(':id', todo_id);
+
+            let response = axios.post(url, {
+                todo_id: todo_id,
+                description: task_name
+            });
+            response.then(function(resp) {
+                if (resp.data.success) {
+                    console.log(resp.data.task);
+                    showTodoGroup.appendChild(window.getTask(resp.data.task, "true"));
+                    calendar.getEventById(document.getElementById("eventId").value)._def.extendedProps.todo.push(resp.data.task);
+                    showTodoGroup.scrollTop = showTodoGroup.scrollHeight;
+                    task_text.value = "";
+                } else {
+                    target.classList.add('bg-red-500');
+                    console.error(resp.data.error);
+                }
+            });
+            response.catch(function(error) {
+                console.error(error);
+                target.classList.add('bg-red-500');
+                sleep(1000).then(() => {
+                    target.classList.remove('bg-red-500');
+                });
+            });
+        };
+
+        function removeTask(id) {
+            const option = document.getElementById('new-option-task-' + id);
+            const showOption = document.getElementById('li-task-show-' + id);
+
+            option.remove();
+            showOption.remove();
         }
     </script>
     @endsection

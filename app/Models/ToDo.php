@@ -10,14 +10,16 @@ class ToDo extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'description',
+        'complete',
+        'todo_id',
     ];
 
-    public function task() {
-        return $this->hasMany(Task::class);
+    public function tasks() {
+        return $this->hasMany(Task::class, 'todo_id', 'id');
     }
 
-    public function events() {
-        return $this->belongsToMany(Event::class);
+    public function event() {
+        return $this->hasOne(Event::class, 'todo_id', 'id');
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Str;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -44,6 +44,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function shortName(){
+        return strlen($this->name) > 5 ? substr($this->name, 0, 5) . '.' : $this->name;
+    }
+
+    Public function getInitial(){
+        return Str::upper(substr($this->name, 0, 1));
+    }
+
     public function groups() {
         return $this->hasMany(Group::class);
     }
@@ -52,6 +60,11 @@ class User extends Authenticatable
         $first = $this->belongsToMany(User::class, 'contacts', 'user_id', 'userRequest_id')->where('status', '=', 'accept');
         $second = $this->belongsToMany(User::class, 'contacts', 'userRequest_id', 'user_id')->where('status', '=', 'accept');
         return $first->get()->merge($second->get());
+    }
+    
+    public function contact($user) {
+        $first = $this->hasMany(Contact::class, 'user_id')->where('status', '=', 'accept')->where('userRequest_id', '=', $user->id)->get();
+        return ($first->count() > 0) ? $first->first() : $this->hasMany(Contact::class, 'userRequest_id')->where('status', '=', 'accept')->where('user_id', '=', $user->id)->get()->first();
     }
     
     public function contactsWaiting() {
@@ -79,5 +92,12 @@ class User extends Authenticatable
 
     public function isContactWaiting($user) {
         return $this->contactsWaiting()->where('id', '=', $user->id)->count() > 0;
+    }
+    
+    function hasPower(Event $event)
+    {
+        if ($event->owner->id == $this->id) return true;
+        if ($event->commonWith()->where('user_id', $this->id)->exists()) return true;
+        return false;
     }
 }
