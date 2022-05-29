@@ -85,7 +85,7 @@
                 <div class="grid content-between justify-start text-right">
                     @if (Route::has('password.request'))
                     <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        {{ __('Forgot your password?') }}
+                        {{ __('Forgot your password ?') }}
                     </a>
                     @endif
                     @if (Route::has('register'))
