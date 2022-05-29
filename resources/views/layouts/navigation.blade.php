@@ -18,12 +18,14 @@
           <button id="dropdownDefault" data-dropdown-toggle="dropdown" class="px-3 py-2 rounded-md font-semibold tracking-tight hover:bg-gray-700 focus:outline-none focus:bg-gray-700" type="button">
             <svg width="30" height="30" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M26.6895 23.2736C23.6228 20.088 23.1613 18.4896 23.1613 13.4C23.1613 8.16603 19.0764 3.9231 14.0371 3.9231C8.99785 3.9231 4.91294 8.16608 4.91294 13.4C4.91294 16.1443 4.84256 17.1687 4.47879 18.4264C4.02642 19.9932 3.09774 21.4933 1.38423 23.2736C0.56336 24.1266 1.14483 25.5846 2.30599 25.5846H9.54021L9.47457 26.2616C9.47457 28.8786 11.5171 31 14.0367 31C16.5563 31 18.5987 28.8786 18.5987 26.2616L18.5331 25.5846H25.7678C26.9294 25.5846 27.5109 24.1266 26.6895 23.2736ZM14.0367 29.1539C12.2371 29.1539 11.0741 28.1303 11.0741 26.2616V25.5846H16.9335L17 26.2616C16.9999 28.1303 15.8362 29.1539 14.0367 29.1539ZM4.47879 23.2736C8.38903 19.2121 7.51852 17.4616 7.51852 13.4C7.51852 9.33848 10.4815 6.38463 14.0367 6.38463C17.898 6.38463 20.5556 9.67067 20.5556 13.4C20.5556 17.1294 19.6083 19.2121 23.5185 23.2736H4.47879Z" fill="#F6EFFF" />
+              @if (auth()->user()->unreadNotifications->count() > 0)
               <g>
                 <circle cx="24" cy="8" r="8" fill="#EC1515" />
                 <text id="notification-count" x="23.75" y="8" font-family="Verdana" font-size="10" fill="#fff" dominant-baseline="central" text-anchor="middle">
                   {{auth()->user()->unreadNotifications->count() > 9 ? '9+' : auth()->user()->unreadNotifications->count()}}
                 </text>
               </g>
+              @endif
             </svg>
           </button>
           <!-- Dropdown menu -->
