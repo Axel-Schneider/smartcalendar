@@ -29,7 +29,7 @@
         "flowbite": "^1.4.5",
         "fullcalendar": "^5.11.0",
         "jquery": "^3.6.0",
-        "laravel-echo": "^1.11.7",
+        "laravel-echo": "^1.15.0",
         "moment": "^2.29.3"
     }
 }
